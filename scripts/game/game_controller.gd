@@ -31,7 +31,7 @@ enum RoundState {
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
 @onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/RestartButton
-@onready var game_over_summary: Label = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/SummaryLabel
+@onready var game_over_summary: Label = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/MarginContainer/Content/SummaryLabel
 @onready var game_over_retry_button: Button = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/RetryButton
 
 var _mobile_input := PlayerInputState.new()
