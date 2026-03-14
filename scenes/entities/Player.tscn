@@ -6,6 +6,8 @@
 size = Vector2(54, 88)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_p7pej")
 
 [node name="BodyPolygon" type="Polygon2D" parent="."]
@@ -18,4 +20,3 @@ color = Color(0.835294, 0.329412, 0.294118, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3mcsp")
-
