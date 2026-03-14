@@ -111,3 +111,15 @@ func should_accept_redirect(player_position: Vector2, contact_radius: float) -> 
 		return false
 
 	return global_position.distance_to(player_position) <= contact_radius
+
+
+func is_heading_wrong_way() -> bool:
+	return not _is_moving_toward_correct_side()
+
+
+func push_from_player(player_position: Vector2) -> void:
+	redirect(player_position)
+	if player_position.x < global_position.x:
+		global_position.x += 10.0
+	else:
+		global_position.x -= 10.0

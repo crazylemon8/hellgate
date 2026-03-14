@@ -42,6 +42,7 @@ var _green_sorted: int = 0
 var _mistakes_remaining: int = 0
 var _resolved_count: int = 0
 var _redirect_contact_radius: float = 74.0
+var _push_block_radius: float = 42.0
 
 
 func _ready() -> void:
@@ -252,4 +253,6 @@ func _process_redirect_contacts() -> void:
 		if skeleton == null:
 			continue
 		if skeleton.should_accept_redirect(player.global_position, _redirect_contact_radius):
-			skeleton.redirect(player.global_position)
+			skeleton.push_from_player(player.global_position)
+			if skeleton.global_position.distance_to(player.global_position) <= _push_block_radius:
+				player.push_back_from(skeleton.global_position.x)

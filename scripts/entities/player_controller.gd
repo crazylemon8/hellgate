@@ -66,3 +66,10 @@ func reset_for_round() -> void:
 	if _config != null:
 		_sprint_ratio = _config.initial_sprint_ratio
 	speed_meter_changed.emit(_sprint_ratio)
+
+
+func push_back_from(contact_x: float, separation: float = 28.0) -> void:
+	if global_position.x <= contact_x:
+		global_position.x = minf(global_position.x, contact_x - separation)
+	else:
+		global_position.x = maxf(global_position.x, contact_x + separation)
