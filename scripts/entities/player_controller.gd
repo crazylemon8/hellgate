@@ -19,12 +19,14 @@ func _physics_process(delta: float) -> void:
 	if _config == null:
 		return
 
-	if not is_on_floor():
+	var is_grounded := global_position.y >= floor_y
+	if not is_grounded:
 		velocity.y += _gravity * _config.gravity_scale * delta
 	else:
+		global_position.y = floor_y
 		velocity.y = maxf(velocity.y, 0.0)
 
-	if _input.jump_pressed and is_on_floor():
+	if _input.jump_pressed and is_grounded:
 		velocity.y = _config.jump_velocity
 
 	var speed_multiplier := 1.0
@@ -35,7 +37,11 @@ func _physics_process(delta: float) -> void:
 		_sprint_ratio = minf(1.0, _sprint_ratio + (_config.sprint_recovery_per_second * delta))
 
 	velocity.x = _input.move_x * _config.move_speed * speed_multiplier
-	move_and_slide()
+	global_position += velocity * delta
+
+	if global_position.y >= floor_y:
+		global_position.y = floor_y
+		velocity.y = 0.0
 
 	if global_position.y > floor_y + 600.0:
 		global_position.y = floor_y - 60.0

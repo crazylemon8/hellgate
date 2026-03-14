@@ -41,6 +41,7 @@ var _red_sorted: int = 0
 var _green_sorted: int = 0
 var _mistakes_remaining: int = 0
 var _resolved_count: int = 0
+var _redirect_contact_radius: float = 74.0
 
 
 func _ready() -> void:
@@ -83,6 +84,7 @@ func _physics_process(_delta: float) -> void:
 		return
 
 	player.apply_input(_build_player_input())
+	_process_redirect_contacts()
 
 
 func begin_round() -> void:
@@ -242,3 +244,12 @@ func _set_gameplay_frozen(is_frozen: bool) -> void:
 	for enemy in enemies.get_children():
 		enemy.set_physics_process(not is_frozen)
 	wave_director.set_wave_paused(is_frozen)
+
+
+func _process_redirect_contacts() -> void:
+	for enemy in enemies.get_children():
+		var skeleton := enemy as SortingSkeletonController
+		if skeleton == null:
+			continue
+		if skeleton.should_accept_redirect(player.global_position, _redirect_contact_radius):
+			skeleton.redirect(player.global_position)

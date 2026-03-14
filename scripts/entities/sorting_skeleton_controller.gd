@@ -11,8 +11,6 @@ const RIGHT := 1
 @export var floor_y: float = 978.0
 
 @onready var body_polygon: Polygon2D = $BodyPolygon
-@onready var redirect_area: Area2D = $RedirectArea
-
 var _config: SkeletonConfig
 var _color_name: String = "red"
 var _walk_direction: int = RIGHT
@@ -25,22 +23,23 @@ var _exited: bool = false
 var _speed_multiplier: float = 1.0
 var _redirect_lock_until_usec: int = 0
 
-
-func _ready() -> void:
-	redirect_area.body_entered.connect(_on_redirect_area_body_entered)
-
-
 func _physics_process(delta: float) -> void:
 	if _config == null or _exited:
 		return
 
-	if not is_on_floor():
+	var is_grounded := global_position.y >= floor_y
+	if not is_grounded:
 		velocity.y += _gravity * _config.fall_gravity_scale * delta
 	else:
+		global_position.y = floor_y
 		velocity.y = maxf(velocity.y, 0.0)
 
 	velocity.x = _walk_direction * _current_walk_speed()
-	move_and_slide()
+	global_position += velocity * delta
+
+	if global_position.y >= floor_y:
+		global_position.y = floor_y
+		velocity.y = 0.0
 
 	if global_position.x <= _left_exit_x:
 		_leave("left")
@@ -85,7 +84,7 @@ func redirect(by_player_position: Vector2) -> void:
 
 
 func _current_walk_speed() -> float:
-	var base_speed := _config.grounded_walk_speed if is_on_floor() else _config.airborne_walk_speed
+	var base_speed := _config.grounded_walk_speed if global_position.y >= floor_y else _config.airborne_walk_speed
 	return base_speed * _speed_multiplier
 
 
@@ -99,14 +98,16 @@ func _leave(side: String) -> void:
 	queue_free()
 
 
-func _on_redirect_area_body_entered(body: Node) -> void:
-	if body is PlayerController:
-		redirect(body.global_position)
-
-
 func _update_visuals() -> void:
 	body_polygon.color = Color("#d6544b") if _color_name == "red" else Color("#5ec27f")
 
 
 func _is_moving_toward_correct_side() -> bool:
 	return (_color_name == "red" and _walk_direction == LEFT) or (_color_name == "green" and _walk_direction == RIGHT)
+
+
+func should_accept_redirect(player_position: Vector2, contact_radius: float) -> bool:
+	if _exited or _is_moving_toward_correct_side():
+		return false
+
+	return global_position.distance_to(player_position) <= contact_radius
