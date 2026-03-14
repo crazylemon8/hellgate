@@ -12,36 +12,43 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_a3nx1")
 
-[node name="Buttons" type="MarginContainer" parent="."]
+[node name="SprintButton" type="Button" parent="."]
+custom_minimum_size = Vector2(184, 78)
+layout_mode = 1
+anchors_preset = 3
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -160.0
+offset_right = 212.0
+offset_bottom = -82.0
+self_modulate = Color(0.109804, 0.027451, 0.0470588, 0.96)
+text = "Sprint"
+
+[node name="ControlsBand" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -236.0
-offset_right = -24.0
-offset_bottom = -24.0
-
-[node name="SprintButton" type="Button" parent="Buttons"]
-custom_minimum_size = Vector2(156, 156)
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-text = "Sprint"
+offset_left = 18.0
+offset_top = -152.0
+offset_right = -18.0
+offset_bottom = -18.0
+color = Color(0, 0, 0, 0)
 
 [node name="JoystickArea" type="Control" parent="."]
-custom_minimum_size = Vector2(220, 220)
+custom_minimum_size = Vector2(184, 184)
 layout_mode = 1
 anchors_preset = 12
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -244.0
-offset_top = -244.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = -212.0
+offset_top = -178.0
+offset_right = -28.0
+offset_bottom = 6.0
 mouse_filter = 0
 
 [node name="Base" type="ColorRect" parent="JoystickArea"]
@@ -51,22 +58,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -84.0
-offset_top = -84.0
-offset_right = 84.0
-offset_bottom = 84.0
-color = Color(0.94902, 0.937255, 0.909804, 0.18)
+offset_left = -68.0
+offset_top = -68.0
+offset_right = 68.0
+offset_bottom = 68.0
+color = Color(0.109804, 0.027451, 0.0470588, 0.9)
 
 [node name="Knob" type="ColorRect" parent="JoystickArea"]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
 color = Color(0.94902, 0.937255, 0.909804, 0.72)

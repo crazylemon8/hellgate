@@ -8,7 +8,7 @@ signal resolved
 const LEFT := -1
 const RIGHT := 1
 
-@export var floor_y: float = 682.0
+@export var floor_y: float = 978.0
 
 @onready var body_polygon: Polygon2D = $BodyPolygon
 @onready var redirect_area: Area2D = $RedirectArea
