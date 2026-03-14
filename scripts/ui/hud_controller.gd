@@ -3,9 +3,9 @@ class_name HudController
 
 signal pause_requested
 
-@onready var red_value: Label = $MarginContainer/VBoxContainer/ScoreRow/RedPanel/Value
-@onready var mistakes_value: Label = $MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/Value
-@onready var green_value: Label = $MarginContainer/VBoxContainer/ScoreRow/GreenPanel/Value
+@onready var red_value: Label = $MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer/Value
+@onready var mistakes_value: Label = $MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer/Value
+@onready var green_value: Label = $MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer/Value
 @onready var speed_meter: ProgressBar = $MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer/SpeedMeter
 @onready var pause_button: Button = $MarginContainer/VBoxContainer/UtilityRow/PauseButton
 
