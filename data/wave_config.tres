@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WaveConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/wave_config.gd" id="1_q6dcv"]
+
+[resource]
+script = ExtResource("1_q6dcv")
+initial_spawn_delay = 2.6
+minimum_spawn_delay = 0.8
+spawn_delay_reduction_per_resolved = 0.05
+max_active_skeletons = 8

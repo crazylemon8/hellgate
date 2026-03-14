@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SkeletonConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/skeleton_config.gd" id="1_n0elm"]
+
+[resource]
+script = ExtResource("1_n0elm")
+base_walk_speed = 120.0
+speed_gain_per_resolved = 2.0
+redirect_push_speed = 260.0
+fall_gravity_scale = 1.1
+
