@@ -43,10 +43,12 @@ func start_round() -> void:
 	_resolved_count = 0
 	_active_skeletons = 0
 	_time_until_spawn = wave_config.initial_spawn_delay
+	set_process(true)
 
 
 func stop_round() -> void:
 	_running = false
+	set_process(false)
 
 
 func on_skeleton_resolved(resolved_count: int) -> void:
@@ -65,3 +67,7 @@ func _current_spawn_delay() -> float:
 		wave_config.minimum_spawn_delay,
 		wave_config.initial_spawn_delay - (_resolved_count * wave_config.spawn_delay_reduction_per_resolved)
 	)
+
+
+func set_wave_paused(is_paused: bool) -> void:
+	set_process(not is_paused and _running)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3gwwxob66j38"]
+[gd_scene load_steps=15 format=3 uid="uid://c3gwwxob66j38"]
 
 [ext_resource type="Script" path="res://scripts/game/game_controller.gd" id="1_nwk0j"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_tpp0h"]
@@ -8,6 +8,11 @@
 [ext_resource type="Resource" path="res://data/player_config.tres" id="6_d6sxj"]
 [ext_resource type="Resource" path="res://data/skeleton_config.tres" id="7_hgr7s"]
 [ext_resource type="Resource" path="res://data/wave_config.tres" id="8_yd0n8"]
+[ext_resource type="PackedScene" path="res://scenes/ui/TopHUD.tscn" id="9_w3mrt"]
+[ext_resource type="PackedScene" path="res://scenes/ui/StartOverlay.tscn" id="10_u2g0s"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseOverlay.tscn" id="11_0p4fi"]
+[ext_resource type="PackedScene" path="res://scenes/ui/GameOverOverlay.tscn" id="12_iwxuo"]
+[ext_resource type="PackedScene" path="res://scenes/ui/TouchControls.tscn" id="13_m7l1d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xs5i4"]
 size = Vector2(420, 36)
@@ -61,6 +66,18 @@ wave_config = ExtResource("8_yd0n8")
 spawn_anchor_path = NodePath("../World/Spawner")
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TopHUD" parent="UI" instance=ExtResource("9_w3mrt")]
+
+[node name="StartOverlay" parent="UI" instance=ExtResource("10_u2g0s")]
+
+[node name="PauseOverlay" parent="UI" instance=ExtResource("11_0p4fi")]
+visible = false
+
+[node name="GameOverOverlay" parent="UI" instance=ExtResource("12_iwxuo")]
+visible = false
+
+[node name="MobileControls" parent="UI" instance=ExtResource("13_m7l1d")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ledge"]
 shape = SubResource("RectangleShape2D_xs5i4")
