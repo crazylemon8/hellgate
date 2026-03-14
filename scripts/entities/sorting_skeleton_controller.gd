@@ -19,8 +19,11 @@ var _walk_direction: int = RIGHT
 var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 var _left_exit_x: float = 0.0
 var _right_exit_x: float = 0.0
+var _screen_center_x: float = 0.0
+var _bottom_exit_y: float = 0.0
 var _exited: bool = false
-var _speed_bonus: float = 0.0
+var _speed_multiplier: float = 1.0
+var _redirect_lock_until_usec: int = 0
 
 
 func _ready() -> void:
@@ -43,34 +46,47 @@ func _physics_process(delta: float) -> void:
 		_leave("left")
 	elif global_position.x >= _right_exit_x:
 		_leave("right")
+	elif global_position.y >= _bottom_exit_y:
+		_leave("left" if global_position.x < _screen_center_x else "right")
 
 
 func setup(config: SkeletonConfig, color_name: String, resolved_count: int) -> void:
 	_config = config
 	_color_name = color_name
-	_walk_direction = [LEFT, RIGHT].pick_random()
+	_walk_direction = RIGHT if color_name == "red" else LEFT
 	velocity = Vector2.ZERO
 	_update_visuals()
 	apply_difficulty(resolved_count)
 
 
 func apply_difficulty(resolved_count: int) -> void:
-	_speed_bonus = resolved_count * _config.speed_gain_per_resolved
+	var step_interval := maxi(1, _config.speed_step_interval)
+	var speed_steps := int(floor(float(resolved_count) / float(step_interval)))
+	_speed_multiplier = 1.0 + (speed_steps * _config.speed_step_amount)
 
 
-func set_exit_bounds(left_exit_x: float, right_exit_x: float) -> void:
+func set_exit_bounds(left_exit_x: float, right_exit_x: float, screen_center_x: float, bottom_exit_y: float) -> void:
 	_left_exit_x = left_exit_x
 	_right_exit_x = right_exit_x
+	_screen_center_x = screen_center_x
+	_bottom_exit_y = bottom_exit_y
 
 
 func redirect(by_player_position: Vector2) -> void:
+	var now_usec := Time.get_ticks_usec()
+	if now_usec < _redirect_lock_until_usec or _is_moving_toward_correct_side():
+		return
+
 	requested_redirect.emit(by_player_position)
 	_walk_direction = RIGHT if global_position.x > by_player_position.x else LEFT
-	velocity.x = _walk_direction * _config.redirect_push_speed
+	_redirect_lock_until_usec = now_usec + int(_config.redirect_lock_seconds * 1000000.0)
+	velocity.x = _walk_direction * _config.redirect_push_speed * _speed_multiplier
+	velocity.y = minf(velocity.y, -120.0)
 
 
 func _current_walk_speed() -> float:
-	return _config.base_walk_speed + _speed_bonus
+	var base_speed := _config.grounded_walk_speed if is_on_floor() else _config.airborne_walk_speed
+	return base_speed * _speed_multiplier
 
 
 func _leave(side: String) -> void:
@@ -90,3 +106,7 @@ func _on_redirect_area_body_entered(body: Node) -> void:
 
 func _update_visuals() -> void:
 	body_polygon.color = Color("#d6544b") if _color_name == "red" else Color("#5ec27f")
+
+
+func _is_moving_toward_correct_side() -> bool:
+	return (_color_name == "red" and _walk_direction == LEFT) or (_color_name == "green" and _walk_direction == RIGHT)

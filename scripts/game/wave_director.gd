@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 	if not _running or wave_config == null or _spawn_anchor == null:
 		return
 
-	if _active_skeletons >= wave_config.max_active_skeletons:
+	if wave_config.max_active_skeletons > 0 and _active_skeletons >= wave_config.max_active_skeletons:
 		return
 
 	_time_until_spawn -= delta
@@ -54,19 +54,22 @@ func stop_round() -> void:
 func on_skeleton_resolved(resolved_count: int) -> void:
 	_active_skeletons = maxi(0, _active_skeletons - 1)
 	_resolved_count = resolved_count
+	_time_until_spawn = _current_spawn_delay()
 
 
 func _spawn_one() -> void:
 	_active_skeletons += 1
 	var color_name := "red" if _rng.randf() < 0.5 else "green"
-	spawn_skeleton.emit(color_name, _spawn_anchor.global_position)
+	var min_spawn_x := _spawn_anchor.global_position.x - (wave_config.spawn_band_width * 0.5)
+	var max_spawn_x := _spawn_anchor.global_position.x + (wave_config.spawn_band_width * 0.5)
+	var spawn_position := Vector2(_rng.randf_range(min_spawn_x, max_spawn_x), _spawn_anchor.global_position.y)
+	spawn_skeleton.emit(color_name, spawn_position)
 
 
 func _current_spawn_delay() -> float:
-	return maxf(
-		wave_config.minimum_spawn_delay,
-		wave_config.initial_spawn_delay - (_resolved_count * wave_config.spawn_delay_reduction_per_resolved)
-	)
+	var step_interval := maxi(1, wave_config.difficulty_step_interval)
+	var speed_steps := int(floor(float(_resolved_count) / float(step_interval)))
+	return maxf(wave_config.minimum_spawn_delay, wave_config.initial_spawn_delay - (speed_steps * wave_config.spawn_delay_step))
 
 
 func set_wave_paused(is_paused: bool) -> void:

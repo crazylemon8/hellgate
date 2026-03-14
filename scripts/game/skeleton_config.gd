@@ -1,8 +1,10 @@
 extends Resource
 class_name SkeletonConfig
 
-@export var base_walk_speed: float = 120.0
-@export var speed_gain_per_resolved: float = 2.0
-@export var redirect_push_speed: float = 260.0
+@export var grounded_walk_speed: float = 72.0
+@export var airborne_walk_speed: float = 44.0
+@export var redirect_push_speed: float = 165.0
+@export var redirect_lock_seconds: float = 0.22
+@export var speed_step_interval: int = 10
+@export var speed_step_amount: float = 0.16
 @export var fall_gravity_scale: float = 1.1
-

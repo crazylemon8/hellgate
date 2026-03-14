@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_q6dcv")
-initial_spawn_delay = 2.6
-minimum_spawn_delay = 0.8
-spawn_delay_reduction_per_resolved = 0.05
-max_active_skeletons = 8
+initial_spawn_delay = 1.6
+minimum_spawn_delay = 0.78
+spawn_delay_step = 0.07
+difficulty_step_interval = 10
+max_active_skeletons = 0
+spawn_band_width = 192.0

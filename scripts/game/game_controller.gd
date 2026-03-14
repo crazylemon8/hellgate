@@ -35,6 +35,7 @@ enum RoundState {
 @onready var game_over_retry_button: Button = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/RetryButton
 
 var _mobile_input := PlayerInputState.new()
+var _player_spawn_position: Vector2
 var _round_state: RoundState = RoundState.BRIEFING
 var _red_sorted: int = 0
 var _green_sorted: int = 0
@@ -50,6 +51,7 @@ func _ready() -> void:
 	assert(skeleton_scene != null, "Skeleton scene is required.")
 
 	player.setup(player_config)
+	_player_spawn_position = player.global_position
 	player.speed_meter_changed.connect(_on_player_speed_meter_changed)
 	wave_director.spawn_skeleton.connect(_on_spawn_skeleton_requested)
 	wave_director.configure(wave_config)
@@ -99,7 +101,7 @@ func begin_round() -> void:
 	_mobile_input = PlayerInputState.new()
 	mobile_controls.reset_input()
 	player.reset_for_round()
-	player.global_position = Vector2(360, 640)
+	player.global_position = _player_spawn_position
 	wave_director.start_round()
 	_set_gameplay_frozen(false)
 
@@ -147,7 +149,8 @@ func _on_spawn_skeleton_requested(color_name: String, spawn_position: Vector2) -
 	enemies.add_child(skeleton)
 	skeleton.global_position = spawn_position
 	skeleton.setup(skeleton_config, color_name, _resolved_count)
-	skeleton.set_exit_bounds(left_exit.global_position.x, right_exit.global_position.x)
+	var viewport_size := get_viewport_rect().size
+	skeleton.set_exit_bounds(-48.0, viewport_size.x + 48.0, viewport_size.x * 0.5, viewport_size.y + 96.0)
 	skeleton.exited.connect(_on_skeleton_exited)
 	skeleton.resolved.connect(_on_skeleton_resolved)
 
@@ -224,7 +227,7 @@ func _show_briefing() -> void:
 	_mobile_input = PlayerInputState.new()
 	mobile_controls.reset_input()
 	player.reset_for_round()
-	player.global_position = Vector2(360, 640)
+	player.global_position = _player_spawn_position
 	_set_gameplay_frozen(true)
 	score_changed.emit(_red_sorted, _green_sorted, _mistakes_remaining)
 	pause_changed.emit(false)

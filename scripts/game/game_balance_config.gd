@@ -1,5 +1,4 @@
 extends Resource
 class_name GameBalanceConfig
 
-@export_range(1, 10, 1) var allowed_mistakes: int = 3
-
+@export_range(1, 10, 1) var allowed_mistakes: int = 5

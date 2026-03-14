@@ -4,5 +4,4 @@
 
 [resource]
 script = ExtResource("1_0aj7x")
-allowed_mistakes = 3
-
+allowed_mistakes = 5

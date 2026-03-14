@@ -4,8 +4,10 @@
 
 [resource]
 script = ExtResource("1_n0elm")
-base_walk_speed = 120.0
-speed_gain_per_resolved = 2.0
-redirect_push_speed = 260.0
+grounded_walk_speed = 72.0
+airborne_walk_speed = 44.0
+redirect_push_speed = 165.0
+redirect_lock_seconds = 0.22
+speed_step_interval = 10
+speed_step_amount = 0.16
 fall_gravity_scale = 1.1
-
