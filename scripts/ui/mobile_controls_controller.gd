@@ -7,7 +7,7 @@ const JOYSTICK_RADIUS := 92.0
 
 @onready var joystick_area: Control = $JoystickArea
 @onready var knob: ColorRect = $JoystickArea/Knob
-@onready var sprint_button: Button = $Buttons/SprintButton
+@onready var sprint_button: Button = $SprintButton
 
 var _touch_id: int = -1
 var _state := PlayerInputState.new()
