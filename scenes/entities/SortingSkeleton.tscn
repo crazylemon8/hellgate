@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bai0rl5huvfxy"]
+
+[ext_resource type="Script" path="res://scripts/entities/sorting_skeleton_controller.gd" id="1_tsr3r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ion57"]
+size = Vector2(42, 74)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r2dt0"]
+radius = 44.0
+
+[node name="SortingSkeleton" type="CharacterBody2D"]
+script = ExtResource("1_tsr3r")
+
+[node name="BodyPolygon" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-22, -37, 22, -37, 22, 37, -22, 37)
+color = Color(0.835294, 0.329412, 0.294118, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ion57")
+
+[node name="RedirectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedirectArea"]
+shape = SubResource("CircleShape2D_r2dt0")
