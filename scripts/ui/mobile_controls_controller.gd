@@ -32,8 +32,10 @@ func _ready() -> void:
 func _on_joystick_gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed and (_touch_id == -1 or _touch_id == event.index):
+			if not _is_inside_joystick(event.position):
+				return
 			_touch_id = event.index
-			_set_joystick_center(event.position)
+			_set_visual_state(true)
 			_update_axis(event.position)
 		elif not event.pressed and event.index == _touch_id:
 			_release_joystick()
@@ -41,7 +43,9 @@ func _on_joystick_gui_input(event: InputEvent) -> void:
 		_update_axis(event.position)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			_set_joystick_center(event.position)
+			if not _is_inside_joystick(event.position):
+				return
+			_set_visual_state(true)
 			_update_axis(event.position)
 		else:
 			_release_joystick()
@@ -108,18 +112,6 @@ func reset_input() -> void:
 	input_changed.emit(_state.duplicate())
 
 
-func _set_joystick_center(local_position: Vector2) -> void:
-	var half_base := base.size * 0.5
-	_joystick_center = Vector2(
-		clampf(local_position.x, half_base.x, joystick_area.size.x - half_base.x),
-		clampf(local_position.y, half_base.y, joystick_area.size.y - half_base.y)
-	)
-	base.position = _joystick_center - half_base
-	base_glow.position = _joystick_center - (base_glow.size * 0.5)
-	knob.position = _joystick_center - (knob.size * 0.5)
-	_set_visual_state(true)
-
-
 func _release_joystick() -> void:
 	_touch_id = -1
 	_state.move_x = 0.0
@@ -143,3 +135,7 @@ func _set_visual_state(is_active: bool) -> void:
 	base_glow.modulate.a = 0.44 if is_active else 0.22
 	base.scale = Vector2.ONE * (1.05 if is_active else 1.0)
 	knob.scale = Vector2.ONE * (1.08 if is_active else 1.0)
+
+
+func _is_inside_joystick(local_position: Vector2) -> bool:
+	return local_position.distance_to(_joystick_center) <= JOYSTICK_RADIUS * 1.2
