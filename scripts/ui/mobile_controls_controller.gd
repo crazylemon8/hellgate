@@ -8,14 +8,17 @@ const JOYSTICK_DEADZONE := 0.18
 const JUMP_TRIGGER_Y := -0.62
 
 @onready var joystick_area: Control = $JoystickArea
-@onready var base: ColorRect = $JoystickArea/Base
-@onready var knob: ColorRect = $JoystickArea/Knob
+@onready var base_glow: Control = $JoystickArea/BaseGlow
+@onready var base: Control = $JoystickArea/Base
+@onready var knob: Control = $JoystickArea/Knob
 @onready var sprint_button: Button = $SprintButton
 
 var _touch_id: int = -1
 var _state := PlayerInputState.new()
 var _joystick_center: Vector2 = Vector2.ZERO
 var _jump_armed: bool = true
+var _knob_tween: Tween
+var _release_tween: Tween
 
 
 func _ready() -> void:
@@ -23,6 +26,7 @@ func _ready() -> void:
 	sprint_button.button_down.connect(_on_sprint_button_down)
 	sprint_button.button_up.connect(_on_sprint_button_up)
 	_reset_knob()
+	_set_visual_state(false)
 
 
 func _on_joystick_gui_input(event: InputEvent) -> void:
@@ -58,7 +62,7 @@ func _on_sprint_button_up() -> void:
 func _update_axis(local_position: Vector2) -> void:
 	var offset := local_position - _joystick_center
 	offset = offset.limit_length(JOYSTICK_RADIUS)
-	knob.position = _joystick_center + offset - (knob.size * 0.5)
+	_move_knob_to(_joystick_center + offset - (knob.size * 0.5))
 
 	var normalized := offset / JOYSTICK_RADIUS
 	var length := normalized.length()
@@ -83,8 +87,17 @@ func _update_axis(local_position: Vector2) -> void:
 
 func _reset_knob() -> void:
 	_joystick_center = joystick_area.size * 0.5
-	base.position = _joystick_center - (base.size * 0.5)
-	knob.position = _joystick_center - (knob.size * 0.5)
+	var base_target := _joystick_center - (base.size * 0.5)
+	var glow_target := _joystick_center - (base_glow.size * 0.5)
+	var knob_target := _joystick_center - (knob.size * 0.5)
+	if is_instance_valid(_release_tween):
+		_release_tween.kill()
+	_release_tween = create_tween()
+	_release_tween.set_trans(Tween.TRANS_BACK)
+	_release_tween.set_ease(Tween.EASE_OUT)
+	_release_tween.parallel().tween_property(base, "position", base_target, 0.14)
+	_release_tween.parallel().tween_property(base_glow, "position", glow_target, 0.14)
+	_release_tween.parallel().tween_property(knob, "position", knob_target, 0.14)
 
 
 func reset_input() -> void:
@@ -102,7 +115,9 @@ func _set_joystick_center(local_position: Vector2) -> void:
 		clampf(local_position.y, half_base.y, joystick_area.size.y - half_base.y)
 	)
 	base.position = _joystick_center - half_base
+	base_glow.position = _joystick_center - (base_glow.size * 0.5)
 	knob.position = _joystick_center - (knob.size * 0.5)
+	_set_visual_state(true)
 
 
 func _release_joystick() -> void:
@@ -110,5 +125,21 @@ func _release_joystick() -> void:
 	_state.move_x = 0.0
 	_state.jump_pressed = false
 	_jump_armed = true
+	_set_visual_state(false)
 	_reset_knob()
 	input_changed.emit(_state.duplicate())
+
+
+func _move_knob_to(target_position: Vector2) -> void:
+	if is_instance_valid(_knob_tween):
+		_knob_tween.kill()
+	_knob_tween = create_tween()
+	_knob_tween.set_trans(Tween.TRANS_SINE)
+	_knob_tween.set_ease(Tween.EASE_OUT)
+	_knob_tween.tween_property(knob, "position", target_position, 0.045)
+
+
+func _set_visual_state(is_active: bool) -> void:
+	base_glow.modulate.a = 0.44 if is_active else 0.22
+	base.scale = Vector2.ONE * (1.05 if is_active else 1.0)
+	knob.scale = Vector2.ONE * (1.08 if is_active else 1.0)

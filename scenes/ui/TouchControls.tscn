@@ -1,8 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm8gx7f8nn2qf"]
+[gd_scene load_steps=5 format=3 uid="uid://cm8gx7f8nn2qf"]
 
-[ext_resource type="Script" path="res://scripts/ui/mobile_controls_controller.gd" id="1_a3nx1"]
+[ext_resource type="Script" uid="uid://boh575jj22iy0" path="res://scripts/ui/mobile_controls_controller.gd" id="1_a3nx1"]
 
-[node name="TouchControls" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bv1l8"]
+bg_color = Color(0.356863, 0.156863, 0.0745098, 0.22)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjg0i"]
+bg_color = Color(0.109804, 0.027451, 0.0470588, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.501961, 0.227451, 0.0941176, 0.45)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7y2el"]
+bg_color = Color(0.537255, 0.270588, 0.121569, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.615686, 0.298039, 0.45)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 8
+
+[node name="TouchControls" type="Control" unique_id=368003649]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,20 +47,24 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_a3nx1")
 
-[node name="SprintButton" type="Button" parent="."]
+[node name="SprintButton" type="Button" parent="." unique_id=285501900]
+self_modulate = Color(0.109804, 0.027451, 0.0470588, 0.96)
 custom_minimum_size = Vector2(184, 78)
 layout_mode = 1
 anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
 offset_top = -160.0
 offset_right = 212.0
 offset_bottom = -82.0
-self_modulate = Color(0.109804, 0.027451, 0.0470588, 0.96)
+grow_horizontal = 0
+grow_vertical = 0
 text = "Sprint"
 
-[node name="ControlsBand" type="ColorRect" parent="."]
+[node name="ControlsBand" type="ColorRect" parent="." unique_id=1690213000]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -35,23 +74,43 @@ offset_left = 18.0
 offset_top = -152.0
 offset_right = -18.0
 offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
 color = Color(0, 0, 0, 0)
 
-[node name="JoystickArea" type="Control" parent="."]
-custom_minimum_size = Vector2(184, 184)
+[node name="JoystickArea" type="Control" parent="." unique_id=700963798]
+custom_minimum_size = Vector2(220, 220)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -212.0
-offset_top = -178.0
-offset_right = -28.0
-offset_bottom = 6.0
-mouse_filter = 0
+offset_left = -236.0
+offset_top = -198.0
+offset_right = -16.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="Base" type="ColorRect" parent="JoystickArea"]
+[node name="BaseGlow" type="Panel" parent="JoystickArea" unique_id=190101122]
+custom_minimum_size = Vector2(164, 164)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -82.0
+offset_right = 82.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bv1l8")
+
+[node name="Base" type="Panel" parent="JoystickArea" unique_id=1945606831]
+custom_minimum_size = Vector2(136, 136)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -62,18 +121,22 @@ offset_left = -68.0
 offset_top = -68.0
 offset_right = 68.0
 offset_bottom = 68.0
-color = Color(0.109804, 0.027451, 0.0470588, 0.9)
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xjg0i")
 
-[node name="Knob" type="ColorRect" parent="JoystickArea"]
-custom_minimum_size = Vector2(56, 56)
+[node name="Knob" type="Panel" parent="JoystickArea" unique_id=344831968]
+custom_minimum_size = Vector2(68, 68)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -28.0
-offset_top = -28.0
-offset_right = 28.0
-offset_bottom = 28.0
-color = Color(0.94902, 0.937255, 0.909804, 0.72)
+offset_left = -34.0
+offset_top = -34.0
+offset_right = 34.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7y2el")
