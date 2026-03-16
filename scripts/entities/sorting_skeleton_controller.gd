@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = _walk_direction * _current_walk_speed()
 	global_position += velocity * delta
 
-	if global_position.y >= floor_y:
+	if _is_supported():
 		global_position.y = floor_y
 		velocity.y = 0.0
 
