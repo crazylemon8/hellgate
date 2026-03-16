@@ -21,6 +21,7 @@ enum RoundState {
 @onready var player: PlayerController = $World/Entities/Player
 @onready var enemies: Node2D = $World/Entities/Enemies
 @onready var ledge_collision: CollisionShape2D = $World/Ledge/CollisionShape2D
+@onready var ledge_body_visual: ColorRect = $World/LedgeBody
 @onready var left_exit: Marker2D = $World/ExitMarkers/LeftExit
 @onready var right_exit: Marker2D = $World/ExitMarkers/RightExit
 @onready var wave_director: WaveDirector = $WaveDirector
@@ -264,9 +265,7 @@ func _process_redirect_contacts() -> void:
 
 
 func _get_support_bounds() -> Vector2:
-	var ledge_shape := ledge_collision.shape as RectangleShape2D
-	var half_width := ledge_shape.size.x * 0.5
-	return Vector2(ledge_collision.global_position.x - half_width, ledge_collision.global_position.x + half_width)
+	return Vector2(ledge_body_visual.global_position.x, ledge_body_visual.global_position.x + ledge_body_visual.size.x)
 
 
 func _respawn_player_if_needed() -> void:
