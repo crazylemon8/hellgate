@@ -9,6 +9,8 @@ var _config: PlayerConfig
 var _input := PlayerInputState.new()
 var _sprint_ratio: float = 1.0
 var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
+var _support_left_x: float = -INF
+var _support_right_x: float = INF
 
 
 func _ready() -> void:
@@ -19,7 +21,7 @@ func _physics_process(delta: float) -> void:
 	if _config == null:
 		return
 
-	var is_grounded := global_position.y >= floor_y
+	var is_grounded := _is_supported()
 	if not is_grounded:
 		velocity.y += _gravity * _config.gravity_scale * delta
 	else:
@@ -73,3 +75,12 @@ func push_back_from(contact_x: float, separation: float = 28.0) -> void:
 		global_position.x = minf(global_position.x, contact_x - separation)
 	else:
 		global_position.x = maxf(global_position.x, contact_x + separation)
+
+
+func set_support_bounds(left_x: float, right_x: float) -> void:
+	_support_left_x = left_x
+	_support_right_x = right_x
+
+
+func _is_supported() -> bool:
+	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x

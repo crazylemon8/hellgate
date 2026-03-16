@@ -19,6 +19,8 @@ var _left_exit_x: float = 0.0
 var _right_exit_x: float = 0.0
 var _screen_center_x: float = 0.0
 var _bottom_exit_y: float = 0.0
+var _support_left_x: float = -INF
+var _support_right_x: float = INF
 var _exited: bool = false
 var _speed_multiplier: float = 1.0
 var _redirect_lock_until_usec: int = 0
@@ -27,7 +29,7 @@ func _physics_process(delta: float) -> void:
 	if _config == null or _exited:
 		return
 
-	var is_grounded := global_position.y >= floor_y
+	var is_grounded := _is_supported()
 	if not is_grounded:
 		velocity.y += _gravity * _config.fall_gravity_scale * delta
 	else:
@@ -71,6 +73,11 @@ func set_exit_bounds(left_exit_x: float, right_exit_x: float, screen_center_x: f
 	_bottom_exit_y = bottom_exit_y
 
 
+func set_support_bounds(left_x: float, right_x: float) -> void:
+	_support_left_x = left_x
+	_support_right_x = right_x
+
+
 func redirect(by_player_position: Vector2) -> void:
 	var now_usec := Time.get_ticks_usec()
 	if now_usec < _redirect_lock_until_usec or _is_moving_toward_correct_side():
@@ -84,7 +91,7 @@ func redirect(by_player_position: Vector2) -> void:
 
 
 func _current_walk_speed() -> float:
-	var base_speed := _config.grounded_walk_speed if global_position.y >= floor_y else _config.airborne_walk_speed
+	var base_speed := _config.grounded_walk_speed if _is_supported() else _config.airborne_walk_speed
 	return base_speed * _speed_multiplier
 
 
@@ -123,3 +130,7 @@ func push_from_player(player_position: Vector2) -> void:
 		global_position.x += 10.0
 	else:
 		global_position.x -= 10.0
+
+
+func _is_supported() -> bool:
+	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x

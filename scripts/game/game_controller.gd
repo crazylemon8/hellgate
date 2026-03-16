@@ -20,6 +20,7 @@ enum RoundState {
 
 @onready var player: PlayerController = $World/Entities/Player
 @onready var enemies: Node2D = $World/Entities/Enemies
+@onready var ledge_collision: CollisionShape2D = $World/Ledge/CollisionShape2D
 @onready var left_exit: Marker2D = $World/ExitMarkers/LeftExit
 @onready var right_exit: Marker2D = $World/ExitMarkers/RightExit
 @onready var wave_director: WaveDirector = $WaveDirector
@@ -54,6 +55,8 @@ func _ready() -> void:
 
 	player.setup(player_config)
 	_player_spawn_position = player.global_position
+	var support_bounds := _get_support_bounds()
+	player.set_support_bounds(support_bounds.x, support_bounds.y)
 	player.speed_meter_changed.connect(_on_player_speed_meter_changed)
 	wave_director.spawn_skeleton.connect(_on_spawn_skeleton_requested)
 	wave_director.configure(wave_config)
@@ -153,6 +156,8 @@ func _on_spawn_skeleton_requested(color_name: String, spawn_position: Vector2) -
 	skeleton.setup(skeleton_config, color_name, _resolved_count)
 	var viewport_size := get_viewport_rect().size
 	skeleton.set_exit_bounds(-48.0, viewport_size.x + 48.0, viewport_size.x * 0.5, viewport_size.y + 96.0)
+	var support_bounds := _get_support_bounds()
+	skeleton.set_support_bounds(support_bounds.x, support_bounds.y)
 	skeleton.exited.connect(_on_skeleton_exited)
 	skeleton.resolved.connect(_on_skeleton_resolved)
 
@@ -255,3 +260,9 @@ func _process_redirect_contacts() -> void:
 			skeleton.push_from_player(player.global_position)
 			if skeleton.global_position.distance_to(player.global_position) <= _push_block_radius:
 				player.push_back_from(skeleton.global_position.x)
+
+
+func _get_support_bounds() -> Vector2:
+	var ledge_shape := ledge_collision.shape as RectangleShape2D
+	var half_width := ledge_shape.size.x * 0.5
+	return Vector2(ledge_collision.global_position.x - half_width, ledge_collision.global_position.x + half_width)
