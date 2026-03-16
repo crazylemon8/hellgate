@@ -142,7 +142,6 @@ func _build_player_input() -> PlayerInputState:
 	state.jump_pressed = Input.is_action_just_pressed("jump") or _mobile_input.jump_pressed
 	state.sprint_held = Input.is_action_pressed("sprint") or _mobile_input.sprint_held
 	state.pause_pressed = Input.is_action_just_pressed("pause") or _mobile_input.pause_pressed
-	_mobile_input.jump_pressed = false
 	_mobile_input.pause_pressed = false
 	return state
 

@@ -4,9 +4,7 @@ class_name MobileControlsController
 signal input_changed(input_state: PlayerInputState)
 
 const JOYSTICK_RADIUS := 92.0
-const JOYSTICK_DEADZONE := 0.04
-const JUMP_TRIGGER_Y := -0.08
-
+const JOYSTICK_DEADZONE := 0.00
 @onready var joystick_area: Control = $JoystickArea
 @onready var base_glow: Control = $JoystickArea/BaseGlow
 @onready var base: Control = $JoystickArea/Base
@@ -16,7 +14,6 @@ const JUMP_TRIGGER_Y := -0.08
 var _touch_id: int = -1
 var _state := PlayerInputState.new()
 var _joystick_center: Vector2 = Vector2.ZERO
-var _jump_armed: bool = true
 var _knob_tween: Tween
 var _release_tween: Tween
 
@@ -80,15 +77,9 @@ func _update_axis(local_position: Vector2) -> void:
 		if absf(_state.move_x) < 0.08:
 			_state.move_x = signf(_state.move_x) * 0.08
 
-	var jump_vector_y := normalized.y
-	if jump_vector_y <= JUMP_TRIGGER_Y and _jump_armed:
-		_state.jump_pressed = true
-		_jump_armed = false
-	elif jump_vector_y > 0.0:
-		_jump_armed = true
+	_state.jump_pressed = normalized.y < 0.0
 
 	input_changed.emit(_state.duplicate())
-	_state.jump_pressed = false
 
 
 func _reset_knob() -> void:
@@ -109,7 +100,6 @@ func _reset_knob() -> void:
 func reset_input() -> void:
 	_touch_id = -1
 	_state = PlayerInputState.new()
-	_jump_armed = true
 	_reset_knob()
 	input_changed.emit(_state.duplicate())
 
@@ -118,7 +108,6 @@ func _release_joystick() -> void:
 	_touch_id = -1
 	_state.move_x = 0.0
 	_state.jump_pressed = false
-	_jump_armed = true
 	_set_visual_state(false)
 	_reset_knob()
 	input_changed.emit(_state.duplicate())
