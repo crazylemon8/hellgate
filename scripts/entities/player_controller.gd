@@ -45,10 +45,6 @@ func _physics_process(delta: float) -> void:
 		global_position.y = floor_y
 		velocity.y = 0.0
 
-	if global_position.y > floor_y + 600.0:
-		global_position.y = floor_y - 60.0
-		velocity.y = 0.0
-
 	speed_meter_changed.emit(_sprint_ratio)
 	_input.jump_pressed = false
 
@@ -84,3 +80,8 @@ func set_support_bounds(left_x: float, right_x: float) -> void:
 
 func _is_supported() -> bool:
 	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x
+
+
+func respawn_at(spawn_position: Vector2) -> void:
+	global_position = spawn_position
+	velocity = Vector2.ZERO

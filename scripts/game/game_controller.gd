@@ -89,6 +89,7 @@ func _physics_process(_delta: float) -> void:
 
 	player.apply_input(_build_player_input())
 	_process_redirect_contacts()
+	_respawn_player_if_needed()
 
 
 func begin_round() -> void:
@@ -266,3 +267,11 @@ func _get_support_bounds() -> Vector2:
 	var ledge_shape := ledge_collision.shape as RectangleShape2D
 	var half_width := ledge_shape.size.x * 0.5
 	return Vector2(ledge_collision.global_position.x - half_width, ledge_collision.global_position.x + half_width)
+
+
+func _respawn_player_if_needed() -> void:
+	var viewport_size := get_viewport_rect().size
+	if player.global_position.y <= viewport_size.y + 120.0:
+		return
+
+	player.respawn_at(_player_spawn_position)
