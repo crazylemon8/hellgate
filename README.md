@@ -1,49 +1,121 @@
 # Hellgate
 
-Portrait-first Godot 4 prototype for the gatekeeper loop.
+Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 
-## Current foundation
+## Current state
 
-- Boot scene that transitions into the main gameplay scene
-- One portrait-oriented gameplay lane with a ledge, exits, spawner, player, and enemy container
-- Data-driven configs in `data/` for player, skeleton, wave, and round balance
-- `GameController` for round flow, score, mistakes, pause, restart, and game-over handling
-- `WaveDirector` for spawn cadence and difficulty ramp from resolved skeleton count
-- `PlayerController` for movement, sprint drain/recovery, and unified input consumption
-- `SortingSkeletonController` for falling, walking, redirects, and exit resolution
-- HUD, overlays, and mobile touch controls under `scenes/ui/`
+- Boot scene that immediately transitions into the gameplay scene
+- One portrait-oriented play lane with:
+  - a visible ledge/platform
+  - left/right sorting targets
+  - centered player respawn on the ledge
+  - skeleton spawning from a center band above the lane
+- Score, mistakes, pause, start, and retry flow
+- Data-driven balance resources under `data/`
+- Keyboard testing support and mobile-first touch controls
+- Android export/debug workflow tested locally
 
-## Project layout
+## Current gameplay behavior
 
-- `scenes/boot/`
-- `scenes/game/`
-- `scenes/entities/`
-- `scenes/ui/`
-- `scripts/game/`
-- `scripts/entities/`
-- `scripts/ui/`
-- `data/`
-- `assets/`
+- Red skeletons should end up on the left
+- Green skeletons should end up on the right
+- Skeletons spawn with the Phaser-inspired sorting behavior ported into Godot:
+  - discrete spawn-rate ramping
+  - discrete speed ramping
+  - redirect lock timing
+  - grounded vs airborne movement differences
+- Actors only stay grounded while above the visible ledge support area
+- Skeletons fall if they move past the ledge edges
+- Player falls if they leave the ledge and respawns back at the center spawn point
+
+## Controls
+
+### Desktop
+
+- `A` move left
+- `D` move right
+- `Space` jump
+- `Shift` sprint
+- `P` pause
+
+### Mobile
+
+- Fixed-base joystick on the bottom-right
+- Upward joystick input triggers jump
+- Holding the joystick above center keeps jump active so the player jumps again after landing
+- Sprint button on the bottom-left
+- Pause button in the HUD
+
+## Important files
+
+### Scenes
+
+- `scenes/boot/Bootstrap.tscn`
+- `scenes/game/GameRoot.tscn`
+- `scenes/entities/Player.tscn`
+- `scenes/entities/SortingSkeleton.tscn`
+- `scenes/ui/TopHUD.tscn`
+- `scenes/ui/StartOverlay.tscn`
+- `scenes/ui/PauseOverlay.tscn`
+- `scenes/ui/GameOverOverlay.tscn`
+- `scenes/ui/TouchControls.tscn`
+
+### Scripts
+
+- `scripts/game/game_controller.gd`
+- `scripts/game/wave_director.gd`
+- `scripts/game/player_input_state.gd`
+- `scripts/entities/player_controller.gd`
+- `scripts/entities/sorting_skeleton_controller.gd`
+- `scripts/ui/hud_controller.gd`
+- `scripts/ui/mobile_controls_controller.gd`
+
+### Data
+
+- `data/game_balance.tres`
+- `data/player_config.tres`
+- `data/skeleton_config.tres`
+- `data/wave_config.tres`
 
 ## Open in Godot
 
-1. Open the repository root as a Godot 4 project.
-2. Let Godot re-save imported metadata if it prompts.
+1. Open the repository root as a Godot 4.6 project.
+2. Let Godot import/update metadata if prompted.
 3. Run `res://scenes/boot/Bootstrap.tscn`.
 
-## First checks to do in the editor
+## Current test checklist
 
-- Confirm the project opens without scene/script parse errors.
-- Verify portrait viewport and top/bottom UI placement.
-- Start a round from the start overlay.
-- Check keyboard input: `A/D`, `Space`, `Shift`, `P`.
-- Check touch UI on a mobile preview or device:
-  - joystick returns to neutral
-  - sprint button drains and refills the meter
-  - pause and retry work without a keyboard
+- Confirm the project opens without parse/runtime errors
+- Verify the start overlay appears centered
+- Start a round and verify:
+  - keyboard movement and sprint work
+  - mobile joystick activates reliably
+  - sprint button is visible and reachable
+  - player can redirect wrong-way skeletons
+  - correct-way skeletons are pass-through
+  - actors fall when leaving the ledge bounds
+  - player respawns to the center of the ledge after falling off-screen
 
-## Likely next polish pass
+## Android device testing
 
-- Replace placeholder geometry with production art
-- Tune spawn, movement, and sprint values in the `.tres` resources
-- Add safer mobile-specific visual styling and safe-area padding if device testing shows overlap
+### Prerequisites
+
+- Godot 4.6 export templates installed
+- Android Studio installed
+- Java SDK path configured in Godot
+- Android SDK / Platform Tools / Build Tools installed
+- `adb` available
+- Android export preset created and marked runnable
+
+### Typical flow
+
+1. Connect Android phone with USB debugging enabled
+2. Confirm the device is visible with `adb devices`
+3. Run from Godot to deploy to the device or export an APK when needed
+
+## Current gaps / next polish
+
+- Replace placeholder visuals with production art
+- Further tune joystick feel and sprint button ergonomics
+- Improve HUD and mobile safe-area polish
+- Add stronger visual feedback for redirects, exits, and mistakes
