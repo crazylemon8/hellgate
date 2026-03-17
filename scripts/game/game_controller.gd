@@ -182,10 +182,11 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 		pause_overlay.visible = false
 		game_over_overlay.visible = true
 		var total_resolved := _resolved_count + 1
-		game_over_summary.text = "Sorted %d red, %d green.\nResolved %d skeletons." % [
+		var final_score := _red_sorted + _green_sorted
+		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d | Red: %d | Green: %d" % [
+			final_score,
 			_red_sorted,
 			_green_sorted,
-			total_resolved,
 		]
 		game_over.emit(
 			{
