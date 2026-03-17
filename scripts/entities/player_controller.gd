@@ -3,7 +3,7 @@ class_name PlayerController
 
 signal speed_meter_changed(current_ratio: float)
 
-@export var floor_y: float = 978.0
+@export var floor_y: float = 950.0
 
 var _config: PlayerConfig
 var _input := PlayerInputState.new()

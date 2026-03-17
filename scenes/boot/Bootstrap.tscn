@@ -1,9 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://btw0qvj0o5vlu"]
+[gd_scene format=3 uid="uid://btw0qvj0o5vlu"]
 
-[ext_resource type="Script" path="res://scripts/game/bootstrap.gd" id="1_ydard"]
-[ext_resource type="PackedScene" path="res://scenes/game/GameRoot.tscn" id="2_16jl4"]
+[ext_resource type="Script" uid="uid://lo0utm1o3ch7" path="res://scripts/game/bootstrap.gd" id="1_ydard"]
+[ext_resource type="PackedScene" uid="uid://c3gwwxob66j38" path="res://scenes/game/GameRoot.tscn" id="2_16jl4"]
 
-[node name="Bootstrap" type="Node"]
+[node name="Bootstrap" type="Node" unique_id=280664139]
 script = ExtResource("1_ydard")
 next_scene = ExtResource("2_16jl4")
-
