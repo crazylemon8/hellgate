@@ -10,7 +10,8 @@ const RIGHT := 1
 
 @export var floor_y: float = 950.0
 
-@onready var body_polygon: Polygon2D = $BodyPolygon
+@onready var body_sprite: Sprite2D = $BodySprite
+@onready var shadow: Polygon2D = $Shadow
 var _config: SkeletonConfig
 var _color_name: String = "red"
 var _walk_direction: int = RIGHT
@@ -42,6 +43,8 @@ func _physics_process(delta: float) -> void:
 	if _is_supported():
 		global_position.y = floor_y
 		velocity.y = 0.0
+
+	_update_presentation()
 
 	if global_position.x <= _left_exit_x:
 		_leave("left")
@@ -106,7 +109,8 @@ func _leave(side: String) -> void:
 
 
 func _update_visuals() -> void:
-	body_polygon.color = Color("#d6544b") if _color_name == "red" else Color("#5ec27f")
+	body_sprite.modulate = Color("#ffb0b0") if _color_name == "red" else Color("#b9ffb9")
+	_update_presentation()
 
 
 func _is_moving_toward_correct_side() -> bool:
@@ -134,3 +138,10 @@ func push_from_player(player_position: Vector2) -> void:
 
 func _is_supported() -> bool:
 	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x
+
+
+func _update_presentation() -> void:
+	body_sprite.flip_h = _walk_direction < 0
+	var grounded := _is_supported()
+	shadow.scale.x = 1.0 if grounded else 0.72
+	shadow.modulate.a = 0.35 if grounded else 0.18

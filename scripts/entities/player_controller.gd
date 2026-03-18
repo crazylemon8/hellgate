@@ -4,6 +4,13 @@ class_name PlayerController
 signal speed_meter_changed(current_ratio: float)
 
 @export var floor_y: float = 950.0
+@export var front_texture: Texture2D
+@export var back_texture: Texture2D
+@export var left_texture: Texture2D
+@export var right_texture: Texture2D
+
+@onready var body_sprite: Sprite2D = $BodySprite
+@onready var shadow: Polygon2D = $Shadow
 
 var _config: PlayerConfig
 var _input := PlayerInputState.new()
@@ -12,10 +19,12 @@ var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 
 var _support_left_x: float = -INF
 var _support_right_x: float = INF
 var _is_sprint_active: bool = false
+var _facing := Vector2.RIGHT
 
 
 func _ready() -> void:
 	add_to_group("player")
+	_update_visuals()
 
 
 func _physics_process(delta: float) -> void:
@@ -51,6 +60,8 @@ func _physics_process(delta: float) -> void:
 		global_position.y = floor_y
 		velocity.y = 0.0
 
+	_update_facing()
+	_update_visuals()
 	speed_meter_changed.emit(_sprint_ratio)
 	_input.jump_pressed = false
 
@@ -68,8 +79,10 @@ func apply_input(next_input: PlayerInputState) -> void:
 func reset_for_round() -> void:
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
+	_facing = Vector2.RIGHT
 	if _config != null:
 		_sprint_ratio = _config.initial_sprint_ratio
+	_update_visuals()
 	speed_meter_changed.emit(_sprint_ratio)
 
 
@@ -93,3 +106,32 @@ func respawn_at(spawn_position: Vector2) -> void:
 	global_position = spawn_position
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
+	_facing = Vector2.RIGHT
+	_update_visuals()
+
+
+func _update_facing() -> void:
+	var movement := Vector2(_input.move_x, 0.0)
+	if movement.length_squared() > 0.0001:
+		_facing = Vector2(signf(movement.x), 0.0)
+	elif velocity.y < -10.0:
+		_facing = Vector2.UP
+	elif velocity.y > 30.0:
+		_facing = Vector2.DOWN
+
+
+func _update_visuals() -> void:
+	if body_sprite == null:
+		return
+
+	if absf(_facing.x) > absf(_facing.y):
+		body_sprite.texture = left_texture if _facing.x < 0.0 else right_texture
+	elif _facing.y < 0.0:
+		body_sprite.texture = back_texture
+	else:
+		body_sprite.texture = front_texture
+
+	var grounded := _is_supported()
+	body_sprite.scale = Vector2(0.9, 0.82) if _is_sprint_active and grounded else Vector2(0.86, 0.86)
+	shadow.scale.x = 1.08 if grounded else 0.78
+	shadow.modulate.a = 0.3 if grounded else 0.16

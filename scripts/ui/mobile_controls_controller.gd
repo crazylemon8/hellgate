@@ -12,6 +12,8 @@ const JOYSTICK_DEADZONE := 0.00
 @onready var sprint_button: Button = $SprintButton
 
 var _touch_id: int = -1
+var _sprint_touch_id: int = -1
+var _sprint_mouse_pressed := false
 var _state := PlayerInputState.new()
 var _joystick_center: Vector2 = Vector2.ZERO
 var _knob_tween: Tween
@@ -20,8 +22,7 @@ var _release_tween: Tween
 
 func _ready() -> void:
 	joystick_area.gui_input.connect(_on_joystick_gui_input)
-	sprint_button.button_down.connect(_on_sprint_button_down)
-	sprint_button.button_up.connect(_on_sprint_button_up)
+	sprint_button.gui_input.connect(_on_sprint_button_gui_input)
 	_reset_knob()
 	_set_visual_state(false)
 
@@ -50,14 +51,20 @@ func _on_joystick_gui_input(event: InputEvent) -> void:
 		_update_axis(event.position)
 
 
-func _on_sprint_button_down() -> void:
-	_state.sprint_held = true
-	input_changed.emit(_state.duplicate())
-
-
-func _on_sprint_button_up() -> void:
-	_state.sprint_held = false
-	input_changed.emit(_state.duplicate())
+func _on_sprint_button_gui_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			_sprint_touch_id = event.index
+			_set_sprint_held(true)
+		elif event.index == _sprint_touch_id:
+			_sprint_touch_id = -1
+			_set_sprint_held(false)
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		_sprint_mouse_pressed = event.pressed
+		_set_sprint_held(event.pressed)
+	elif event is InputEventMouseMotion and _sprint_mouse_pressed:
+		var is_inside := Rect2(Vector2.ZERO, sprint_button.size).has_point(event.position)
+		_set_sprint_held(is_inside)
 
 
 func _update_axis(local_position: Vector2) -> void:
@@ -99,6 +106,8 @@ func _reset_knob() -> void:
 
 func reset_input() -> void:
 	_touch_id = -1
+	_sprint_touch_id = -1
+	_sprint_mouse_pressed = false
 	_state = PlayerInputState.new()
 	_reset_knob()
 	input_changed.emit(_state.duplicate())
@@ -126,6 +135,13 @@ func _set_visual_state(is_active: bool) -> void:
 	base_glow.modulate.a = 0.44 if is_active else 0.22
 	base.scale = Vector2.ONE * (1.05 if is_active else 1.0)
 	knob.scale = Vector2.ONE * (1.08 if is_active else 1.0)
+
+
+func _set_sprint_held(is_held: bool) -> void:
+	if _state.sprint_held == is_held:
+		return
+	_state.sprint_held = is_held
+	input_changed.emit(_state.duplicate())
 
 
 func _is_inside_joystick(local_position: Vector2) -> bool:

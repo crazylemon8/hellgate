@@ -1,0 +1,40 @@
+<svg width="96" height="110" viewBox="0 0 96 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="48" cy="24.2" r="17.3" fill="#FFFFFF" fill-opacity="0.18"/>
+  <circle cx="48" cy="24.2" r="13.4" fill="#F4F1EC" stroke="#2D1A16" stroke-width="3"/>
+
+  <ellipse cx="42.2" cy="24.2" rx="3.8" ry="3.3" fill="#FF2D2D" filter="url(#glow)"/>
+  <ellipse cx="53.8" cy="24.2" rx="3.8" ry="3.3" fill="#FF2D2D" filter="url(#glow)"/>
+
+  <g stroke="#2D1A16" stroke-width="3" stroke-linecap="round">
+    <path d="M48 36.3V59.4"/>
+    <path d="M40.3 41.8H55.7"/>
+    <path d="M39.4 48.4H56.6"/>
+    <path d="M40.3 55H55.7"/>
+
+    <path d="M48 44L32.6 57.2L26.9 75.9"/>
+    <path d="M48 44L64.3 57.2L73.9 75.9"/>
+
+    <path d="M48 59.4L39.4 83.6L32.6 104.5"/>
+    <path d="M48 59.4L55.7 83.6L62.4 104.5"/>
+  </g>
+
+  <g fill="#F4F1EC">
+    <circle cx="26.9" cy="75.9" r="2.9"/>
+    <circle cx="73.9" cy="75.9" r="2.9"/>
+    <circle cx="32.6" cy="104.5" r="3.8"/>
+    <circle cx="62.4" cy="104.5" r="3.8"/>
+  </g>
+
+  <path d="M7.2 67.1A23 23 0 0 1 29.8 43.5" stroke="#7A4A10" stroke-width="4" stroke-linecap="round" stroke-opacity="0.75"/>
+  <path d="M9 67.1A21.2 21.2 0 0 1 29.2 45.3" stroke="#D9AA2A" stroke-width="3" stroke-linecap="round"/>
+</svg>
