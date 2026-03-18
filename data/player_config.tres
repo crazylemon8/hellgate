@@ -1,14 +1,6 @@
-[gd_resource type="Resource" script_class="PlayerConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="PlayerConfig" format=3 uid="uid://2q3stfnnk56v"]
 
-[ext_resource type="Script" path="res://scripts/game/player_config.gd" id="1_ko26s"]
+[ext_resource type="Script" uid="uid://bbaiwbp80xhg4" path="res://scripts/game/player_config.gd" id="1_ko26s"]
 
 [resource]
 script = ExtResource("1_ko26s")
-move_speed = 280.0
-sprint_multiplier = 1.45
-jump_velocity = -460.0
-gravity_scale = 1.0
-sprint_drain_per_second = 0.22
-sprint_recovery_per_second = 0.16
-initial_sprint_ratio = 1.0
-

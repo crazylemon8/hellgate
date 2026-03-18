@@ -1,8 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmb75p7tumivp"]
+[gd_scene format=3 uid="uid://dmb75p7tumivp"]
 
-[ext_resource type="Script" path="res://scripts/ui/hud_controller.gd" id="1_8m4o0"]
+[ext_resource type="Script" uid="uid://b3mcddc1ho5c8" path="res://scripts/ui/hud_controller.gd" id="1_8m4o0"]
 
-[node name="TopHUD" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q188w"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iv0s7"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fieig"]
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speed_bg"]
+bg_color = Color(0.133333, 0.0470588, 0.0431373, 0.95)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speed_fill"]
+bg_color = Color(0.988235, 0.490196, 0.180392, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="TopHUD" type="Control" unique_id=2048273423]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,130 +44,145 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_8m4o0")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1311526080]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 18.0
+offset_left = 34.0
 offset_top = 18.0
-offset_right = -18.0
-offset_bottom = 138.0
+offset_right = -36.0
+offset_bottom = 165.0
+grow_horizontal = 2
+scale = Vector2(0.9993971, 1.0085057)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1649284979]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ScoreRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ScoreRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=910874821]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 200
 
-[node name="RedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow"]
+[node name="RedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow" unique_id=1472246145]
+self_modulate = Color(0.109804, 0.027451, 0.0470588, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-self_modulate = Color(0.109804, 0.027451, 0.0470588, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_q188w")
 
-[node name="RedMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel"]
+[node name="RedMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel" unique_id=32211258]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin" unique_id=370034289]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer" unique_id=901992751]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Red Sorted"
 
-[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer"]
+[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer" unique_id=307129531]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.56078434, 0.56078434, 1)
 theme_override_font_sizes/font_size = 22
 text = "0"
+horizontal_alignment = 1
 
-[node name="MistakesPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow"]
+[node name="MistakesPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow" unique_id=12466453]
+self_modulate = Color(0.137255, 0.0431373, 0.0588235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-self_modulate = Color(0.137255, 0.0431373, 0.0588235, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_iv0s7")
 
-[node name="MistakesMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel"]
+[node name="MistakesMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel" unique_id=241834138]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin" unique_id=153773342]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer" unique_id=347389177]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Mistakes Left"
 
-[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer"]
+[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer" unique_id=1784549358]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8235294, 0.49019608, 1)
 theme_override_font_sizes/font_size = 22
 text = "3"
+horizontal_alignment = 1
 
-[node name="GreenPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow"]
+[node name="GreenPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow" unique_id=2096362838]
+self_modulate = Color(0.109804, 0.027451, 0.0470588, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-self_modulate = Color(0.109804, 0.027451, 0.0470588, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_fieig")
 
-[node name="GreenMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel"]
+[node name="GreenMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel" unique_id=1010020445]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin" unique_id=522030094]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer" unique_id=1948779203]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Green Sorted"
 
-[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer"]
+[node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer" unique_id=1077045740]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.6117647, 1, 0.68235296, 1)
 theme_override_font_sizes/font_size = 22
 text = "0"
+horizontal_alignment = 1
 
-[node name="UtilityRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="UtilityRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1952001129]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SpeedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/UtilityRow"]
+[node name="SpeedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/UtilityRow" unique_id=1684501845]
+self_modulate = Color(0.160784, 0.054902, 0.0470588, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-self_modulate = Color(0.160784, 0.054902, 0.0470588, 1)
 
-[node name="SpeedMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel"]
+[node name="SpeedMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel" unique_id=1063796399]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin" unique_id=312041330]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer" unique_id=505604023]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Sprint"
 
-[node name="SpeedMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer"]
+[node name="SpeedMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer" unique_id=1708676481]
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
-max_value = 100.0
+theme_override_styles/background = SubResource("StyleBoxFlat_speed_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_speed_fill")
 value = 100.0
 show_percentage = false
 
-[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/UtilityRow"]
+[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/UtilityRow" unique_id=1208197677]
 custom_minimum_size = Vector2(104, 0)
 layout_mode = 2
-self_modulate = Color(0.152941, 0.0588235, 0.0392157, 1)
 text = "Pause"

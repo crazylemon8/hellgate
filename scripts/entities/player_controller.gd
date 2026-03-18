@@ -11,6 +11,7 @@ var _sprint_ratio: float = 1.0
 var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 var _support_left_x: float = -INF
 var _support_right_x: float = INF
+var _is_sprint_active: bool = false
 
 
 func _ready() -> void:
@@ -32,9 +33,14 @@ func _physics_process(delta: float) -> void:
 		velocity.y = _config.jump_velocity
 
 	var speed_multiplier := 1.0
-	if _input.sprint_held and absf(_input.move_x) > 0.05 and _sprint_ratio > 0.0:
-		speed_multiplier = _config.sprint_multiplier
+	_is_sprint_active = absf(_input.move_x) > 0.05 and _input.sprint_held and _sprint_ratio > 0.0
+
+	if _is_sprint_active:
 		_sprint_ratio = maxf(0.0, _sprint_ratio - (_config.sprint_drain_per_second * delta))
+		if _sprint_ratio <= 0.0:
+			_is_sprint_active = false
+		else:
+			speed_multiplier = _config.sprint_multiplier
 	else:
 		_sprint_ratio = minf(1.0, _sprint_ratio + (_config.sprint_recovery_per_second * delta))
 
@@ -61,6 +67,7 @@ func apply_input(next_input: PlayerInputState) -> void:
 
 func reset_for_round() -> void:
 	velocity = Vector2.ZERO
+	_is_sprint_active = false
 	if _config != null:
 		_sprint_ratio = _config.initial_sprint_ratio
 	speed_meter_changed.emit(_sprint_ratio)
@@ -85,3 +92,4 @@ func _is_supported() -> bool:
 func respawn_at(spawn_position: Vector2) -> void:
 	global_position = spawn_position
 	velocity = Vector2.ZERO
+	_is_sprint_active = false

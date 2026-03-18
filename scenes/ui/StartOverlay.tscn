@@ -11,7 +11,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[node name="StartOverlay" type="Control"]
+[node name="StartOverlay" type="Control" unique_id=1390783970]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1824282539]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0901961, 0.0235294, 0.0196078, 0.68)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1827908132]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,50 +36,49 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="CenterContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(520, 0)
+[node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=1422462657]
 self_modulate = Color(0.152941, 0.0588235, 0.0392157, 0.94)
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_start_card")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=253690592]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=560741520]
 layout_mode = 2
 theme_override_constants/margin_left = 28
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 24
 
-[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer"]
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer" unique_id=27814926]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content"]
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=1980332430]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.729412, 0.270588, 1)
 theme_override_font_sizes/font_size = 34
 text = "HOLD THE GATE"
 horizontal_alignment = 1
 
-[node name="Body" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content"]
+[node name="Body" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=663232504]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.917647, 0.835294, 1)
 theme_override_font_sizes/font_size = 18
 text = "Sort red skeletons left and green skeletons right. Intercept the ones walking the wrong way before mistakes run out."
-autowrap_mode = 3
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="StartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(184, 72)
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_font_sizes/font_size = 24
+[node name="StartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=1057713766]
 self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
+custom_minimum_size = Vector2(184, 72)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_font_sizes/font_size = 24
 text = "Start Round"

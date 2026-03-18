@@ -55,9 +55,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
-offset_top = -137.0
+offset_top = -169.0
 offset_right = -508.0
-offset_bottom = -59.0
+offset_bottom = -91.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
@@ -68,6 +68,7 @@ theme_override_font_sizes/font_size = 20
 text = "Sprint"
 
 [node name="ControlsBand" type="ColorRect" parent="." unique_id=1690213000]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
