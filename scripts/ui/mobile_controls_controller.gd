@@ -5,6 +5,7 @@ signal input_changed(input_state: PlayerInputState)
 
 const JOYSTICK_RADIUS := 92.0
 const JOYSTICK_DEADZONE := 0.00
+const JUMP_TRIGGER_Y := -0.35
 @onready var joystick_area: Control = $JoystickArea
 @onready var base_glow: Control = $JoystickArea/BaseGlow
 @onready var base: Control = $JoystickArea/Base
@@ -84,7 +85,7 @@ func _update_axis(local_position: Vector2) -> void:
 		if absf(_state.move_x) < 0.08:
 			_state.move_x = signf(_state.move_x) * 0.08
 
-	_state.jump_pressed = normalized.y < 0.0
+	_state.jump_pressed = normalized.y < JUMP_TRIGGER_Y
 
 	input_changed.emit(_state.duplicate())
 

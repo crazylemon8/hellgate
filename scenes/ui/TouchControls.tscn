@@ -67,21 +67,6 @@ theme_override_colors/font_hover_color = Color(1, 0.952941, 0.847059, 1)
 theme_override_font_sizes/font_size = 20
 text = "Sprint"
 
-[node name="ControlsBand" type="ColorRect" parent="." unique_id=1690213000]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = -153.0
-offset_right = -18.0
-offset_bottom = -39.0
-grow_horizontal = 2
-grow_vertical = 0
-color = Color(0.0509804, 0.0313726, 0.0313726, 0.32)
-
 [node name="JoystickArea" type="Control" parent="." unique_id=700963798]
 custom_minimum_size = Vector2(220, 220)
 layout_mode = 1
@@ -90,12 +75,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -237.0
-offset_top = -237.0
-offset_right = -17.0
-offset_bottom = -17.0
+offset_left = -391.0
+offset_top = -362.00006
+offset_right = -171.0
+offset_bottom = -142.0
 grow_horizontal = 0
 grow_vertical = 0
+scale = Vector2(1.7170014, 1.7170014)
 
 [node name="BaseGlow" type="Panel" parent="JoystickArea" unique_id=190101122]
 custom_minimum_size = Vector2(164, 164)
