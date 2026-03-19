@@ -45,6 +45,7 @@ var _mistakes_remaining: int = 0
 var _resolved_count: int = 0
 var _redirect_contact_radius: float = 74.0
 var _push_block_radius: float = 42.0
+var _actor_floor_offset: float = 32.0
 
 
 func _ready() -> void:
@@ -55,6 +56,7 @@ func _ready() -> void:
 	assert(skeleton_scene != null, "Skeleton scene is required.")
 
 	player.setup(player_config)
+	player.floor_y = _get_actor_floor_y()
 	_player_spawn_position = player.global_position
 	var support_bounds := _get_support_bounds()
 	player.set_support_bounds(support_bounds.x, support_bounds.y)
@@ -155,6 +157,7 @@ func _on_spawn_skeleton_requested(color_name: String, spawn_position: Vector2) -
 	var skeleton := skeleton_scene.instantiate() as SortingSkeletonController
 	enemies.add_child(skeleton)
 	skeleton.global_position = spawn_position
+	skeleton.floor_y = _get_actor_floor_y()
 	skeleton.setup(skeleton_config, color_name, _resolved_count)
 	var viewport_size := get_viewport_rect().size
 	skeleton.set_exit_bounds(-48.0, viewport_size.x + 48.0, viewport_size.x * 0.5, viewport_size.y + 96.0)
@@ -267,6 +270,15 @@ func _process_redirect_contacts() -> void:
 
 func _get_support_bounds() -> Vector2:
 	return Vector2(ledge_body_visual.global_position.x, ledge_body_visual.global_position.x + ledge_body_visual.size.x)
+
+
+func _get_actor_floor_y() -> float:
+	var ledge_shape := ledge_collision.shape as RectangleShape2D
+	if ledge_shape == null:
+		return player.floor_y
+
+	var ledge_top_y := ledge_collision.global_position.y - (ledge_shape.size.y * 0.5)
+	return ledge_top_y - _actor_floor_offset
 
 
 func _respawn_player_if_needed() -> void:

@@ -48,20 +48,19 @@ script = ExtResource("1_8m4o0")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 34.0
-offset_top = 18.0
-offset_right = -36.0
-offset_bottom = 165.0
+offset_left = 26.0
+offset_top = 14.0
+offset_right = -26.0
+offset_bottom = 126.0
 grow_horizontal = 2
-scale = Vector2(0.9993971, 1.0085057)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1649284979]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="ScoreRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=910874821]
 layout_mode = 2
-theme_override_constants/separation = 200
+theme_override_constants/separation = 16
 
 [node name="RedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScoreRow" unique_id=1472246145]
 self_modulate = Color(0.109804, 0.027451, 0.0470588, 1)
@@ -88,7 +87,7 @@ text = "Red Sorted"
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer" unique_id=307129531]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.56078434, 0.56078434, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
 
@@ -117,7 +116,7 @@ text = "Mistakes Left"
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer" unique_id=1784549358]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.8235294, 0.49019608, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 26
 text = "3"
 horizontal_alignment = 1
 
@@ -146,13 +145,13 @@ text = "Green Sorted"
 [node name="Value" type="Label" parent="MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer" unique_id=1077045740]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6117647, 1, 0.68235296, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
 
 [node name="UtilityRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1952001129]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 14
 
 [node name="SpeedPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/UtilityRow" unique_id=1684501845]
 self_modulate = Color(0.160784, 0.054902, 0.0470588, 1)
@@ -175,7 +174,7 @@ theme_override_font_sizes/font_size = 14
 text = "Sprint"
 
 [node name="SpeedMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer" unique_id=1708676481]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_speed_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_speed_fill")
@@ -183,6 +182,6 @@ value = 100.0
 show_percentage = false
 
 [node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/UtilityRow" unique_id=1208197677]
-custom_minimum_size = Vector2(104, 0)
+custom_minimum_size = Vector2(132, 0)
 layout_mode = 2
 text = "Pause"
