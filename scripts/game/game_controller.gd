@@ -20,10 +20,25 @@ enum RoundState {
 
 @onready var player: PlayerController = $World/Entities/Player
 @onready var enemies: Node2D = $World/Entities/Enemies
+@onready var background: ColorRect = $World/Background
+@onready var playfield: ColorRect = $World/Playfield
+@onready var playfield_shadow: ColorRect = $World/PlayfieldShadow
+@onready var sky_glow: ColorRect = $World/SkyGlow
+@onready var lane_highlight: ColorRect = $World/LaneHighlight
+@onready var tile_strip_a: ColorRect = $World/TileStripA
+@onready var tile_strip_b: ColorRect = $World/TileStripB
+@onready var tile_strip_c: ColorRect = $World/TileStripC
+@onready var ledge: StaticBody2D = $World/Ledge
 @onready var ledge_collision: CollisionShape2D = $World/Ledge/CollisionShape2D
+@onready var ledge_visual: ColorRect = $World/LedgeVisual
 @onready var ledge_body_visual: ColorRect = $World/LedgeBody
 @onready var left_exit: Marker2D = $World/ExitMarkers/LeftExit
 @onready var right_exit: Marker2D = $World/ExitMarkers/RightExit
+@onready var left_exit_visual: ColorRect = $World/LeftExitVisual
+@onready var right_exit_visual: ColorRect = $World/RightExitVisual
+@onready var left_exit_glow: ColorRect = $World/LeftExitGlow
+@onready var right_exit_glow: ColorRect = $World/RightExitGlow
+@onready var spawner: Marker2D = $World/Spawner
 @onready var wave_director: WaveDirector = $WaveDirector
 @onready var hud: HudController = $UI/TopHUD
 @onready var mobile_controls: MobileControlsController = $UI/MobileControls
@@ -55,6 +70,7 @@ func _ready() -> void:
 	assert(wave_config != null, "Wave config is required.")
 	assert(skeleton_scene != null, "Skeleton scene is required.")
 
+	_apply_landscape_layout()
 	player.setup(player_config)
 	player.floor_y = _get_actor_floor_y()
 	_player_spawn_position = player.global_position
@@ -72,6 +88,14 @@ func _ready() -> void:
 	score_changed.connect(hud.set_score)
 	pause_changed.connect(hud.set_paused)
 	_show_briefing()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_SIZE_CHANGED:
+		_apply_landscape_layout()
+		player.floor_y = _get_actor_floor_y()
+		_player_spawn_position = Vector2(ledge.position.x, _get_actor_floor_y() + 14.0)
+		player.set_support_bounds(_get_support_bounds().x, _get_support_bounds().y)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -279,6 +303,96 @@ func _get_actor_floor_y() -> float:
 
 	var ledge_top_y := ledge_collision.global_position.y - (ledge_shape.size.y * 0.5)
 	return ledge_top_y - _actor_floor_offset
+
+
+func _apply_landscape_layout() -> void:
+	var viewport_size := get_viewport_rect().size
+	if viewport_size == Vector2.ZERO:
+		return
+
+	var width := viewport_size.x
+	var height := viewport_size.y
+	var side_margin := maxf(24.0, width * 0.03)
+	var field_top := 68.0
+	var field_bottom := height - 12.0
+	var ledge_width := clampf(width * 0.52, 720.0, 980.0)
+	var ledge_center_x := width * 0.5
+	var ledge_y := height * 0.72
+
+	background.offset_right = width
+	background.offset_bottom = height
+	playfield.offset_right = width
+	playfield.offset_bottom = height
+
+	playfield_shadow.offset_left = side_margin
+	playfield_shadow.offset_top = field_top
+	playfield_shadow.offset_right = width - side_margin
+	playfield_shadow.offset_bottom = field_bottom
+
+	sky_glow.offset_left = 0.0
+	sky_glow.offset_top = field_top - 10.0
+	sky_glow.offset_right = width
+	sky_glow.offset_bottom = height
+
+	lane_highlight.offset_left = side_margin + 34.0
+	lane_highlight.offset_top = field_top + 20.0
+	lane_highlight.offset_right = width - side_margin - 34.0
+	lane_highlight.offset_bottom = field_bottom - 18.0
+
+	tile_strip_a.offset_left = side_margin + 8.0
+	tile_strip_a.offset_top = field_top + 12.0
+	tile_strip_a.offset_right = width - side_margin - 8.0
+	tile_strip_a.offset_bottom = tile_strip_a.offset_top + 68.0
+
+	tile_strip_b.offset_left = side_margin + 8.0
+	tile_strip_b.offset_top = field_top + 182.0
+	tile_strip_b.offset_right = width - side_margin - 8.0
+	tile_strip_b.offset_bottom = tile_strip_b.offset_top + 72.0
+
+	tile_strip_c.offset_left = side_margin + 8.0
+	tile_strip_c.offset_top = field_top + 376.0
+	tile_strip_c.offset_right = width - side_margin - 8.0
+	tile_strip_c.offset_bottom = minf(field_bottom - 86.0, tile_strip_c.offset_top + 78.0)
+
+	ledge.position = Vector2(ledge_center_x, ledge_y + 12.0)
+	var ledge_half := ledge_width * 0.5
+	var ledge_shape := ledge_collision.shape as RectangleShape2D
+	if ledge_shape != null:
+		ledge_shape.size.x = ledge_width - 24.0
+
+	ledge_visual.offset_left = ledge_center_x - ledge_half
+	ledge_visual.offset_top = ledge_y - 2.0
+	ledge_visual.offset_right = ledge_center_x + ledge_half
+	ledge_visual.offset_bottom = ledge_y + 26.0
+
+	ledge_body_visual.offset_left = ledge_center_x - ledge_half
+	ledge_body_visual.offset_top = ledge_y + 14.0
+	ledge_body_visual.offset_right = ledge_center_x + ledge_half
+	ledge_body_visual.offset_bottom = ledge_y + 46.0
+
+	var exit_y := field_top + 86.0
+	left_exit.position = Vector2(side_margin + 118.0, exit_y)
+	right_exit.position = Vector2(width - side_margin - 118.0, exit_y)
+	left_exit_visual.offset_left = left_exit.position.x - 58.0
+	left_exit_visual.offset_top = exit_y - 28.0
+	left_exit_visual.offset_right = left_exit.position.x + 58.0
+	left_exit_visual.offset_bottom = exit_y + 38.0
+	right_exit_visual.offset_left = right_exit.position.x - 58.0
+	right_exit_visual.offset_top = exit_y - 28.0
+	right_exit_visual.offset_right = right_exit.position.x + 58.0
+	right_exit_visual.offset_bottom = exit_y + 38.0
+
+	left_exit_glow.offset_left = left_exit.position.x - 52.0
+	left_exit_glow.offset_top = exit_y - 22.0
+	left_exit_glow.offset_right = left_exit.position.x + 52.0
+	left_exit_glow.offset_bottom = exit_y + 32.0
+	right_exit_glow.offset_left = right_exit.position.x - 52.0
+	right_exit_glow.offset_top = exit_y - 22.0
+	right_exit_glow.offset_right = right_exit.position.x + 52.0
+	right_exit_glow.offset_bottom = exit_y + 32.0
+
+	spawner.position = Vector2(ledge_center_x, field_top + 34.0)
+	player.global_position = Vector2(ledge_center_x, _get_actor_floor_y() + 14.0)
 
 
 func _respawn_player_if_needed() -> void:
