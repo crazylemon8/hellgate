@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://cm8gx7f8nn2qf"]
+[gd_scene load_steps=8 format=3 uid="uid://cm8gx7f8nn2qf"]
 
 [ext_resource type="Script" uid="uid://boh575jj22iy0" path="res://scripts/ui/mobile_controls_controller.gd" id="1_a3nx1"]
+[ext_resource type="Script" path="res://scripts/ui/circular_meter.gd" id="2_tr6g1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bv1l8"]
 bg_color = Color(0.356863, 0.156863, 0.0745098, 0.22)
@@ -94,6 +95,22 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_sprint")
 theme_override_styles/hover = SubResource("StyleBoxFlat_sprint")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_sprint_pressed")
 text = ">>"
+
+[node name="SprintMeter" type="Control" parent="." unique_id=285501901]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 1
+anchors_preset = 9
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = -202.0
+offset_right = 176.0
+offset_bottom = -62.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("2_tr6g1")
 
 [node name="JoystickArea" type="Control" parent="." unique_id=700963798]
 custom_minimum_size = Vector2(220, 220)

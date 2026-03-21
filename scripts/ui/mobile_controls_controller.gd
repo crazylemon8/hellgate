@@ -11,6 +11,7 @@ const JUMP_TRIGGER_Y := -0.35
 @onready var base: Control = $JoystickArea/Base
 @onready var knob: Control = $JoystickArea/Knob
 @onready var sprint_button: Button = $SprintButton
+@onready var sprint_meter: CircularMeter = $SprintMeter
 
 var _touch_id: int = -1
 var _sprint_touch_id: int = -1
@@ -24,6 +25,7 @@ var _release_tween: Tween
 func _ready() -> void:
 	joystick_area.gui_input.connect(_on_joystick_gui_input)
 	sprint_button.gui_input.connect(_on_sprint_button_gui_input)
+	set_sprint_ratio(1.0)
 	_reset_knob()
 	_set_visual_state(false)
 
@@ -147,3 +149,7 @@ func _set_sprint_held(is_held: bool) -> void:
 
 func _is_inside_joystick(local_position: Vector2) -> bool:
 	return local_position.distance_to(_joystick_center) <= JOYSTICK_RADIUS * 1.2
+
+
+func set_sprint_ratio(current_ratio: float) -> void:
+	sprint_meter.set_ratio(current_ratio)

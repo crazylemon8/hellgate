@@ -11,7 +11,6 @@ signal pause_requested
 	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull4,
 	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull5,
 ]
-@onready var speed_meter: ProgressBar = $MarginContainer/Row/SpeedPanel/SpeedMargin/VBoxContainer/SpeedMeter
 @onready var pause_button: Button = $MarginContainer/Row/PauseButton
 
 
@@ -27,8 +26,8 @@ func set_score(total_score: int, mistakes_remaining: int) -> void:
 		skulls[index].visible = index < mistakes_remaining
 
 
-func set_speed_ratio(current_ratio: float) -> void:
-	speed_meter.value = current_ratio * 100.0
+func set_speed_ratio(_current_ratio: float) -> void:
+	pass
 
 
 func set_paused(is_paused: bool) -> void:
