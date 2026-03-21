@@ -1,16 +1,17 @@
 # Hellgate
 
-Portrait-first Godot 4.6 prototype for the gatekeeper loop.
+Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and data-driven tuning.
 
 ## Current state
 
 - Boot scene that immediately transitions into the gameplay scene
-- One portrait-oriented play lane with:
-  - a visible ledge/platform
+- One landscape-oriented play lane with:
+  - a wider visible ledge/platform
   - left/right sorting targets
   - centered player respawn on the ledge
   - skeleton spawning from a center band above the lane
-- Score, mistakes, pause, start, and retry flow
+- Start, pause, and retry flow with matching styled overlays
+- Single-score HUD with skull-based lives display
 - Data-driven balance resources under `data/`
 - Keyboard testing support and mobile-first touch controls
 - Android export/debug workflow tested locally
@@ -19,22 +20,27 @@ Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 
 - Red skeletons should end up on the left
 - Green skeletons should end up on the right
+- One shared score increases whenever either color reaches the correct exit
+- Lives are shown as five skulls; spent lives fade instead of disappearing
 - Skeletons spawn with the Phaser-inspired sorting behavior ported into Godot:
   - discrete spawn-rate ramping
   - discrete speed ramping
   - redirect lock timing
   - grounded vs airborne movement differences
+- Exit boxes include directional glow/arrow feedback
 - Actors only stay grounded while above the visible ledge support area
 - Skeletons fall if they move past the ledge edges
 - Player falls if they leave the ledge and respawns back at the center spawn point
+- Skeletons use split body/skull art with a slight randomized skull wobble
+- The slime has jump squash/stretch and speed-based stretch while moving
 
 ## Controls
 
 ### Desktop
 
-- `A` move left
-- `D` move right
-- `Space` jump
+- `A` or `Left Arrow` move left
+- `D` or `Right Arrow` move right
+- `Space` or `Up Arrow` jump
 - `Shift` sprint
 - `P` pause
 
@@ -42,8 +48,8 @@ Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 
 - Fixed-base joystick on the bottom-right
 - Upward joystick input triggers jump
-- Holding the joystick above center keeps jump active so the player jumps again after landing
-- Sprint button on the bottom-left
+- Holding the joystick above the jump threshold keeps jump active so the player jumps again after landing
+- Circular sprint button on the bottom-left with a radial sprint meter
 - Pause button in the HUD
 
 ## Important files
@@ -67,6 +73,7 @@ Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 - `scripts/game/player_input_state.gd`
 - `scripts/entities/player_controller.gd`
 - `scripts/entities/sorting_skeleton_controller.gd`
+- `scripts/ui/circular_meter.gd`
 - `scripts/ui/hud_controller.gd`
 - `scripts/ui/mobile_controls_controller.gd`
 
@@ -86,15 +93,19 @@ Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 ## Current test checklist
 
 - Confirm the project opens without parse/runtime errors
-- Verify the start overlay appears centered
+- Verify the landscape HUD fits cleanly on desktop and device
 - Start a round and verify:
   - keyboard movement and sprint work
   - mobile joystick activates reliably
-  - sprint button is visible and reachable
+  - radial sprint button is visible and reachable
   - player can redirect wrong-way skeletons
   - correct-way skeletons are pass-through
   - actors fall when leaving the ledge bounds
   - player respawns to the center of the ledge after falling off-screen
+  - score increments on correct exits
+  - skull lives fade correctly when mistakes happen
+  - exit markers show directional motion/glow
+  - slime jump/stretch and skeleton skull wobble feel subtle but visible
 
 ## Android device testing
 
@@ -115,7 +126,7 @@ Portrait-first Godot 4.6 prototype for the gatekeeper loop.
 
 ## Current gaps / next polish
 
-- Replace placeholder visuals with production art
-- Further tune joystick feel and sprint button ergonomics
-- Improve HUD and mobile safe-area polish
-- Add stronger visual feedback for redirects, exits, and mistakes
+- Further tune joystick thresholds, sprint feel, and slime movement feedback
+- Improve safe-area handling and HUD spacing across more device shapes
+- Add stronger visual feedback for redirects, scoring, and mistakes
+- Continue replacing placeholder/world-art blocks with richer production visuals
