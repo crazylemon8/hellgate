@@ -133,5 +133,5 @@ func _update_visuals() -> void:
 
 	var grounded := _is_supported()
 	body_sprite.scale = Vector2(0.9, 0.82) if _is_sprint_active and grounded else Vector2(0.86, 0.86)
-	shadow.scale.x = 1.08 if grounded else 0.78
-	shadow.modulate.a = 0.3 if grounded else 0.16
+	shadow.scale.x = 1.0 if grounded else 0.72
+	shadow.modulate.a = 0.18 if grounded else 0.08

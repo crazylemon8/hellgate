@@ -143,5 +143,5 @@ func _is_supported() -> bool:
 func _update_presentation() -> void:
 	body_sprite.flip_h = _walk_direction < 0
 	var grounded := _is_supported()
-	shadow.scale.x = 1.0 if grounded else 0.72
-	shadow.modulate.a = 0.35 if grounded else 0.18
+	shadow.scale.x = 0.92 if grounded else 0.66
+	shadow.modulate.a = 0.16 if grounded else 0.08

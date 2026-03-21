@@ -66,16 +66,16 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ScorePanel" type="PanelContainer" parent="MarginContainer/Row" unique_id=1472246145]
-custom_minimum_size = Vector2(108, 0)
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_score")
 
 [node name="ScoreMargin" type="MarginContainer" parent="MarginContainer/Row/ScorePanel" unique_id=32211258]
 layout_mode = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 8
 
 [node name="ScoreContent" type="VBoxContainer" parent="MarginContainer/Row/ScorePanel/ScoreMargin" unique_id=370034289]
 layout_mode = 2
@@ -83,7 +83,7 @@ layout_mode = 2
 [node name="Value" type="Label" parent="MarginContainer/Row/ScorePanel/ScoreMargin/ScoreContent" unique_id=307129531]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85098, 0.533333, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
 
