@@ -20,6 +20,8 @@ var _support_left_x: float = -INF
 var _support_right_x: float = INF
 var _is_sprint_active: bool = false
 var _facing := Vector2.RIGHT
+var _was_grounded: bool = true
+var _body_tween: Tween
 
 
 func _ready() -> void:
@@ -40,6 +42,7 @@ func _physics_process(delta: float) -> void:
 
 	if _input.jump_pressed and is_grounded:
 		velocity.y = _config.jump_velocity
+		_play_jump_squash()
 
 	var speed_multiplier := 1.0
 	_is_sprint_active = absf(_input.move_x) > 0.05 and _input.sprint_held and _sprint_ratio > 0.0
@@ -59,6 +62,11 @@ func _physics_process(delta: float) -> void:
 	if _is_supported():
 		global_position.y = floor_y
 		velocity.y = 0.0
+
+	var grounded_after_move := _is_supported()
+	if grounded_after_move and not _was_grounded:
+		_play_landing_squash()
+	_was_grounded = grounded_after_move
 
 	_update_facing()
 	_update_visuals()
@@ -80,8 +88,11 @@ func reset_for_round() -> void:
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
 	_facing = Vector2.RIGHT
+	_was_grounded = true
 	if _config != null:
 		_sprint_ratio = _config.initial_sprint_ratio
+	_stop_body_tween()
+	body_sprite.scale = Vector2(0.86, 0.86)
 	_update_visuals()
 	speed_meter_changed.emit(_sprint_ratio)
 
@@ -107,6 +118,9 @@ func respawn_at(spawn_position: Vector2) -> void:
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
 	_facing = Vector2.RIGHT
+	_was_grounded = true
+	_stop_body_tween()
+	body_sprite.scale = Vector2(0.86, 0.86)
 	_update_visuals()
 
 
@@ -132,6 +146,42 @@ func _update_visuals() -> void:
 		body_sprite.texture = front_texture
 
 	var grounded := _is_supported()
-	body_sprite.scale = Vector2(0.9, 0.82) if _is_sprint_active and grounded else Vector2(0.86, 0.86)
+	if not is_instance_valid(_body_tween):
+		body_sprite.scale = _get_speed_scale(grounded)
 	shadow.scale.x = 1.0 if grounded else 0.72
 	shadow.modulate.a = 0.18 if grounded else 0.08
+
+
+func _play_jump_squash() -> void:
+	_stop_body_tween()
+	_body_tween = create_tween()
+	_body_tween.set_trans(Tween.TRANS_SINE)
+	_body_tween.set_ease(Tween.EASE_OUT)
+	_body_tween.tween_property(body_sprite, "scale", Vector2(0.76, 0.98), 0.07)
+	_body_tween.tween_property(body_sprite, "scale", Vector2(0.92, 0.78), 0.12)
+
+
+func _play_landing_squash() -> void:
+	_stop_body_tween()
+	_body_tween = create_tween()
+	_body_tween.set_trans(Tween.TRANS_SINE)
+	_body_tween.set_ease(Tween.EASE_OUT)
+	_body_tween.tween_property(body_sprite, "scale", Vector2(0.98, 0.74), 0.08)
+	_body_tween.tween_property(body_sprite, "scale", _get_speed_scale(true), 0.14)
+
+
+func _stop_body_tween() -> void:
+	if is_instance_valid(_body_tween):
+		_body_tween.kill()
+	_body_tween = null
+
+
+func _get_speed_scale(grounded: bool) -> Vector2:
+	if _config == null or not grounded:
+		return Vector2(0.86, 0.86)
+
+	var max_speed := _config.move_speed * _config.sprint_multiplier
+	var speed_ratio := clampf(absf(velocity.x) / maxf(max_speed, 1.0), 0.0, 1.0)
+	var width := lerpf(0.86, 0.98, speed_ratio)
+	var height := lerpf(0.86, 0.78, speed_ratio)
+	return Vector2(width, height)

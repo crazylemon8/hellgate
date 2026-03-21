@@ -23,7 +23,7 @@ func _ready() -> void:
 func set_score(total_score: int, mistakes_remaining: int) -> void:
 	score_value.text = str(total_score)
 	for index in skulls.size():
-		skulls[index].visible = index < mistakes_remaining
+		skulls[index].modulate.a = 1.0 if index < mistakes_remaining else 0.2
 
 
 func set_speed_ratio(_current_ratio: float) -> void:
