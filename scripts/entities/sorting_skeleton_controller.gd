@@ -11,7 +11,9 @@ const RIGHT := 1
 @export var floor_y: float = 950.0
 
 @onready var body_sprite: Sprite2D = $BodySprite
+@onready var skull_sprite: Sprite2D = $SkullSprite
 @onready var shadow: Polygon2D = $Shadow
+
 var _config: SkeletonConfig
 var _color_name: String = "red"
 var _walk_direction: int = RIGHT
@@ -25,10 +27,21 @@ var _support_right_x: float = INF
 var _exited: bool = false
 var _speed_multiplier: float = 1.0
 var _redirect_lock_until_usec: int = 0
+var _bob_time: float = 0.0
+var _base_skull_position := Vector2(0, -21)
+var _bob_intensity: float = 1.0
+
+
+func _ready() -> void:
+	_base_skull_position = skull_sprite.position
+	_bob_time = randf() * TAU
+	_bob_intensity = randf_range(0.85, 1.25)
 
 func _physics_process(delta: float) -> void:
 	if _config == null or _exited:
 		return
+
+	_bob_time += delta * 7.0 * _speed_multiplier
 
 	var is_grounded := _is_supported()
 	if not is_grounded:
@@ -110,6 +123,7 @@ func _leave(side: String) -> void:
 
 func _update_visuals() -> void:
 	body_sprite.modulate = Color("#ffb0b0") if _color_name == "red" else Color("#b9ffb9")
+	skull_sprite.modulate = body_sprite.modulate
 	_update_presentation()
 
 
@@ -142,6 +156,9 @@ func _is_supported() -> bool:
 
 func _update_presentation() -> void:
 	body_sprite.flip_h = _walk_direction < 0
+	skull_sprite.flip_h = _walk_direction < 0
 	var grounded := _is_supported()
+	var bob_amount := sin(_bob_time) * (1.8 if grounded else 0.9) * _bob_intensity
+	skull_sprite.position = _base_skull_position + Vector2(bob_amount, 0.0)
 	shadow.scale.x = 0.92 if grounded else 0.66
 	shadow.modulate.a = 0.16 if grounded else 0.08

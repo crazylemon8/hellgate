@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bai0rl5huvfxy"]
+[gd_scene load_steps=6 format=3 uid="uid://bai0rl5huvfxy"]
 
 [ext_resource type="Script" path="res://scripts/entities/sorting_skeleton_controller.gd" id="1_tsr3r"]
-[ext_resource type="Texture2D" path="res://assets/entities/sorting_skeleton.svg" id="2_8qg0b"]
+[ext_resource type="Texture2D" path="res://assets/entities/sorting_skeleton_body.svg" id="2_8qg0b"]
+[ext_resource type="Texture2D" path="res://assets/entities/sorting_skeleton_skull.svg" id="3_uyw4m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ion57"]
 size = Vector2(42, 74)
@@ -22,6 +23,11 @@ position = Vector2(0, 29)
 
 [node name="BodySprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_8qg0b")
+position = Vector2(0, -21)
+scale = Vector2(0.9, 0.9)
+
+[node name="SkullSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_uyw4m")
 position = Vector2(0, -21)
 scale = Vector2(0.9, 0.9)
 
