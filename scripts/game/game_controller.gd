@@ -1,7 +1,7 @@
 extends Node2D
 class_name GameController
 
-signal score_changed(red_sorted: int, green_sorted: int, mistakes_remaining: int)
+signal score_changed(total_score: int, mistakes_remaining: int)
 signal pause_changed(is_paused: bool)
 signal game_over(final_state: Dictionary)
 
@@ -139,7 +139,7 @@ func begin_round() -> void:
 	wave_director.start_round()
 	_set_gameplay_frozen(false)
 
-	score_changed.emit(_red_sorted, _green_sorted, _mistakes_remaining)
+	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	pause_changed.emit(false)
 
 
@@ -201,7 +201,7 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 	else:
 		_mistakes_remaining -= 1
 
-	score_changed.emit(_red_sorted, _green_sorted, _mistakes_remaining)
+	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	if _mistakes_remaining <= 0:
 		_round_state = RoundState.GAME_OVER
 		wave_director.stop_round()
@@ -210,11 +210,7 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 		game_over_overlay.visible = true
 		var total_resolved := _resolved_count + 1
 		var final_score := _red_sorted + _green_sorted
-		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d | Red: %d | Green: %d" % [
-			final_score,
-			_red_sorted,
-			_green_sorted,
-		]
+		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d" % [final_score]
 		game_over.emit(
 			{
 				"red_sorted": _red_sorted,
@@ -266,7 +262,7 @@ func _show_briefing() -> void:
 	player.reset_for_round()
 	player.global_position = _player_spawn_position
 	_set_gameplay_frozen(true)
-	score_changed.emit(_red_sorted, _green_sorted, _mistakes_remaining)
+	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	pause_changed.emit(false)
 
 

@@ -3,11 +3,16 @@ class_name HudController
 
 signal pause_requested
 
-@onready var red_value: Label = $MarginContainer/VBoxContainer/ScoreRow/RedPanel/RedMargin/VBoxContainer/Value
-@onready var mistakes_value: Label = $MarginContainer/VBoxContainer/ScoreRow/MistakesPanel/MistakesMargin/VBoxContainer/Value
-@onready var green_value: Label = $MarginContainer/VBoxContainer/ScoreRow/GreenPanel/GreenMargin/VBoxContainer/Value
-@onready var speed_meter: ProgressBar = $MarginContainer/VBoxContainer/UtilityRow/SpeedPanel/SpeedMargin/VBoxContainer/SpeedMeter
-@onready var pause_button: Button = $MarginContainer/VBoxContainer/UtilityRow/PauseButton
+@onready var score_value: Label = $ScoreCenter/ScorePanel/ScoreMargin/ScoreContent/Value
+@onready var skulls: Array[TextureRect] = [
+	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull1,
+	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull2,
+	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull3,
+	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull4,
+	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull5,
+]
+@onready var speed_meter: ProgressBar = $MarginContainer/Row/SpeedPanel/SpeedMargin/VBoxContainer/SpeedMeter
+@onready var pause_button: Button = $MarginContainer/Row/PauseButton
 
 
 func _ready() -> void:
@@ -16,10 +21,10 @@ func _ready() -> void:
 	)
 
 
-func set_score(red_sorted: int, green_sorted: int, mistakes_remaining: int) -> void:
-	red_value.text = str(red_sorted)
-	green_value.text = str(green_sorted)
-	mistakes_value.text = str(mistakes_remaining)
+func set_score(total_score: int, mistakes_remaining: int) -> void:
+	score_value.text = str(total_score)
+	for index in skulls.size():
+		skulls[index].visible = index < mistakes_remaining
 
 
 func set_speed_ratio(current_ratio: float) -> void:
@@ -27,4 +32,4 @@ func set_speed_ratio(current_ratio: float) -> void:
 
 
 func set_paused(is_paused: bool) -> void:
-	pause_button.text = "Resume" if is_paused else "Pause"
+	pause_button.text = ">" if is_paused else "II"
