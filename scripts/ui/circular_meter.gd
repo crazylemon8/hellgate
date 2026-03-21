@@ -3,7 +3,7 @@ class_name CircularMeter
 
 @export var track_color: Color = Color(0.278431, 0.113725, 0.082353, 0.45)
 @export var fill_color: Color = Color(1.0, 0.560784, 0.25098, 0.95)
-@export var line_width: float = 8.0
+@export var line_width: float = 5.0
 @export var start_angle_deg: float = -90.0
 @export var max_angle_deg: float = 360.0
 

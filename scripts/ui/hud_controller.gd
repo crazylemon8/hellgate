@@ -3,7 +3,7 @@ class_name HudController
 
 signal pause_requested
 
-@onready var score_value: Label = $ScoreCenter/ScorePanel/ScoreMargin/ScoreContent/Value
+@onready var score_value: Label = $MarginContainer/Row/ScorePanel/ScoreMargin/ScoreContent/Value
 @onready var skulls: Array[TextureRect] = [
 	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull1,
 	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull2,

@@ -33,11 +33,13 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.478431, 0.192157, 0.109804, 0.8)
+border_color = Color(0.756863, 0.341176, 0.160784, 0.95)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.24)
+shadow_size = 8
 
 [node name="TopHUD" type="Control" unique_id=2048273423]
 layout_mode = 3
@@ -53,15 +55,41 @@ script = ExtResource("1_8m4o0")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 12.0
-offset_top = 12.0
-offset_right = -12.0
+offset_left = 22.0
+offset_top = 20.0
+offset_right = -22.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
 [node name="Row" type="HBoxContainer" parent="MarginContainer" unique_id=1649284979]
 layout_mode = 2
 theme_override_constants/separation = 8
+
+[node name="ScorePanel" type="PanelContainer" parent="MarginContainer/Row" unique_id=1472246145]
+custom_minimum_size = Vector2(108, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_score")
+
+[node name="ScoreMargin" type="MarginContainer" parent="MarginContainer/Row/ScorePanel" unique_id=32211258]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 6
+
+[node name="ScoreContent" type="VBoxContainer" parent="MarginContainer/Row/ScorePanel/ScoreMargin" unique_id=370034289]
+layout_mode = 2
+
+[node name="Value" type="Label" parent="MarginContainer/Row/ScorePanel/ScoreMargin/ScoreContent" unique_id=307129531]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85098, 0.533333, 1)
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 1
+
+[node name="LeftSpacer" type="Control" parent="MarginContainer/Row" unique_id=2096362838]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="SkullsPanel" type="PanelContainer" parent="MarginContainer/Row" unique_id=12466453]
 custom_minimum_size = Vector2(172, 0)
@@ -115,7 +143,7 @@ texture = ExtResource("2_4ab1g")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Spacer" type="Control" parent="MarginContainer/Row" unique_id=2096362838]
+[node name="RightSpacer" type="Control" parent="MarginContainer/Row" unique_id=2096362839]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -132,35 +160,3 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pause")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pause")
 theme_override_styles/focus = SubResource("StyleBoxFlat_pause")
 text = "II"
-
-[node name="ScoreCenter" type="CenterContainer" parent="." unique_id=600001]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 12.0
-offset_top = 12.0
-offset_right = -12.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="ScorePanel" type="PanelContainer" parent="ScoreCenter" unique_id=1472246145]
-custom_minimum_size = Vector2(104, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_score")
-
-[node name="ScoreMargin" type="MarginContainer" parent="ScoreCenter/ScorePanel" unique_id=32211258]
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 6
-
-[node name="ScoreContent" type="VBoxContainer" parent="ScoreCenter/ScorePanel/ScoreMargin" unique_id=370034289]
-layout_mode = 2
-
-[node name="Value" type="Label" parent="ScoreCenter/ScorePanel/ScoreMargin/ScoreContent" unique_id=307129531]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8235294, 0.49019608, 1)
-theme_override_font_sizes/font_size = 16
-text = "0"
-horizontal_alignment = 1
