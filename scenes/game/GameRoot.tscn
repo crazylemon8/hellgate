@@ -40,7 +40,7 @@ offset_bottom = 650.0
 color = Color(0.0196078, 0.00784314, 0.00784314, 0.42)
 
 [node name="Ledge" type="StaticBody2D" parent="World" unique_id=2008253991]
-position = Vector2(640, 516)
+position = Vector2(640, 551)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ledge" unique_id=1502198024]
@@ -87,16 +87,16 @@ color = Color(0.329412, 0.129412, 0.0901961, 0.4)
 
 [node name="LedgeVisual" type="ColorRect" parent="World" unique_id=589490616]
 offset_left = 250.0
-offset_top = 502.0
+offset_top = 555.0
 offset_right = 1030.0
-offset_bottom = 534.0
+offset_bottom = 587.0
 color = Color(0.984314, 0.470588, 0.133333, 1)
 
 [node name="LedgeBody" type="ColorRect" parent="World" unique_id=1734127113]
 offset_left = 250.0
-offset_top = 518.0
+offset_top = 571.0
 offset_right = 1030.0
-offset_bottom = 550.0
+offset_bottom = 603.0
 color = Color(0.458824, 0.215686, 0.141176, 1)
 
 [node name="ExitMarkers" type="Node2D" parent="World" unique_id=2040822956]
@@ -141,7 +141,8 @@ position = Vector2(640, 94)
 [node name="Entities" type="Node2D" parent="World" unique_id=276688312]
 
 [node name="Player" parent="World/Entities" unique_id=2105476920 instance=ExtResource("2_tpp0h")]
-position = Vector2(640, 470)
+position = Vector2(640, 546)
+scale = Vector2(0.75, 0.75)
 
 [node name="Enemies" type="Node2D" parent="World/Entities" unique_id=929797895]
 
@@ -153,10 +154,6 @@ spawn_anchor_path = NodePath("../World/Spawner")
 [node name="UI" type="CanvasLayer" parent="." unique_id=942919827]
 
 [node name="TopHUD" parent="UI" unique_id=67419299 instance=ExtResource("9_w3mrt")]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="StartOverlay" parent="UI" unique_id=183486329 instance=ExtResource("10_u2g0s")]
 

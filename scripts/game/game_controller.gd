@@ -60,7 +60,7 @@ var _mistakes_remaining: int = 0
 var _resolved_count: int = 0
 var _redirect_contact_radius: float = 74.0
 var _push_block_radius: float = 42.0
-var _actor_floor_offset: float = 32.0
+var _actor_floor_offset: float = 10.0
 
 
 func _ready() -> void:
@@ -94,7 +94,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_SIZE_CHANGED:
 		_apply_landscape_layout()
 		player.floor_y = _get_actor_floor_y()
-		_player_spawn_position = Vector2(ledge.position.x, _get_actor_floor_y() + 14.0)
+		_player_spawn_position = Vector2(ledge.position.x, _get_actor_floor_y() + 10.0)
 		player.set_support_bounds(_get_support_bounds().x, _get_support_bounds().y)
 
 
@@ -370,7 +370,7 @@ func _apply_landscape_layout() -> void:
 	ledge_body_visual.offset_right = ledge_center_x + ledge_half
 	ledge_body_visual.offset_bottom = ledge_y + 46.0
 
-	var exit_y := field_top + 86.0
+	var exit_y := field_top + 118.0
 	left_exit.position = Vector2(side_margin + 118.0, exit_y)
 	right_exit.position = Vector2(width - side_margin - 118.0, exit_y)
 	left_exit_visual.offset_left = left_exit.position.x - 58.0
@@ -391,8 +391,8 @@ func _apply_landscape_layout() -> void:
 	right_exit_glow.offset_right = right_exit.position.x + 52.0
 	right_exit_glow.offset_bottom = exit_y + 32.0
 
-	spawner.position = Vector2(ledge_center_x, field_top + 34.0)
-	player.global_position = Vector2(ledge_center_x, _get_actor_floor_y() + 14.0)
+	spawner.position = Vector2(ledge_center_x, field_top + 92.0)
+	player.global_position = Vector2(ledge_center_x, _get_actor_floor_y() + 10.0)
 
 
 func _respawn_player_if_needed() -> void:
