@@ -1,5 +1,10 @@
 [gd_scene format=3 uid="uid://b7sknqktd542m"]
 
+[ext_resource type="Texture2D" uid="uid://tjiwyoroxlc" path="res://assets/ui/sprint_icon.svg" id="1_x1b2r"]
+[ext_resource type="Texture2D" uid="uid://cyaropax1o461" path="res://assets/entities/player_slime_right.svg" id="2_4f5kd"]
+[ext_resource type="Texture2D" uid="uid://7t5wvdfvrbj1" path="res://assets/entities/sorting_skeleton.svg" id="3_h5c4u"]
+[ext_resource type="Texture2D" uid="uid://b1i61d8027wfy" path="res://assets/entities/player_slime_left.svg" id="4_w7n1m"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_card"]
 border_width_left = 10
 border_width_top = 10
@@ -10,6 +15,30 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_mini_red"]
+bg_color = Color(0.176471, 0.0431373, 0.054902, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.890196, 0.372549, 0.372549, 0.6)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_mini_green"]
+bg_color = Color(0.0823529, 0.121569, 0.0705882, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.470588, 0.890196, 0.588235, 0.55)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
 [node name="StartOverlay" type="Control" unique_id=1390783970]
 layout_mode = 3
@@ -60,15 +89,117 @@ theme_override_constants/separation = 18
 [node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=1980332430]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.729412, 0.270588, 1)
-theme_override_font_sizes/font_size = 34
-text = "HOLD THE GATE"
+theme_override_font_sizes/font_size = 20
+text = "GATEKEEPER BRIEFING"
+horizontal_alignment = 1
+
+[node name="StartCards" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=1554026580]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="RedCard" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards" unique_id=269976240]
+custom_minimum_size = Vector2(212, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_start_mini_red")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard" unique_id=299632504]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin" unique_id=593720245]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Illustration" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin/Content" unique_id=872558323]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin/Content/Illustration" unique_id=1202689690]
+modulate = Color(1, 0.52549, 0.52549, 1)
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("1_x1b2r")
+stretch_mode = 5
+flip_h = true
+
+[node name="Skull" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin/Content/Illustration" unique_id=180620712]
+modulate = Color(1, 0.72, 0.72, 1)
+custom_minimum_size = Vector2(26, 40)
+layout_mode = 2
+texture = ExtResource("3_h5c4u")
+stretch_mode = 5
+
+[node name="Slime" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin/Content/Illustration" unique_id=1133134077]
+custom_minimum_size = Vector2(42, 32)
+layout_mode = 2
+texture = ExtResource("4_w7n1m")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/RedCard/Margin/Content" unique_id=1926205023]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.772549, 0.772549, 1)
+theme_override_font_sizes/font_size = 18
+text = "Push red left"
+horizontal_alignment = 1
+
+[node name="GreenCard" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards" unique_id=1704353074]
+custom_minimum_size = Vector2(212, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_start_mini_green")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard" unique_id=1438969109]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin" unique_id=1301741606]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Illustration" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin/Content" unique_id=1353029585]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Slime" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin/Content/Illustration" unique_id=1942652763]
+custom_minimum_size = Vector2(42, 32)
+layout_mode = 2
+texture = ExtResource("2_4f5kd")
+stretch_mode = 5
+
+[node name="Skull" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin/Content/Illustration" unique_id=1238059107]
+modulate = Color(0.82, 1, 0.84, 1)
+custom_minimum_size = Vector2(26, 40)
+layout_mode = 2
+texture = ExtResource("3_h5c4u")
+stretch_mode = 5
+
+[node name="Arrow" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin/Content/Illustration" unique_id=2024757307]
+modulate = Color(0.545098, 1, 0.647059, 1)
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("1_x1b2r")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/StartCards/GreenCard/Margin/Content" unique_id=689086669]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 1, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+text = "Push green right"
 horizontal_alignment = 1
 
 [node name="Body" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=663232504]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.917647, 0.835294, 1)
 theme_override_font_sizes/font_size = 18
-text = "Sort red skeletons left and green skeletons right. Intercept the ones walking the wrong way before mistakes run out."
+text = "Red skeletons must fall left. Green skeletons must fall right. Hold the ledge and sort the dead before all five skull lives are spent."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -81,4 +212,4 @@ theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1
 theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
 theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
 theme_override_font_sizes/font_size = 24
-text = "Start Round"
+text = "Start"

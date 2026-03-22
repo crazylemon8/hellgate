@@ -7,6 +7,7 @@ signal resolved
 
 const LEFT := -1
 const RIGHT := 1
+const SUPPORT_SNAP_MARGIN := 18.0
 
 @export var floor_y: float = 950.0
 
@@ -151,7 +152,12 @@ func push_from_player(player_position: Vector2) -> void:
 
 
 func _is_supported() -> bool:
-	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x
+	return (
+		global_position.y >= floor_y
+		and global_position.y <= floor_y + SUPPORT_SNAP_MARGIN
+		and global_position.x >= _support_left_x
+		and global_position.x <= _support_right_x
+	)
 
 
 func _update_presentation() -> void:

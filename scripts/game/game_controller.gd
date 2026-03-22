@@ -47,6 +47,7 @@ enum RoundState {
 @onready var start_overlay: Control = $UI/StartOverlay
 @onready var pause_overlay: Control = $UI/PauseOverlay
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
+@onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
 @onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/RestartButton
@@ -84,6 +85,8 @@ func _ready() -> void:
 	hud.pause_requested.connect(_on_pause_requested)
 	mobile_controls.input_changed.connect(_on_mobile_input_changed)
 	start_button.pressed.connect(begin_round)
+	start_backdrop.gui_input.connect(_on_start_overlay_input)
+	start_overlay.gui_input.connect(_on_start_overlay_input)
 	resume_button.pressed.connect(_on_resume_requested)
 	pause_restart_button.pressed.connect(restart_round)
 	game_over_retry_button.pressed.connect(restart_round)
@@ -101,6 +104,11 @@ func _notification(what: int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _round_state == RoundState.BRIEFING and _should_begin_from_input(event):
+		begin_round()
+		get_viewport().set_input_as_handled()
+		return
+
 	if event.is_action_pressed("pause"):
 		match _round_state:
 			RoundState.RUNNING:
@@ -247,6 +255,16 @@ func _on_mobile_input_changed(input_state: PlayerInputState) -> void:
 	resolve_mobile_input(input_state)
 
 
+func _on_start_overlay_input(event: InputEvent) -> void:
+	if _round_state != RoundState.BRIEFING:
+		return
+
+	if event is InputEventScreenTouch and event.pressed:
+		begin_round()
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		begin_round()
+
+
 func _show_briefing() -> void:
 	for enemy in enemies.get_children():
 		enemy.queue_free()
@@ -267,6 +285,13 @@ func _show_briefing() -> void:
 	_set_gameplay_frozen(true)
 	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	pause_changed.emit(false)
+
+
+func _should_begin_from_input(event: InputEvent) -> bool:
+	if event is InputEventKey and event.pressed and not event.echo:
+		return event.is_action("move_left") or event.is_action("move_right") or event.is_action("jump") or event.is_action("sprint")
+
+	return false
 
 
 func _choose_axis(desktop_axis: float, mobile_axis: float) -> float:

@@ -3,6 +3,8 @@ class_name PlayerController
 
 signal speed_meter_changed(current_ratio: float)
 
+const SUPPORT_SNAP_MARGIN := 18.0
+
 @export var floor_y: float = 950.0
 @export var front_texture: Texture2D
 @export var back_texture: Texture2D
@@ -110,7 +112,12 @@ func set_support_bounds(left_x: float, right_x: float) -> void:
 
 
 func _is_supported() -> bool:
-	return global_position.y >= floor_y and global_position.x >= _support_left_x and global_position.x <= _support_right_x
+	return (
+		global_position.y >= floor_y
+		and global_position.y <= floor_y + SUPPORT_SNAP_MARGIN
+		and global_position.x >= _support_left_x
+		and global_position.x <= _support_right_x
+	)
 
 
 func respawn_at(spawn_position: Vector2) -> void:
