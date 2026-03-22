@@ -31,7 +31,9 @@ enum RoundState {
 @onready var ledge: StaticBody2D = $World/Ledge
 @onready var ledge_collision: CollisionShape2D = $World/Ledge/CollisionShape2D
 @onready var ledge_visual: ColorRect = $World/LedgeVisual
+@onready var ledge_highlight: ColorRect = $World/LedgeHighlight
 @onready var ledge_body_visual: ColorRect = $World/LedgeBody
+@onready var ledge_shadow_visual: ColorRect = $World/LedgeShadow
 @onready var left_exit: Marker2D = $World/ExitMarkers/LeftExit
 @onready var right_exit: Marker2D = $World/ExitMarkers/RightExit
 @onready var left_exit_visual: ColorRect = $World/LeftExitVisual
@@ -361,11 +363,19 @@ func _apply_landscape_layout() -> void:
 	ledge_visual.offset_top = ledge_y - 2.0
 	ledge_visual.offset_right = ledge_center_x + ledge_half
 	ledge_visual.offset_bottom = ledge_y + 26.0
+	ledge_highlight.offset_left = ledge_center_x - ledge_half + 6.0
+	ledge_highlight.offset_top = ledge_y + 1.0
+	ledge_highlight.offset_right = ledge_center_x + ledge_half - 6.0
+	ledge_highlight.offset_bottom = ledge_y + 7.0
 
 	ledge_body_visual.offset_left = ledge_center_x - ledge_half
 	ledge_body_visual.offset_top = ledge_y + 14.0
 	ledge_body_visual.offset_right = ledge_center_x + ledge_half
 	ledge_body_visual.offset_bottom = ledge_y + 46.0
+	ledge_shadow_visual.offset_left = ledge_center_x - ledge_half + 10.0
+	ledge_shadow_visual.offset_top = ledge_y + 46.0
+	ledge_shadow_visual.offset_right = ledge_center_x + ledge_half - 10.0
+	ledge_shadow_visual.offset_bottom = ledge_y + 58.0
 
 	var exit_y := field_top + 118.0
 	left_exit.position = Vector2(side_margin + 118.0, exit_y)

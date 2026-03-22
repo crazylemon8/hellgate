@@ -92,12 +92,26 @@ offset_right = 1030.0
 offset_bottom = 587.0
 color = Color(0.984314, 0.470588, 0.133333, 1)
 
+[node name="LedgeHighlight" type="ColorRect" parent="World" unique_id=589490617]
+offset_left = 254.0
+offset_top = 558.0
+offset_right = 1026.0
+offset_bottom = 564.0
+color = Color(1, 0.780392, 0.482353, 0.42)
+
 [node name="LedgeBody" type="ColorRect" parent="World" unique_id=1734127113]
 offset_left = 250.0
 offset_top = 571.0
 offset_right = 1030.0
 offset_bottom = 603.0
 color = Color(0.458824, 0.215686, 0.141176, 1)
+
+[node name="LedgeShadow" type="ColorRect" parent="World" unique_id=1734127114]
+offset_left = 258.0
+offset_top = 603.0
+offset_right = 1022.0
+offset_bottom = 615.0
+color = Color(0.0705882, 0.0235294, 0.027451, 0.18)
 
 [node name="ExitMarkers" type="Node2D" parent="World" unique_id=2040822956]
 
