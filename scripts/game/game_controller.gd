@@ -7,9 +7,19 @@ signal game_over(final_state: Dictionary)
 
 enum RoundState {
 	BRIEFING,
+	TUTORIAL,
 	RUNNING,
 	PAUSED,
 	GAME_OVER,
+}
+
+enum TutorialStep {
+	NONE,
+	SORT_RED,
+	SORT_GREEN,
+	USE_SPRINT,
+	USE_JUMP,
+	COMPLETE,
 }
 
 @export var game_balance: GameBalanceConfig
@@ -47,6 +57,7 @@ enum RoundState {
 @onready var start_overlay: Control = $UI/StartOverlay
 @onready var pause_overlay: Control = $UI/PauseOverlay
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
+@onready var tutorial_overlay: TutorialOverlayController = $UI/TutorialOverlay
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
@@ -64,6 +75,9 @@ var _resolved_count: int = 0
 var _redirect_contact_radius: float = 74.0
 var _push_block_radius: float = 42.0
 var _actor_floor_offset: float = 10.0
+var _tutorial_step: TutorialStep = TutorialStep.NONE
+var _tutorial_sprint_progress: float = 0.0
+var _tutorial_finishing: bool = false
 
 
 func _ready() -> void:
@@ -80,6 +94,7 @@ func _ready() -> void:
 	var support_bounds := _get_support_bounds()
 	player.set_support_bounds(support_bounds.x, support_bounds.y)
 	player.speed_meter_changed.connect(_on_player_speed_meter_changed)
+	player.jumped.connect(_on_player_jumped)
 	wave_director.spawn_skeleton.connect(_on_spawn_skeleton_requested)
 	wave_director.configure(wave_config)
 	hud.pause_requested.connect(_on_pause_requested)
@@ -92,7 +107,10 @@ func _ready() -> void:
 	game_over_retry_button.pressed.connect(restart_round)
 	score_changed.connect(hud.set_score)
 	pause_changed.connect(hud.set_paused)
-	_show_briefing()
+	if SaveState.is_tutorial_completed():
+		_show_briefing()
+	else:
+		_begin_tutorial()
 
 
 func _notification(what: int) -> void:
@@ -119,14 +137,17 @@ func _unhandled_input(event: InputEvent) -> void:
 				restart_round()
 
 
-func _physics_process(_delta: float) -> void:
-	if _round_state != RoundState.RUNNING:
+func _physics_process(delta: float) -> void:
+	if _round_state != RoundState.RUNNING and _round_state != RoundState.TUTORIAL:
 		player.apply_input(PlayerInputState.new())
 		return
 
-	player.apply_input(_build_player_input())
+	var player_input := _build_player_input()
+	player.apply_input(player_input)
 	_process_redirect_contacts()
 	_respawn_player_if_needed()
+	if _round_state == RoundState.TUTORIAL:
+		_process_tutorial_progress(player_input, delta)
 
 
 func begin_round() -> void:
@@ -140,6 +161,7 @@ func begin_round() -> void:
 	_round_state = RoundState.RUNNING
 
 	start_overlay.visible = false
+	tutorial_overlay.hide_overlay()
 	pause_overlay.visible = false
 	game_over_overlay.visible = false
 	_mobile_input = PlayerInputState.new()
@@ -188,6 +210,10 @@ func _build_player_input() -> PlayerInputState:
 
 
 func _on_spawn_skeleton_requested(color_name: String, spawn_position: Vector2) -> void:
+	_spawn_skeleton(color_name, spawn_position)
+
+
+func _spawn_skeleton(color_name: String, spawn_position: Vector2) -> SortingSkeletonController:
 	var skeleton := skeleton_scene.instantiate() as SortingSkeletonController
 	enemies.add_child(skeleton)
 	skeleton.global_position = spawn_position
@@ -199,9 +225,14 @@ func _on_spawn_skeleton_requested(color_name: String, spawn_position: Vector2) -
 	skeleton.set_support_bounds(support_bounds.x, support_bounds.y)
 	skeleton.exited.connect(_on_skeleton_exited)
 	skeleton.resolved.connect(_on_skeleton_resolved)
+	return skeleton
 
 
 func _on_skeleton_exited(side: String, color_name: String) -> void:
+	if _round_state == RoundState.TUTORIAL:
+		_handle_tutorial_skeleton_exit(side, color_name)
+		return
+
 	var was_correct := (color_name == "red" and side == "left") or (color_name == "green" and side == "right")
 	if was_correct:
 		if color_name == "red":
@@ -231,6 +262,9 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 
 
 func _on_skeleton_resolved() -> void:
+	if _round_state == RoundState.TUTORIAL:
+		return
+
 	_resolved_count += 1
 	wave_director.on_skeleton_resolved(_resolved_count)
 
@@ -255,6 +289,11 @@ func _on_mobile_input_changed(input_state: PlayerInputState) -> void:
 	resolve_mobile_input(input_state)
 
 
+func _on_player_jumped() -> void:
+	if _round_state == RoundState.TUTORIAL and _tutorial_step == TutorialStep.USE_JUMP:
+		_advance_tutorial(TutorialStep.COMPLETE)
+
+
 func _on_start_overlay_input(event: InputEvent) -> void:
 	if _round_state != RoundState.BRIEFING:
 		return
@@ -276,6 +315,7 @@ func _show_briefing() -> void:
 	_round_state = RoundState.BRIEFING
 	wave_director.stop_round()
 	start_overlay.visible = true
+	tutorial_overlay.hide_overlay()
 	pause_overlay.visible = false
 	game_over_overlay.visible = false
 	_mobile_input = PlayerInputState.new()
@@ -285,6 +325,88 @@ func _show_briefing() -> void:
 	_set_gameplay_frozen(true)
 	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	pause_changed.emit(false)
+
+
+func _begin_tutorial() -> void:
+	for enemy in enemies.get_children():
+		enemy.queue_free()
+
+	_round_state = RoundState.TUTORIAL
+	_red_sorted = 0
+	_green_sorted = 0
+	_resolved_count = 0
+	_mistakes_remaining = game_balance.allowed_mistakes
+	_tutorial_step = TutorialStep.NONE
+	_tutorial_sprint_progress = 0.0
+	_tutorial_finishing = false
+	wave_director.stop_round()
+	start_overlay.visible = false
+	pause_overlay.visible = false
+	game_over_overlay.visible = false
+	_mobile_input = PlayerInputState.new()
+	mobile_controls.reset_input()
+	player.reset_for_round()
+	player.global_position = _player_spawn_position
+	_set_gameplay_frozen(false)
+	score_changed.emit(0, _mistakes_remaining)
+	pause_changed.emit(false)
+	_advance_tutorial(TutorialStep.SORT_RED)
+
+
+func _advance_tutorial(next_step: TutorialStep) -> void:
+	_tutorial_step = next_step
+	match next_step:
+		TutorialStep.SORT_RED:
+			tutorial_overlay.show_message("Tutorial 1/4", "Red skeletons belong on the left. Push this one left.")
+			_spawn_tutorial_skeleton("red")
+		TutorialStep.SORT_GREEN:
+			tutorial_overlay.show_message("Tutorial 2/4", "Green skeletons belong on the right. Push this one right.")
+			_spawn_tutorial_skeleton("green")
+		TutorialStep.USE_SPRINT:
+			tutorial_overlay.show_message("Tutorial 3/4", "Hold the sprint button while moving to build speed.")
+			_tutorial_sprint_progress = 0.0
+		TutorialStep.USE_JUMP:
+			tutorial_overlay.show_message("Tutorial 4/4", "Push the joystick upward to jump once.")
+		TutorialStep.COMPLETE:
+			_finish_tutorial()
+
+
+func _spawn_tutorial_skeleton(color_name: String) -> void:
+	for enemy in enemies.get_children():
+		enemy.queue_free()
+	_spawn_skeleton(color_name, spawner.global_position)
+
+
+func _handle_tutorial_skeleton_exit(side: String, color_name: String) -> void:
+	var was_correct := (color_name == "red" and side == "left") or (color_name == "green" and side == "right")
+	if was_correct:
+		if _tutorial_step == TutorialStep.SORT_RED:
+			_advance_tutorial(TutorialStep.SORT_GREEN)
+		elif _tutorial_step == TutorialStep.SORT_GREEN:
+			_advance_tutorial(TutorialStep.USE_SPRINT)
+	else:
+		_spawn_tutorial_skeleton(color_name)
+
+
+func _process_tutorial_progress(player_input: PlayerInputState, delta: float) -> void:
+	if _tutorial_step == TutorialStep.USE_SPRINT:
+		if player_input.sprint_held and absf(player_input.move_x) > 0.2:
+			_tutorial_sprint_progress += delta
+			if _tutorial_sprint_progress >= 0.55:
+				_advance_tutorial(TutorialStep.USE_JUMP)
+		else:
+			_tutorial_sprint_progress = 0.0
+
+
+func _finish_tutorial() -> void:
+	if _tutorial_finishing:
+		return
+
+	_tutorial_finishing = true
+	tutorial_overlay.show_message("You're ready", "Hold the gate.")
+	SaveState.set_tutorial_completed(true)
+	await get_tree().create_timer(0.8).timeout
+	begin_round()
 
 
 func _should_begin_from_input(event: InputEvent) -> bool:

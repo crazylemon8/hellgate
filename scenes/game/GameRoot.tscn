@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b4g3j6w5gb7e5" path="res://scenes/ui/PauseOverlay.tscn" id="11_0p4fi"]
 [ext_resource type="PackedScene" uid="uid://rd2rqlw5jk7s" path="res://scenes/ui/GameOverOverlay.tscn" id="12_iwxuo"]
 [ext_resource type="PackedScene" uid="uid://cm8gx7f8nn2qf" path="res://scenes/ui/TouchControls.tscn" id="13_m7l1d"]
+[ext_resource type="PackedScene" path="res://scenes/ui/TutorialOverlay.tscn" id="14_n7i1l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xs5i4"]
 size = Vector2(760, 28)
@@ -175,6 +176,9 @@ spawn_anchor_path = NodePath("../World/Spawner")
 visible = false
 
 [node name="GameOverOverlay" parent="UI" unique_id=475305767 instance=ExtResource("12_iwxuo")]
+visible = false
+
+[node name="TutorialOverlay" parent="UI" instance=ExtResource("14_n7i1l")]
 visible = false
 
 [node name="MobileControls" parent="UI" unique_id=561917897 instance=ExtResource("13_m7l1d")]

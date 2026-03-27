@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name PlayerController
 
 signal speed_meter_changed(current_ratio: float)
+signal jumped
 
 const SUPPORT_SNAP_MARGIN := 18.0
 
@@ -44,6 +45,7 @@ func _physics_process(delta: float) -> void:
 
 	if _input.jump_pressed and is_grounded:
 		velocity.y = _config.jump_velocity
+		jumped.emit()
 		_play_jump_squash()
 
 	var speed_multiplier := 1.0
