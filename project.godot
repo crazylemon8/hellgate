@@ -18,6 +18,10 @@ config/name="Hellgate"
 run/main_scene="res://scenes/boot/Bootstrap.tscn"
 config/features=PackedStringArray("4.6")
 config/icon="res://assets/ui/icon.svg"
+boot_splash/bg_color=Color(0.0901961, 0.0235294, 0.0196078, 1)
+boot_splash/image="res://assets/ui/boot_splash.svg"
+boot_splash/fullsize=true
+boot_splash/use_filter=false
 
 [display]
 
