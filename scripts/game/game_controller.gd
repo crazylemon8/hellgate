@@ -270,7 +270,6 @@ func _on_skeleton_resolved() -> void:
 
 
 func _on_player_speed_meter_changed(_current_ratio: float) -> void:
-	hud.set_speed_ratio(_current_ratio)
 	mobile_controls.set_sprint_ratio(_current_ratio)
 
 

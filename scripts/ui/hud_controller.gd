@@ -44,11 +44,6 @@ func set_score(total_score: int, mistakes_remaining: int) -> void:
 
 	_last_mistakes_remaining = mistakes_remaining
 
-
-func set_speed_ratio(_current_ratio: float) -> void:
-	pass
-
-
 func set_paused(is_paused: bool) -> void:
 	pause_button.text = ">" if is_paused else "II"
 

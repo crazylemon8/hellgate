@@ -4,13 +4,21 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 
 ## Current state
 
-- Boot scene that immediately transitions into the gameplay scene
+- Branded startup flow with:
+  - custom engine boot splash art
+  - minimal `HELLGATE` logo + breathing slime intro
+  - clean fade into gameplay
 - One landscape-oriented play lane with:
   - a wider visible ledge/platform
   - left/right sorting targets
   - centered player respawn on the ledge
   - skeleton spawning from a center band above the lane
 - Start, pause, and retry flow with matching styled overlays
+- First-run tutorial flow that teaches:
+  - push red left
+  - push green right
+  - sprint
+  - jump
 - Single-score HUD with skull-based lives display
 - Data-driven balance resources under `data/`
 - Keyboard testing support and mobile-first touch controls
@@ -22,6 +30,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - Green skeletons should end up on the right
 - One shared score increases whenever either color reaches the correct exit
 - Lives are shown as five skulls; spent lives fade instead of disappearing
+- Spent skull lives play a white dust poof instead of reflowing the HUD
 - Skeletons spawn with the Phaser-inspired sorting behavior ported into Godot:
   - discrete spawn-rate ramping
   - discrete speed ramping
@@ -68,7 +77,9 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 
 ### Scripts
 
+- `scripts/game/bootstrap.gd`
 - `scripts/game/game_controller.gd`
+- `scripts/game/save_state.gd`
 - `scripts/game/wave_director.gd`
 - `scripts/game/player_input_state.gd`
 - `scripts/entities/player_controller.gd`
@@ -76,6 +87,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - `scripts/ui/circular_meter.gd`
 - `scripts/ui/hud_controller.gd`
 - `scripts/ui/mobile_controls_controller.gd`
+- `scripts/ui/tutorial_overlay_controller.gd`
 
 ### Data
 
@@ -93,6 +105,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 ## Current test checklist
 
 - Confirm the project opens without parse/runtime errors
+- Verify the startup splash/logo-and-slime intro is centered on desktop and device
 - Verify the landscape HUD fits cleanly on desktop and device
 - Start a round and verify:
   - keyboard movement and sprint work
@@ -104,8 +117,10 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
   - player respawns to the center of the ledge after falling off-screen
   - score increments on correct exits
   - skull lives fade correctly when mistakes happen
+  - skull-loss poof dust plays without layout shifting
   - exit markers show directional motion/glow
   - slime jump/stretch and skeleton skull wobble feel subtle but visible
+  - tutorial runs only once on first launch and then hands off into a fresh round
 
 ## Android device testing
 
