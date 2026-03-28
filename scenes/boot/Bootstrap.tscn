@@ -1,48 +1,47 @@
-[gd_scene load_steps=8 format=3 uid="uid://btw0qvj0o5vlu"]
+[gd_scene load_steps=5 format=3 uid="uid://btw0qvj0o5vlu"]
 
 [ext_resource type="Script" uid="uid://lo0utm1o3ch7" path="res://scripts/game/bootstrap.gd" id="1_ydard"]
 [ext_resource type="PackedScene" uid="uid://c3gwwxob66j38" path="res://scenes/game/GameRoot.tscn" id="2_16jl4"]
-[ext_resource type="Texture2D" uid="uid://c4oaqh8jbgh4" path="res://assets/entities/sorting_skeleton.svg" id="3_7lpx5"]
-[ext_resource type="Texture2D" uid="uid://a2yli4l2k5sg" path="res://assets/entities/player_slime_front.svg" id="4_vbr2u"]
+[ext_resource type="Texture2D" uid="uid://a2yli4l2k5sg" path="res://assets/entities/player_slime_front.svg" id="3_tj0pb"]
 
 [sub_resource type="Animation" id="Animation_7k2wj"]
 resource_name = "intro"
-length = 5.0
+length = 3.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Stage/RedSkeleton:position")
+tracks/0/path = NodePath("Stage/LogoGroup/Title:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.6, 4.6, 7),
+"times": PackedFloat32Array(0, 0.18, 3.0, 3.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(590, 92), Vector2(602, 282), Vector2(456, 436), Vector2(336, 436)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Stage/GreenSkeleton:position")
+tracks/1/path = NodePath("Stage/LogoGroup/SlimeWrap/Slime:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.6, 3.0, 5),
+"times": PackedFloat32Array(0, 0.18, 3.0, 3.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(690, 92), Vector2(678, 282), Vector2(824, 436), Vector2(944, 436)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Stage/Slime:position")
+tracks/2/path = NodePath("Stage/LogoGroup/SlimeWrap:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = false
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.8, 2.4, 3.0, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.6, 1.25, 1.9, 2.55, 3.1, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(640, 454), Vector2(640, 454), Vector2(640, 360), Vector2(640, 454), Vector2(640, 454)]
+"values": [Vector2(-66, 10), Vector2(-66, 2), Vector2(-66, 10), Vector2(-66, 4), Vector2(-66, 10), Vector2(-66, 6), Vector2(-66, 10)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -51,94 +50,34 @@ tracks/3/path = NodePath("Stage/Slime:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = false
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1.95, 2.25, 2.7, 3.0, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.6, 1.25, 1.9, 2.55, 3.1, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(0.92, 1.08), Vector2(1.08, 0.9), Vector2(1, 1), Vector2(1.04, 0.94), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(0.97, 1.04), Vector2(1, 1), Vector2(0.975, 1.035), Vector2(1, 1), Vector2(0.985, 1.02), Vector2(1, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Stage/SparkleA:modulate")
+tracks/4/path = NodePath("Stage/LogoGroup/SlimeWrap/Shadow:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = false
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 2.0, 2.2, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.6, 1.25, 1.9, 2.55, 3.1, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 0.95, 0.72, 0), Color(1, 0.95, 0.72, 1), Color(1, 0.95, 0.72, 0.9), Color(1, 1, 1, 0)]
+"values": [Vector2(1, 1), Vector2(0.92, 0.92), Vector2(1, 1), Vector2(0.94, 0.94), Vector2(1, 1), Vector2(0.97, 0.97), Vector2(1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Stage/SparkleB:modulate")
+tracks/5/path = NodePath("Stage/LogoGroup/SlimeWrap/Shadow:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = false
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 2.1, 2.3, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.6, 1.25, 1.9, 2.55, 3.1, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 0.95, 0.72, 0), Color(1, 0.95, 0.72, 1), Color(1, 0.95, 0.72, 0.85), Color(1, 1, 1, 0)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Stage/SparkleC:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = false
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 2.15, 2.35, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 0.95, 0.72, 0), Color(1, 0.95, 0.72, 1), Color(1, 0.95, 0.72, 0.82), Color(1, 1, 1, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Stage/SparkleA:scale")
-tracks/7/interp = 1
-tracks/7/loop_wrap = false
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 2.1, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0.45, 0.45), Vector2(0.45, 0.45), Vector2(1.35, 1.35), Vector2(0.45, 0.45)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("Stage/SparkleB:scale")
-tracks/8/interp = 1
-tracks/8/loop_wrap = false
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 2.15, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0.45, 0.45), Vector2(0.45, 0.45), Vector2(1.2, 1.2), Vector2(0.45, 0.45)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("Stage/SparkleC:scale")
-tracks/9/interp = 1
-tracks/9/loop_wrap = false
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 2.2, 4.8, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0.45, 0.45), Vector2(0.45, 0.45), Vector2(1.15, 1.15), Vector2(0.45, 0.45)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("Stage/Title:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = false
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.25, 4.55, 5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0.32), Color(1, 1, 1, 0.22), Color(1, 1, 1, 0.32), Color(1, 1, 1, 0.24), Color(1, 1, 1, 0.32), Color(1, 1, 1, 0.28), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5l2mk"]
@@ -172,92 +111,58 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.337255, 0.117647, 0.0823529, 0.15)
+color = Color(0.337255, 0.117647, 0.0823529, 0.14)
 
 [node name="Stage" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="RedSkeleton" type="TextureRect" parent="Stage"]
-custom_minimum_size = Vector2(72, 82.5)
 layout_mode = 0
-offset_left = 590.0
-offset_top = 92.0
-offset_right = 662.0
-offset_bottom = 174.5
-modulate = Color(1, 0.72, 0.72, 1)
-texture = ExtResource("3_7lpx5")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="GreenSkeleton" type="TextureRect" parent="Stage"]
-custom_minimum_size = Vector2(72, 82.5)
-layout_mode = 0
-offset_left = 690.0
-offset_top = 92.0
-offset_right = 762.0
-offset_bottom = 174.5
-modulate = Color(0.82, 1, 0.84, 1)
-texture = ExtResource("3_7lpx5")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Slime" type="TextureRect" parent="Stage"]
-custom_minimum_size = Vector2(96, 74)
-layout_mode = 0
-offset_left = 592.0
-offset_top = 454.0
-offset_right = 688.0
-offset_bottom = 528.0
-texture = ExtResource("4_vbr2u")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="SparkleA" type="ColorRect" parent="Stage"]
-layout_mode = 0
-offset_left = 606.0
-offset_top = 334.0
-offset_right = 618.0
-offset_bottom = 346.0
-rotation = 0.785398
-color = Color(1, 0.95, 0.72, 1)
-modulate = Color(1, 1, 1, 0)
-
-[node name="SparkleB" type="ColorRect" parent="Stage"]
-layout_mode = 0
-offset_left = 660.0
-offset_top = 314.0
-offset_right = 670.0
-offset_bottom = 324.0
-rotation = 0.785398
-color = Color(1, 0.95, 0.72, 1)
-modulate = Color(1, 1, 1, 0)
-
-[node name="SparkleC" type="ColorRect" parent="Stage"]
-layout_mode = 0
-offset_left = 688.0
-offset_top = 352.0
-offset_right = 700.0
-offset_bottom = 364.0
-rotation = 0.785398
-color = Color(1, 0.95, 0.72, 1)
-modulate = Color(1, 1, 1, 0)
-
-[node name="Title" type="Label" parent="Stage"]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 120.0
 offset_right = 1280.0
-offset_bottom = 170.0
+offset_bottom = 720.0
+
+[node name="LogoGroup" type="Control" parent="Stage"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 360.0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="Title" type="Label" parent="Stage/LogoGroup"]
+layout_mode = 0
+offset_left = -260.0
+offset_top = -118.0
+offset_right = 260.0
+offset_bottom = -54.0
 theme_override_colors/font_color = Color(1, 0.729412, 0.270588, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 44
 modulate = Color(1, 1, 1, 0)
 text = "HELLGATE"
 horizontal_alignment = 1
+
+[node name="SlimeWrap" type="Control" parent="Stage/LogoGroup"]
+layout_mode = 0
+offset_left = -66.0
+offset_top = 10.0
+offset_right = 66.0
+offset_bottom = 110.0
+
+[node name="Shadow" type="ColorRect" parent="Stage/LogoGroup/SlimeWrap"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 74.0
+offset_right = 158.0
+offset_bottom = 104.0
+color = Color(0.0784314, 0.0156863, 0.0196078, 0.32)
+
+[node name="Slime" type="TextureRect" parent="Stage/LogoGroup/SlimeWrap"]
+custom_minimum_size = Vector2(112, 90)
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 132.0
+offset_bottom = 90.0
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("3_tj0pb")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
