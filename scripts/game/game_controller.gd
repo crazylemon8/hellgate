@@ -31,13 +31,19 @@ enum TutorialStep {
 @onready var player: PlayerController = $World/Entities/Player
 @onready var enemies: Node2D = $World/Entities/Enemies
 @onready var background: ColorRect = $World/Background
+@onready var edge_vignette: ColorRect = $World/EdgeVignette
+@onready var top_haze: ColorRect = $World/TopHaze
 @onready var playfield: ColorRect = $World/Playfield
 @onready var playfield_shadow: ColorRect = $World/PlayfieldShadow
+@onready var left_wall_shadow: ColorRect = $World/LeftWallShadow
+@onready var right_wall_shadow: ColorRect = $World/RightWallShadow
 @onready var sky_glow: ColorRect = $World/SkyGlow
+@onready var exit_ambient_glow: ColorRect = $World/ExitAmbientGlow
 @onready var lane_highlight: ColorRect = $World/LaneHighlight
 @onready var tile_strip_a: ColorRect = $World/TileStripA
 @onready var tile_strip_b: ColorRect = $World/TileStripB
 @onready var tile_strip_c: ColorRect = $World/TileStripC
+@onready var ledge_aura: ColorRect = $World/LedgeAura
 @onready var ledge: StaticBody2D = $World/Ledge
 @onready var ledge_collision: CollisionShape2D = $World/Ledge/CollisionShape2D
 @onready var ledge_visual: ColorRect = $World/LedgeVisual
@@ -466,18 +472,36 @@ func _apply_landscape_layout() -> void:
 
 	background.offset_right = width
 	background.offset_bottom = height
+	edge_vignette.offset_right = width
+	edge_vignette.offset_bottom = height
 	playfield.offset_right = width
 	playfield.offset_bottom = height
+	top_haze.offset_left = 0.0
+	top_haze.offset_top = 18.0
+	top_haze.offset_right = width
+	top_haze.offset_bottom = field_top + 92.0
 
 	playfield_shadow.offset_left = side_margin
 	playfield_shadow.offset_top = field_top
 	playfield_shadow.offset_right = width - side_margin
 	playfield_shadow.offset_bottom = field_bottom
+	left_wall_shadow.offset_left = side_margin + 18.0
+	left_wall_shadow.offset_top = field_top + 8.0
+	left_wall_shadow.offset_right = side_margin + 162.0
+	left_wall_shadow.offset_bottom = field_bottom
+	right_wall_shadow.offset_left = width - side_margin - 162.0
+	right_wall_shadow.offset_top = field_top + 8.0
+	right_wall_shadow.offset_right = width - side_margin - 18.0
+	right_wall_shadow.offset_bottom = field_bottom
 
 	sky_glow.offset_left = 0.0
 	sky_glow.offset_top = field_top - 10.0
 	sky_glow.offset_right = width
 	sky_glow.offset_bottom = height
+	exit_ambient_glow.offset_left = side_margin + 120.0
+	exit_ambient_glow.offset_top = field_top + 34.0
+	exit_ambient_glow.offset_right = width - side_margin - 120.0
+	exit_ambient_glow.offset_bottom = field_top + 180.0
 
 	lane_highlight.offset_left = side_margin + 34.0
 	lane_highlight.offset_top = field_top + 20.0
@@ -509,6 +533,10 @@ func _apply_landscape_layout() -> void:
 	ledge_visual.offset_top = ledge_y - 2.0
 	ledge_visual.offset_right = ledge_center_x + ledge_half
 	ledge_visual.offset_bottom = ledge_y + 26.0
+	ledge_aura.offset_left = ledge_center_x - ledge_half + 28.0
+	ledge_aura.offset_top = ledge_y - 48.0
+	ledge_aura.offset_right = ledge_center_x + ledge_half - 28.0
+	ledge_aura.offset_bottom = ledge_y + 66.0
 	ledge_highlight.offset_left = ledge_center_x - ledge_half + 6.0
 	ledge_highlight.offset_top = ledge_y + 1.0
 	ledge_highlight.offset_right = ledge_center_x + ledge_half - 6.0

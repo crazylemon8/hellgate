@@ -33,12 +33,37 @@ offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0.0745098, 0.0862745, 0.117647, 1)
 
+[node name="EdgeVignette" type="ColorRect" parent="World" unique_id=1597329912]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.0509804, 0.0117647, 0.0156863, 0.2)
+
+[node name="TopHaze" type="ColorRect" parent="World" unique_id=1597329913]
+offset_top = 24.0
+offset_right = 1280.0
+offset_bottom = 170.0
+color = Color(0.65098, 0.247059, 0.145098, 0.09)
+
 [node name="PlayfieldShadow" type="ColorRect" parent="World" unique_id=1003302414]
 offset_left = 68.0
 offset_top = 82.0
 offset_right = 1212.0
 offset_bottom = 650.0
 color = Color(0.0196078, 0.00784314, 0.00784314, 0.42)
+
+[node name="LeftWallShadow" type="ColorRect" parent="World" unique_id=1003302415]
+offset_left = 64.0
+offset_top = 86.0
+offset_right = 206.0
+offset_bottom = 650.0
+color = Color(0.121569, 0.0313726, 0.0470588, 0.22)
+
+[node name="RightWallShadow" type="ColorRect" parent="World" unique_id=1003302416]
+offset_left = 1074.0
+offset_top = 86.0
+offset_right = 1216.0
+offset_bottom = 650.0
+color = Color(0.0901961, 0.0352941, 0.0352941, 0.22)
 
 [node name="Ledge" type="StaticBody2D" parent="World" unique_id=2008253991]
 position = Vector2(640, 551)
@@ -57,6 +82,13 @@ offset_top = 76.0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0.337255, 0.117647, 0.0823529, 0.13)
+
+[node name="ExitAmbientGlow" type="ColorRect" parent="World" unique_id=1007065253]
+offset_left = 170.0
+offset_top = 116.0
+offset_right = 1110.0
+offset_bottom = 250.0
+color = Color(0.854902, 0.470588, 0.235294, 0.06)
 
 [node name="LaneHighlight" type="ColorRect" parent="World" unique_id=1438324245]
 offset_left = 112.0
@@ -85,6 +117,13 @@ offset_top = 446.0
 offset_right = 1246.0
 offset_bottom = 528.0
 color = Color(0.329412, 0.129412, 0.0901961, 0.4)
+
+[node name="LedgeAura" type="ColorRect" parent="World" unique_id=1985511608]
+offset_left = 276.0
+offset_top = 504.0
+offset_right = 1004.0
+offset_bottom = 620.0
+color = Color(1, 0.478431, 0.152941, 0.07)
 
 [node name="LedgeVisual" type="ColorRect" parent="World" unique_id=589490616]
 offset_left = 250.0
