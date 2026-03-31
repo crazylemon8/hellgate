@@ -43,10 +43,10 @@ script = ExtResource("1_8m4o0")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 22.0
-offset_top = 20.0
-offset_right = -22.0
-offset_bottom = 40.0
+offset_left = 34.0
+offset_top = 26.0
+offset_right = -34.0
+offset_bottom = 50.0
 grow_horizontal = 2
 
 [node name="Row" type="HBoxContainer" parent="MarginContainer" unique_id=1649284979]
@@ -54,16 +54,16 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ScorePanel" type="PanelContainer" parent="MarginContainer/Row" unique_id=1472246145]
-custom_minimum_size = Vector2(130, 0)
+custom_minimum_size = Vector2(156, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_score")
 
 [node name="ScoreMargin" type="MarginContainer" parent="MarginContainer/Row/ScorePanel" unique_id=32211258]
 layout_mode = 2
-theme_override_constants/margin_left = 22
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 22
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 10
 
 [node name="ScoreContent" type="VBoxContainer" parent="MarginContainer/Row/ScorePanel/ScoreMargin" unique_id=370034289]
 layout_mode = 2
@@ -71,7 +71,7 @@ layout_mode = 2
 [node name="Value" type="Label" parent="MarginContainer/Row/ScorePanel/ScoreMargin/ScoreContent" unique_id=307129531]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85098, 0.533333, 1)
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 1
 
@@ -192,13 +192,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="PauseButton" type="Button" parent="MarginContainer/Row" unique_id=1208197677]
-custom_minimum_size = Vector2(48, 38)
+custom_minimum_size = Vector2(60, 46)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.941176, 0.862745, 1)
 theme_override_colors/font_focus_color = Color(1, 0.941176, 0.862745, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.941176, 0.862745, 1)
 theme_override_colors/font_hover_color = Color(1, 0.941176, 0.862745, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_pause")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pause")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pause")
