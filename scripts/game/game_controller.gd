@@ -102,18 +102,43 @@ func _ready() -> void:
 	player.set_support_bounds(support_bounds.x, support_bounds.y)
 	player.speed_meter_changed.connect(_on_player_speed_meter_changed)
 	player.jumped.connect(_on_player_jumped)
+	player.jumped.connect(func() -> void:
+		audio_manager.play_jump()
+	)
+	player.landed.connect(func() -> void:
+		audio_manager.play_land()
+	)
+	player.sprint_started.connect(func() -> void:
+		audio_manager.play_sprint()
+	)
+	player.respawned.connect(func() -> void:
+		audio_manager.play_respawn()
+	)
 	wave_director.spawn_skeleton.connect(_on_spawn_skeleton_requested)
 	wave_director.configure(wave_config)
 	hud.pause_requested.connect(_on_pause_requested)
 	mobile_controls.input_changed.connect(_on_mobile_input_changed)
-	start_button.pressed.connect(begin_round)
+	start_button.pressed.connect(func() -> void:
+		audio_manager.play_ui_click()
+		begin_round()
+	)
 	start_backdrop.gui_input.connect(_on_start_overlay_input)
 	start_overlay.gui_input.connect(_on_start_overlay_input)
-	resume_button.pressed.connect(_on_resume_requested)
-	pause_restart_button.pressed.connect(restart_round)
-	game_over_retry_button.pressed.connect(restart_round)
+	resume_button.pressed.connect(func() -> void:
+		audio_manager.play_ui_click()
+		_on_resume_requested()
+	)
+	pause_restart_button.pressed.connect(func() -> void:
+		audio_manager.play_ui_click()
+		restart_round()
+	)
+	game_over_retry_button.pressed.connect(func() -> void:
+		audio_manager.play_ui_click()
+		restart_round()
+	)
 	score_changed.connect(hud.set_score)
 	pause_changed.connect(hud.set_paused)
+	audio_manager.play_music()
 	if SaveState.is_tutorial_completed():
 		_show_briefing()
 	else:
@@ -232,6 +257,9 @@ func _spawn_skeleton(color_name: String, spawn_position: Vector2) -> SortingSkel
 	skeleton.set_support_bounds(support_bounds.x, support_bounds.y)
 	skeleton.exited.connect(_on_skeleton_exited)
 	skeleton.resolved.connect(_on_skeleton_resolved)
+	skeleton.redirected.connect(func() -> void:
+		audio_manager.play_redirect()
+	)
 	return skeleton
 
 
@@ -285,8 +313,10 @@ func _on_player_speed_meter_changed(_current_ratio: float) -> void:
 
 func _on_pause_requested() -> void:
 	if _round_state == RoundState.RUNNING:
+		audio_manager.play_ui_toggle()
 		set_paused(true)
 	elif _round_state == RoundState.PAUSED:
+		audio_manager.play_ui_toggle()
 		set_paused(false)
 
 
@@ -308,8 +338,10 @@ func _on_start_overlay_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventScreenTouch and event.pressed:
+		audio_manager.play_ui_click()
 		begin_round()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		audio_manager.play_ui_click()
 		begin_round()
 
 

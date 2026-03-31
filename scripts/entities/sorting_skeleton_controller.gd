@@ -4,6 +4,7 @@ class_name SortingSkeletonController
 signal requested_redirect(by_player_position: Vector2)
 signal exited(side: String, color_name: String)
 signal resolved
+signal redirected
 
 const LEFT := -1
 const RIGHT := 1
@@ -105,6 +106,7 @@ func redirect(by_player_position: Vector2) -> void:
 	_redirect_lock_until_usec = now_usec + int(_config.redirect_lock_seconds * 1000000.0)
 	velocity.x = _walk_direction * _config.redirect_push_speed * _speed_multiplier
 	velocity.y = minf(velocity.y, -120.0)
+	redirected.emit()
 
 
 func _current_walk_speed() -> float:

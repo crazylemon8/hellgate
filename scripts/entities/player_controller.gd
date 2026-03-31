@@ -3,6 +3,9 @@ class_name PlayerController
 
 signal speed_meter_changed(current_ratio: float)
 signal jumped
+signal landed
+signal sprint_started
+signal respawned
 
 const SUPPORT_SNAP_MARGIN := 18.0
 
@@ -25,6 +28,7 @@ var _is_sprint_active: bool = false
 var _facing := Vector2.RIGHT
 var _was_grounded: bool = true
 var _body_tween: Tween
+var _was_sprint_active: bool = false
 
 
 func _ready() -> void:
@@ -69,8 +73,12 @@ func _physics_process(delta: float) -> void:
 
 	var grounded_after_move := _is_supported()
 	if grounded_after_move and not _was_grounded:
+		landed.emit()
 		_play_landing_squash()
 	_was_grounded = grounded_after_move
+	if _is_sprint_active and not _was_sprint_active:
+		sprint_started.emit()
+	_was_sprint_active = _is_sprint_active
 
 	_update_facing()
 	_update_visuals()
@@ -91,6 +99,7 @@ func apply_input(next_input: PlayerInputState) -> void:
 func reset_for_round() -> void:
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
+	_was_sprint_active = false
 	_facing = Vector2.RIGHT
 	_was_grounded = true
 	if _config != null:
@@ -126,11 +135,13 @@ func respawn_at(spawn_position: Vector2) -> void:
 	global_position = spawn_position
 	velocity = Vector2.ZERO
 	_is_sprint_active = false
+	_was_sprint_active = false
 	_facing = Vector2.RIGHT
 	_was_grounded = true
 	_stop_body_tween()
 	body_sprite.scale = Vector2(0.86, 0.86)
 	_update_visuals()
+	respawned.emit()
 
 
 func _update_facing() -> void:
