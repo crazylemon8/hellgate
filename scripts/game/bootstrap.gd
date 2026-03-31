@@ -2,6 +2,7 @@ extends Control
 
 @export var next_scene: PackedScene
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var audio_manager: AudioManager = $AudioManager
 @onready var stage: Control = $Stage
 
 const DESIGN_STAGE_SIZE := Vector2(1280.0, 720.0)
@@ -18,6 +19,8 @@ func _ready() -> void:
 
 	resized.connect(_layout_stage)
 	_layout_stage()
+	if audio_manager != null:
+		audio_manager.play_startup()
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("intro")
 

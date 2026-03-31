@@ -64,6 +64,7 @@ enum TutorialStep {
 @onready var pause_overlay: Control = $UI/PauseOverlay
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
 @onready var tutorial_overlay: TutorialOverlayController = $UI/TutorialOverlay
+@onready var audio_manager: AudioManager = $AudioManager
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
@@ -245,8 +246,10 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 			_red_sorted += 1
 		else:
 			_green_sorted += 1
+		audio_manager.play_success()
 	else:
 		_mistakes_remaining -= 1
+		audio_manager.play_mistake()
 
 	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	if _mistakes_remaining <= 0:
@@ -258,6 +261,7 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 		var total_resolved := _resolved_count + 1
 		var final_score := _red_sorted + _green_sorted
 		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d" % [final_score]
+		audio_manager.play_game_over()
 		game_over.emit(
 			{
 				"red_sorted": _red_sorted,
@@ -359,7 +363,10 @@ func _begin_tutorial() -> void:
 
 
 func _advance_tutorial(next_step: TutorialStep) -> void:
+	var previous_step := _tutorial_step
 	_tutorial_step = next_step
+	if previous_step != TutorialStep.NONE and next_step != previous_step:
+		audio_manager.play_tutorial_complete()
 	match next_step:
 		TutorialStep.SORT_RED:
 			tutorial_overlay.show_message("Tutorial 1/4", "Red skeletons belong on the left. Push this one left.")

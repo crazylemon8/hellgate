@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://lo0utm1o3ch7" path="res://scripts/game/bootstrap.gd" id="1_ydard"]
 [ext_resource type="PackedScene" uid="uid://c3gwwxob66j38" path="res://scenes/game/GameRoot.tscn" id="2_16jl4"]
 [ext_resource type="Texture2D" uid="uid://a2yli4l2k5sg" path="res://assets/entities/player_slime_front.svg" id="3_tj0pb"]
+[ext_resource type="Script" path="res://scripts/game/audio_manager.gd" id="4_ton4j"]
 
 [sub_resource type="Animation" id="Animation_7k2wj"]
 resource_name = "intro"
@@ -94,6 +95,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ydard")
 next_scene = ExtResource("2_16jl4")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("4_ton4j")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
