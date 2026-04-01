@@ -1,6 +1,6 @@
 Hellgate icon family
 
-- Base language: Lucide-inspired
+- Base language: Lucide
 - Grid: 64 x 64
 - Stroke color: #FCE6C8
 - Stroke width: 3.5
@@ -11,6 +11,7 @@ Hellgate icon family
 - Usage:
   - active and inactive states are handled in scene/script via modulation
   - avoid glow effects inside the icon SVG itself
+  - source icons come from the official Lucide set and are only recolored/scaled
 
 Current family members:
 - music_icon.svg

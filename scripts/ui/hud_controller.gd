@@ -62,7 +62,7 @@ func pulse_score() -> void:
 	_score_tween.tween_property(score_panel, "scale", Vector2.ONE, 0.16)
 
 func set_paused(is_paused: bool) -> void:
-	pause_button.text = ">" if is_paused else "II"
+	pause_button.text = ""
 
 
 func _play_skull_loss_poof(index: int) -> void:

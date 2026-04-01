@@ -126,25 +126,28 @@ mouse_filter = 2
 texture = ExtResource("2_4f0pj")
 stretch_mode = 5
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=384201062]
-self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
-custom_minimum_size = Vector2(184, 72)
+[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
-theme_override_font_sizes/font_size = 24
-text = "Resume"
+theme_override_constants/separation = 16
+alignment = 1
 
-[node name="RestartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=985557596]
+[node name="RestartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ActionsRow" unique_id=985557596]
 self_modulate = Color(0.9843137, 0.5254902, 0.19607843, 1)
 custom_minimum_size = Vector2(184, 60)
 layout_mode = 2
-size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
 theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_font_sizes/font_size = 20
 text = "Restart"
+
+[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ActionsRow" unique_id=384201062]
+self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
+custom_minimum_size = Vector2(184, 72)
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_font_sizes/font_size = 24
+text = "Resume"
