@@ -70,6 +70,10 @@ enum TutorialStep {
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
 @onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/RestartButton
+@onready var pause_music_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton
+@onready var pause_sfx_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton
+@onready var pause_music_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton/Icon
+@onready var pause_sfx_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton/Icon
 @onready var game_over_summary: Label = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/MarginContainer/Content/SummaryLabel
 @onready var game_over_retry_button: Button = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/RetryButton
 
@@ -133,12 +137,19 @@ func _ready() -> void:
 		audio_manager.play_ui_click()
 		restart_round()
 	)
+	pause_music_button.pressed.connect(_on_pause_music_toggled)
+	pause_sfx_button.pressed.connect(_on_pause_sfx_toggled)
 	game_over_retry_button.pressed.connect(func() -> void:
 		audio_manager.play_ui_click()
 		restart_round()
 	)
 	score_changed.connect(hud.set_score)
 	pause_changed.connect(hud.set_paused)
+	audio_manager.music_setting_changed.connect(_sync_pause_audio_buttons)
+	audio_manager.sfx_setting_changed.connect(func(_is_enabled: bool) -> void:
+		_sync_pause_audio_buttons()
+	)
+	_sync_pause_audio_buttons()
 	audio_manager.play_music()
 	if SaveState.is_tutorial_completed():
 		_show_briefing()
@@ -327,6 +338,38 @@ func _on_pause_requested() -> void:
 
 func _on_resume_requested() -> void:
 	set_paused(false)
+
+
+func _on_pause_music_toggled() -> void:
+	audio_manager.play_ui_click()
+	audio_manager.set_music_enabled(not audio_manager.is_music_enabled())
+	if audio_manager.is_music_enabled():
+		audio_manager.play_music()
+
+
+func _on_pause_sfx_toggled() -> void:
+	var next_value := not audio_manager.is_sfx_enabled()
+	if next_value:
+		audio_manager.set_sfx_enabled(true)
+		audio_manager.play_ui_click()
+	else:
+		audio_manager.play_ui_click()
+		audio_manager.set_sfx_enabled(false)
+
+
+func _sync_pause_audio_buttons(_unused: bool = false) -> void:
+	var enabled_button := Color(0.984314, 0.52549, 0.196078, 1.0)
+	var disabled_button := Color(0.254902, 0.101961, 0.0705882, 0.82)
+	var enabled_icon := Color(1.0, 1.0, 1.0, 1.0)
+	var disabled_icon := Color(1.0, 1.0, 1.0, 0.35)
+
+	var music_on := audio_manager.is_music_enabled()
+	pause_music_button.self_modulate = enabled_button if music_on else disabled_button
+	pause_music_icon.modulate = enabled_icon if music_on else disabled_icon
+
+	var sfx_on := audio_manager.is_sfx_enabled()
+	pause_sfx_button.self_modulate = enabled_button if sfx_on else disabled_button
+	pause_sfx_icon.modulate = enabled_icon if sfx_on else disabled_icon
 
 
 func _on_mobile_input_changed(input_state: PlayerInputState) -> void:

@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://b4g3j6w5gb7e5"]
+[gd_scene load_steps=3 format=3 uid="uid://b4g3j6w5gb7e5"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/music_icon.svg" id="1_0jv4n"]
+[ext_resource type="Texture2D" path="res://assets/ui/sfx_icon.svg" id="2_4f0pj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_card"]
 border_width_left = 10
@@ -72,6 +75,57 @@ text = "Take a breath, then jump back into the sorting lane."
 horizontal_alignment = 1
 autowrap_mode = 3
 
+[node name="SettingsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="MusicButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow"]
+self_modulate = Color(0.254902, 0.101961, 0.0705882, 1)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Music"
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_0jv4n")
+stretch_mode = 5
+
+[node name="SfxButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow"]
+self_modulate = Color(0.254902, 0.101961, 0.0705882, 1)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "SFX"
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_4f0pj")
+stretch_mode = 5
+
 [node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=384201062]
 self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
 custom_minimum_size = Vector2(184, 72)
@@ -84,7 +138,7 @@ theme_override_font_sizes/font_size = 24
 text = "Resume"
 
 [node name="RestartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=985557596]
-self_modulate = Color(0.231373, 0.0862745, 0.0588235, 1)
+self_modulate = Color(0.9843137, 0.5254902, 0.19607843, 1)
 custom_minimum_size = Vector2(184, 60)
 layout_mode = 2
 size_flags_horizontal = 4
