@@ -20,6 +20,9 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
   - sprint
   - jump
 - Single-score HUD with skull-based lives display
+- Pause overlay with direct `Music` and `SFX` toggles
+- Lucide-based icon set across HUD, pause, and touch controls
+- Audio coverage for startup, UI, gameplay feedback, and background music
 - Data-driven balance resources under `data/`
 - Keyboard testing support and mobile-first touch controls
 - Android export/debug workflow tested locally
@@ -31,6 +34,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - One shared score increases whenever either color reaches the correct exit
 - Lives are shown as five skulls; spent lives fade instead of disappearing
 - Spent skull lives play a white dust poof instead of reflowing the HUD
+- Correct sorts pulse the score and exit glow; mistakes trigger a screen flash and failure glow
 - Skeletons spawn with the Phaser-inspired sorting behavior ported into Godot:
   - discrete spawn-rate ramping
   - discrete speed ramping
@@ -60,6 +64,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - Holding the joystick above the jump threshold keeps jump active so the player jumps again after landing
 - Circular sprint button on the bottom-left with a radial sprint meter
 - Pause button in the HUD
+- Pause overlay contains icon toggles for music and SFX that persist locally
 
 ## Important files
 
@@ -78,6 +83,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 ### Scripts
 
 - `scripts/game/bootstrap.gd`
+- `scripts/game/audio_manager.gd`
 - `scripts/game/game_controller.gd`
 - `scripts/game/save_state.gd`
 - `scripts/game/wave_director.gd`
@@ -119,8 +125,11 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
   - skull lives fade correctly when mistakes happen
   - skull-loss poof dust plays without layout shifting
   - exit markers show directional motion/glow
+  - redirect hits, success pulses, and mistake flashes feel readable
   - slime jump/stretch and skeleton skull wobble feel subtle but visible
   - tutorial runs only once on first launch and then hands off into a fresh round
+  - pause-screen music and SFX toggles work and persist across relaunch
+  - gameplay music and key interaction sounds are balanced on device
 
 ## Android device testing
 
@@ -143,5 +152,5 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 
 - Further tune joystick thresholds, sprint feel, and slime movement feedback
 - Improve safe-area handling and HUD spacing across more device shapes
-- Add stronger visual feedback for redirects, scoring, and mistakes
+- Tune audio mix levels across splash, music, UI, and gameplay cues
 - Continue replacing placeholder/world-art blocks with richer production visuals
