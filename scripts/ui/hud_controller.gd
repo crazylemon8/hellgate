@@ -19,8 +19,10 @@ signal pause_requested
 	$MarginContainer/Row/SkullsPanel/SkullsMargin/SkullsRow/Skull5/Shadow,
 ]
 @onready var pause_button: Button = $MarginContainer/Row/PauseButton
+@onready var score_panel: Control = $MarginContainer/Row/ScorePanel
 
 var _last_mistakes_remaining: int = -1
+var _score_tween: Tween
 
 
 func _ready() -> void:
@@ -43,6 +45,21 @@ func set_score(total_score: int, mistakes_remaining: int) -> void:
 		skull_shadows[index].modulate.a = 0.28 if index < mistakes_remaining else 0.08
 
 	_last_mistakes_remaining = mistakes_remaining
+
+
+func pulse_score() -> void:
+	if score_panel == null:
+		return
+
+	if is_instance_valid(_score_tween):
+		_score_tween.kill()
+
+	score_panel.scale = Vector2.ONE
+	_score_tween = create_tween()
+	_score_tween.set_trans(Tween.TRANS_BACK)
+	_score_tween.set_ease(Tween.EASE_OUT)
+	_score_tween.tween_property(score_panel, "scale", Vector2(1.12, 1.12), 0.1)
+	_score_tween.tween_property(score_panel, "scale", Vector2.ONE, 0.16)
 
 func set_paused(is_paused: bool) -> void:
 	pause_button.text = ">" if is_paused else "II"

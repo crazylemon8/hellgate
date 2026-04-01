@@ -65,6 +65,7 @@ enum TutorialStep {
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
 @onready var tutorial_overlay: TutorialOverlayController = $UI/TutorialOverlay
 @onready var audio_manager: AudioManager = $AudioManager
+@onready var feedback_flash: ColorRect = $UI/FeedbackFlash
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
@@ -275,9 +276,13 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 		else:
 			_green_sorted += 1
 		audio_manager.play_success()
+		hud.pulse_score()
+		_pulse_exit(side, true)
 	else:
 		_mistakes_remaining -= 1
 		audio_manager.play_mistake()
+		_pulse_exit(side, false)
+		_flash_mistake()
 
 	score_changed.emit(_red_sorted + _green_sorted, _mistakes_remaining)
 	if _mistakes_remaining <= 0:
@@ -478,6 +483,8 @@ func _process_redirect_contacts() -> void:
 			continue
 		if skeleton.should_accept_redirect(player.global_position, _redirect_contact_radius):
 			skeleton.push_from_player(player.global_position)
+			skeleton.play_redirect_feedback()
+			player.play_redirect_feedback()
 			if skeleton.global_position.distance_to(player.global_position) <= _push_block_radius:
 				player.push_back_from(skeleton.global_position.x)
 
@@ -621,3 +628,34 @@ func _respawn_player_if_needed() -> void:
 		return
 
 	player.respawn_at(_player_spawn_position)
+
+
+func _pulse_exit(side: String, is_success: bool) -> void:
+	var glow := left_exit_glow if side == "left" else right_exit_glow
+	if glow == null:
+		return
+
+	var target_color := Color(1.0, 0.55, 0.34, 0.42) if is_success else Color(0.95, 0.25, 0.22, 0.34)
+	var base_color := Color(0.835294, 0.329412, 0.294118, 0.18) if side == "left" else Color(0.368627, 0.760784, 0.498039, 0.18)
+	if side == "right" and is_success:
+		target_color = Color(0.55, 0.95, 0.63, 0.42)
+	if side == "right" and not is_success:
+		target_color = Color(0.95, 0.25, 0.22, 0.34)
+
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(glow, "color", target_color, 0.1)
+	tween.tween_property(glow, "color", base_color, 0.22)
+
+
+func _flash_mistake() -> void:
+	if feedback_flash == null:
+		return
+
+	feedback_flash.color = Color(0.933333, 0.266667, 0.239216, 0.0)
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(feedback_flash, "color", Color(0.933333, 0.266667, 0.239216, 0.12), 0.08)
+	tween.tween_property(feedback_flash, "color", Color(0.933333, 0.266667, 0.239216, 0.0), 0.2)

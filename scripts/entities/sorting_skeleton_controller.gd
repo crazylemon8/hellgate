@@ -32,6 +32,7 @@ var _redirect_lock_until_usec: int = 0
 var _bob_time: float = 0.0
 var _base_skull_position := Vector2(0, -21)
 var _bob_intensity: float = 1.0
+var _feedback_tween: Tween
 
 
 func _ready() -> void:
@@ -151,6 +152,29 @@ func push_from_player(player_position: Vector2) -> void:
 		global_position.x += 10.0
 	else:
 		global_position.x -= 10.0
+
+
+func play_redirect_feedback() -> void:
+	if is_instance_valid(_feedback_tween):
+		_feedback_tween.kill()
+
+	body_sprite.self_modulate = Color.WHITE
+	skull_sprite.self_modulate = Color.WHITE
+	body_sprite.scale = Vector2(0.9, 0.9)
+	skull_sprite.scale = Vector2(0.9, 0.9)
+	_feedback_tween = create_tween()
+	_feedback_tween.set_trans(Tween.TRANS_BACK)
+	_feedback_tween.set_ease(Tween.EASE_OUT)
+	_feedback_tween.parallel().tween_property(body_sprite, "scale", Vector2(1.02, 0.82), 0.08)
+	_feedback_tween.parallel().tween_property(skull_sprite, "scale", Vector2(1.06, 0.84), 0.08)
+	_feedback_tween.parallel().tween_property(body_sprite, "self_modulate", Color(1.0, 0.96, 0.92, 1.0), 0.08)
+	_feedback_tween.parallel().tween_property(skull_sprite, "self_modulate", Color(1.0, 0.96, 0.92, 1.0), 0.08)
+	_feedback_tween.tween_callback(func() -> void:
+		body_sprite.scale = Vector2(0.9, 0.9)
+		skull_sprite.scale = Vector2(0.9, 0.9)
+		body_sprite.self_modulate = Color.WHITE
+		skull_sprite.self_modulate = Color.WHITE
+	)
 
 
 func _is_supported() -> bool:

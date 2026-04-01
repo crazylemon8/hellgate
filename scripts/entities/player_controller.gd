@@ -29,6 +29,7 @@ var _facing := Vector2.RIGHT
 var _was_grounded: bool = true
 var _body_tween: Tween
 var _was_sprint_active: bool = false
+var _feedback_tween: Tween
 
 
 func _ready() -> void:
@@ -144,6 +145,16 @@ func respawn_at(spawn_position: Vector2) -> void:
 	respawned.emit()
 
 
+func play_redirect_feedback() -> void:
+	_stop_feedback_tween()
+	feedback_scale_reset()
+	_feedback_tween = create_tween()
+	_feedback_tween.set_trans(Tween.TRANS_BACK)
+	_feedback_tween.set_ease(Tween.EASE_OUT)
+	_feedback_tween.tween_property(body_sprite, "scale", body_sprite.scale + Vector2(0.08, -0.08), 0.08)
+	_feedback_tween.tween_property(body_sprite, "scale", _get_speed_scale(_is_supported()), 0.14)
+
+
 func _update_facing() -> void:
 	var movement := Vector2(_input.move_x, 0.0)
 	if movement.length_squared() > 0.0001:
@@ -194,6 +205,16 @@ func _stop_body_tween() -> void:
 	if is_instance_valid(_body_tween):
 		_body_tween.kill()
 	_body_tween = null
+
+
+func _stop_feedback_tween() -> void:
+	if is_instance_valid(_feedback_tween):
+		_feedback_tween.kill()
+	_feedback_tween = null
+
+
+func feedback_scale_reset() -> void:
+	body_sprite.scale = _get_speed_scale(_is_supported())
 
 
 func _get_speed_scale(grounded: bool) -> Vector2:
