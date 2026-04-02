@@ -68,8 +68,8 @@ enum TutorialStep {
 @onready var feedback_flash: ColorRect = $UI/FeedbackFlash
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
-@onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ResumeButton
-@onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/RestartButton
+@onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ActionsRow/ResumeButton
+@onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ActionsRow/RestartButton
 @onready var pause_music_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton
 @onready var pause_sfx_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton
 @onready var pause_music_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton/Icon

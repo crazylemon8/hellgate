@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4g3j6w5gb7e5"]
+[gd_scene format=3 uid="uid://b4g3j6w5gb7e5"]
 
-[ext_resource type="Texture2D" path="res://assets/ui/music_icon.svg" id="1_0jv4n"]
-[ext_resource type="Texture2D" path="res://assets/ui/sfx_icon.svg" id="2_4f0pj"]
+[ext_resource type="Texture2D" uid="uid://c10ahedk4nf6j" path="res://assets/ui/music_icon.svg" id="1_0jv4n"]
+[ext_resource type="Texture2D" uid="uid://bok2mm6bd82pb" path="res://assets/ui/sfx_icon.svg" id="2_4f0pj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_card"]
 border_width_left = 10
@@ -75,18 +75,18 @@ text = "Take a breath, then jump back into the sorting lane."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="SettingsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="SettingsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=664925773]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="MusicButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow"]
+[node name="MusicButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow" unique_id=304578793]
 self_modulate = Color(0.254902, 0.101961, 0.0705882, 1)
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 tooltip_text = "Music"
 
-[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton"]
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton" unique_id=855949109]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,13 +103,13 @@ mouse_filter = 2
 texture = ExtResource("1_0jv4n")
 stretch_mode = 5
 
-[node name="SfxButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow"]
+[node name="SfxButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/SettingsRow" unique_id=1746280354]
 self_modulate = Color(0.254902, 0.101961, 0.0705882, 1)
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 tooltip_text = "SFX"
 
-[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton"]
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton" unique_id=2025201970]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -126,7 +126,7 @@ mouse_filter = 2
 texture = ExtResource("2_4f0pj")
 stretch_mode = 5
 
-[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=475831847]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
