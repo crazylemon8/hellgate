@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://cc4ig74laos2h"]
+
+[ext_resource type="Script" uid="uid://bt87qgkkpp17x" path="res://scripts/ui/privacy_overlay_controller.gd" id="1_ah7gx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_privacy_panel"]
+bg_color = Color(0.0980392, 0.027451, 0.0313726, 0.97)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 0.560784, 0.298039, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="PrivacyOverlay" type="Control" unique_id=475309100]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ah7gx")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1128805635]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.0509804, 0.0117647, 0.0156863, 0.76)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=132395054]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=373257359]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_privacy_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=605241281]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=113502879]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer/Header" unique_id=19108840]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.729412, 0.270588, 1)
+theme_override_font_sizes/font_size = 24
+text = "PRIVACY POLICY"
+horizontal_alignment = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=809369249]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 4
+
+[node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=188279905]
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 0
+
+[node name="Body" type="RichTextLabel" parent="CenterContainer/Panel/VBoxContainer/BodyMargin" unique_id=939689994]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0.988235, 0.917647, 0.835294, 1)
+theme_override_font_sizes/normal_font_size = 15
+selection_enabled = true
+
+[node name="CloseButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=692606800]
+self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
+custom_minimum_size = Vector2(156, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_focus_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_pressed_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_colors/font_hover_color = Color(0.137255, 0.0352941, 0.0196078, 1)
+theme_override_font_sizes/font_size = 20
+text = "Close"

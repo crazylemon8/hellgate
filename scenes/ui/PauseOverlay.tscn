@@ -38,6 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1, 1.0009949)
 
 [node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=383184799]
 self_modulate = Color(0.121569, 0.027451, 0.0352941, 0.96)
@@ -99,6 +100,7 @@ offset_right = 18.0
 offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.0024395, 1.0107384)
 mouse_filter = 2
 texture = ExtResource("1_0jv4n")
 stretch_mode = 5
@@ -125,6 +127,18 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_4f0pj")
 stretch_mode = 5
+
+[node name="PrivacyButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=849310967]
+self_modulate = Color(0.9843137, 0.5254902, 0.19607843, 1)
+custom_minimum_size = Vector2(184, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+text = "Privacy Policy"
 
 [node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=475831847]
 layout_mode = 2

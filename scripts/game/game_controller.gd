@@ -65,6 +65,7 @@ enum TutorialStep {
 @onready var pause_overlay: Control = $UI/PauseOverlay
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
 @onready var tutorial_overlay: TutorialOverlayController = $UI/TutorialOverlay
+@onready var privacy_overlay: Control = $UI/PrivacyOverlay
 @onready var audio_manager: AudioManager = $AudioManager
 @onready var feedback_flash: ColorRect = $UI/FeedbackFlash
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
@@ -73,6 +74,7 @@ enum TutorialStep {
 @onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ActionsRow/RestartButton
 @onready var pause_music_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton
 @onready var pause_sfx_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton
+@onready var pause_privacy_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/PrivacyButton
 @onready var pause_music_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton/Icon
 @onready var pause_sfx_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton/Icon
 @onready var game_over_summary: Label = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/MarginContainer/Content/SummaryLabel
@@ -141,6 +143,7 @@ func _ready() -> void:
 	)
 	pause_music_button.pressed.connect(_on_pause_music_toggled)
 	pause_sfx_button.pressed.connect(_on_pause_sfx_toggled)
+	pause_privacy_button.pressed.connect(_on_pause_privacy_requested)
 	game_over_retry_button.pressed.connect(func() -> void:
 		audio_manager.play_ui_click()
 		restart_round()
@@ -230,6 +233,7 @@ func set_paused(should_pause: bool) -> void:
 	if should_pause and _round_state == RoundState.RUNNING:
 		_round_state = RoundState.PAUSED
 		pause_overlay.visible = true
+		privacy_overlay.hide_overlay()
 		_set_gameplay_frozen(true)
 		pause_changed.emit(true)
 		return
@@ -237,6 +241,7 @@ func set_paused(should_pause: bool) -> void:
 	if not should_pause and _round_state == RoundState.PAUSED:
 		_round_state = RoundState.RUNNING
 		pause_overlay.visible = false
+		privacy_overlay.hide_overlay()
 		_set_gameplay_frozen(false)
 		pause_changed.emit(false)
 
@@ -363,6 +368,11 @@ func _on_pause_sfx_toggled() -> void:
 	else:
 		audio_manager.play_ui_click()
 		audio_manager.set_sfx_enabled(false)
+
+
+func _on_pause_privacy_requested() -> void:
+	audio_manager.play_ui_click()
+	privacy_overlay.show_overlay()
 
 
 func _sync_pause_audio_buttons(_unused: bool = false) -> void:
