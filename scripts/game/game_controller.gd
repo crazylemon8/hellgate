@@ -90,6 +90,7 @@ var _actor_floor_offset: float = 10.0
 var _tutorial_step: TutorialStep = TutorialStep.NONE
 var _tutorial_sprint_progress: float = 0.0
 var _tutorial_finishing: bool = false
+var _high_score: int = 0
 
 
 func _ready() -> void:
@@ -150,6 +151,7 @@ func _ready() -> void:
 		_sync_pause_audio_buttons()
 	)
 	_sync_pause_audio_buttons()
+	_high_score = SaveState.get_high_score()
 	audio_manager.play_music()
 	if SaveState.is_tutorial_completed():
 		_show_briefing()
@@ -304,7 +306,12 @@ func _on_skeleton_exited(side: String, color_name: String) -> void:
 		game_over_overlay.visible = true
 		var total_resolved := _resolved_count + 1
 		var final_score := _red_sorted + _green_sorted
-		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d" % [final_score]
+		var is_new_high_score := SaveState.update_high_score(final_score)
+		_high_score = max(_high_score, SaveState.get_high_score())
+		var high_score_line := "High score: %d" % _high_score
+		if is_new_high_score:
+			high_score_line = "New high score: %d" % _high_score
+		game_over_summary.text = "Too many souls slipped through. Hold the line again.\n\nFinal score: %d\n%s" % [final_score, high_score_line]
 		audio_manager.play_game_over()
 		game_over.emit(
 			{

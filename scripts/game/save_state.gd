@@ -7,6 +7,8 @@ const KEY_TUTORIAL_COMPLETED := "tutorial_completed"
 const SECTION_SETTINGS := "settings"
 const KEY_MUSIC_ENABLED := "music_enabled"
 const KEY_SFX_ENABLED := "sfx_enabled"
+const SECTION_STATS := "stats"
+const KEY_HIGH_SCORE := "high_score"
 
 
 static func is_tutorial_completed() -> bool:
@@ -55,3 +57,28 @@ static func set_sfx_enabled(value: bool) -> void:
 	config.load(SAVE_PATH)
 	config.set_value(SECTION_SETTINGS, KEY_SFX_ENABLED, value)
 	config.save(SAVE_PATH)
+
+
+static func get_high_score() -> int:
+	var config := ConfigFile.new()
+	var error := config.load(SAVE_PATH)
+	if error != OK:
+		return 0
+
+	return int(config.get_value(SECTION_STATS, KEY_HIGH_SCORE, 0))
+
+
+static func set_high_score(value: int) -> void:
+	var config := ConfigFile.new()
+	config.load(SAVE_PATH)
+	config.set_value(SECTION_STATS, KEY_HIGH_SCORE, max(value, 0))
+	config.save(SAVE_PATH)
+
+
+static func update_high_score(candidate_score: int) -> bool:
+	var current_high_score := get_high_score()
+	if candidate_score <= current_high_score:
+		return false
+
+	set_high_score(candidate_score)
+	return true
