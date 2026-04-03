@@ -19,6 +19,7 @@ enum TutorialStep {
 	SORT_GREEN,
 	USE_SPRINT,
 	USE_JUMP,
+	USE_JUMP_SPRINT,
 	COMPLETE,
 }
 
@@ -385,7 +386,7 @@ func _on_mobile_input_changed(input_state: PlayerInputState) -> void:
 
 func _on_player_jumped() -> void:
 	if _round_state == RoundState.TUTORIAL and _tutorial_step == TutorialStep.USE_JUMP:
-		_advance_tutorial(TutorialStep.COMPLETE)
+		_advance_tutorial(TutorialStep.USE_JUMP_SPRINT)
 
 
 func _on_start_overlay_input(event: InputEvent) -> void:
@@ -456,16 +457,18 @@ func _advance_tutorial(next_step: TutorialStep) -> void:
 		audio_manager.play_tutorial_complete()
 	match next_step:
 		TutorialStep.SORT_RED:
-			tutorial_overlay.show_message("Tutorial 1/4", "Red skeletons belong on the left. Push this one left.")
+			tutorial_overlay.show_message("Tutorial 1/5", "Red skeletons belong on the left. Push this one left.")
 			_spawn_tutorial_skeleton("red")
 		TutorialStep.SORT_GREEN:
-			tutorial_overlay.show_message("Tutorial 2/4", "Green skeletons belong on the right. Push this one right.")
+			tutorial_overlay.show_message("Tutorial 2/5", "Green skeletons belong on the right. Push this one right.")
 			_spawn_tutorial_skeleton("green")
 		TutorialStep.USE_SPRINT:
-			tutorial_overlay.show_message("Tutorial 3/4", "Hold the sprint button while moving to build speed.")
+			tutorial_overlay.show_message("Tutorial 3/5", "Hold the speed button while moving to build speed.")
 			_tutorial_sprint_progress = 0.0
 		TutorialStep.USE_JUMP:
-			tutorial_overlay.show_message("Tutorial 4/4", "Push the joystick upward to jump once.")
+			tutorial_overlay.show_message("Tutorial 4/5", "Push the joystick upward to jump once.")
+		TutorialStep.USE_JUMP_SPRINT:
+			tutorial_overlay.show_message("Tutorial 5/5", "Now use speed and up together while moving for a quick jump burst.")
 		TutorialStep.COMPLETE:
 			_finish_tutorial()
 
@@ -495,6 +498,9 @@ func _process_tutorial_progress(player_input: PlayerInputState, delta: float) ->
 				_advance_tutorial(TutorialStep.USE_JUMP)
 		else:
 			_tutorial_sprint_progress = 0.0
+	elif _tutorial_step == TutorialStep.USE_JUMP_SPRINT:
+		if player_input.sprint_held and player_input.jump_pressed and absf(player_input.move_x) > 0.2:
+			_advance_tutorial(TutorialStep.COMPLETE)
 
 
 func _finish_tutorial() -> void:

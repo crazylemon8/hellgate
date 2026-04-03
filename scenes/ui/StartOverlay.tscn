@@ -40,6 +40,18 @@ corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_hint"]
+bg_color = Color(0.101961, 0.0352941, 0.0313726, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.560784, 0.298039, 0.45)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [node name="StartOverlay" type="Control" unique_id=1390783970]
 layout_mode = 3
 anchors_preset = 15
@@ -199,9 +211,72 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.917647, 0.835294, 1)
 theme_override_font_sizes/font_size = 18
-text = "Red skeletons must fall left. Green skeletons must fall right. Hold the ledge and sort the dead before all five skull lives are spent."
+text = "Red skeletons must fall left. Green skeletons must fall right. Use speed and up together when you need a quick recovery. Hold the ledge and sort the dead before all five skull lives are spent."
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="ControlHints" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=700193485]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="SprintHint" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints" unique_id=1662755869]
+custom_minimum_size = Vector2(188, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_start_hint")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/SprintHint" unique_id=1759595042]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/SprintHint/Margin" unique_id=951967511]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/SprintHint/Margin/Content" unique_id=1139397318]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+texture = ExtResource("1_x1b2r")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/SprintHint/Margin/Content" unique_id=1347115092]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.941176, 0.862745, 1)
+theme_override_font_sizes/font_size = 16
+text = "Hold for speed"
+
+[node name="JumpHint" type="PanelContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints" unique_id=1085154142]
+custom_minimum_size = Vector2(188, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_start_hint")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/JumpHint" unique_id=197614738]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/JumpHint/Margin" unique_id=964681707]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Arrow" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/JumpHint/Margin/Content" unique_id=727996794]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.729412, 0.270588, 1)
+theme_override_font_sizes/font_size = 20
+text = "↑"
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content/ControlHints/JumpHint/Margin/Content" unique_id=1948675512]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.941176, 0.862745, 1)
+theme_override_font_sizes/font_size = 16
+text = "Push up, then combo with speed"
 
 [node name="StartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=1057713766]
 self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
