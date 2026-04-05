@@ -82,7 +82,9 @@ theme_override_constants/margin_bottom = 0
 layout_mode = 2
 focus_mode = 2
 theme_override_colors/default_color = Color(0.988235, 0.917647, 0.835294, 1)
-theme_override_font_sizes/normal_font_size = 15
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_following = true
 selection_enabled = true
 
 [node name="CloseButton" type="Button" parent="CenterContainer/Panel/VBoxContainer" unique_id=692606800]

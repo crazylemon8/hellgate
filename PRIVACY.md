@@ -1,7 +1,3 @@
-# Privacy Policy for Hellgate
-
-Last updated: April 03, 2026
-
 ## Overview
 
 Hellgate is an offline mobile game. At the time of this policy, Hellgate does not require account creation, does not provide online multiplayer, and does not use advertising, analytics SDKs, or third-party tracking.
@@ -63,7 +59,7 @@ Because this data is currently stored locally and not uploaded to our servers by
 
 ## Children's Privacy
 
-Hellgate is not directed to children under 13, and the game does not knowingly collect personal data from children.
+Hellgate does not knowingly collect personal data from children.
 
 ## Security
 

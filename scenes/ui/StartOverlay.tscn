@@ -208,6 +208,7 @@ text = "Push green right"
 horizontal_alignment = 1
 
 [node name="Body" type="Label" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=663232504]
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.988235, 0.917647, 0.835294, 1)
 theme_override_font_sizes/font_size = 18
@@ -216,6 +217,7 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="ControlHints" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer/MarginContainer/Content" unique_id=700193485]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1

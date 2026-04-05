@@ -19,9 +19,12 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
   - push green right
   - sprint
   - jump
+  - sprint + jump combo
 - Single-score HUD with skull-based lives display
 - Pause overlay with direct `Music` and `SFX` toggles
+- In-game privacy policy overlay reachable from the pause screen
 - Lucide-based icon set across HUD, pause, and touch controls
+- Slime-only Android launcher/adaptive icon set prepared for release export
 - Audio coverage for startup, UI, gameplay feedback, and background music
 - Data-driven balance resources under `data/`
 - Keyboard testing support and mobile-first touch controls
@@ -77,6 +80,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - `scenes/ui/TopHUD.tscn`
 - `scenes/ui/StartOverlay.tscn`
 - `scenes/ui/PauseOverlay.tscn`
+- `scenes/ui/PrivacyOverlay.tscn`
 - `scenes/ui/GameOverOverlay.tscn`
 - `scenes/ui/TouchControls.tscn`
 
@@ -93,6 +97,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 - `scripts/ui/circular_meter.gd`
 - `scripts/ui/hud_controller.gd`
 - `scripts/ui/mobile_controls_controller.gd`
+- `scripts/ui/privacy_overlay_controller.gd`
 - `scripts/ui/tutorial_overlay_controller.gd`
 
 ### Data
@@ -129,6 +134,7 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
   - slime jump/stretch and skeleton skull wobble feel subtle but visible
   - tutorial runs only once on first launch and then hands off into a fresh round
   - pause-screen music and SFX toggles work and persist across relaunch
+  - privacy policy overlay opens and closes cleanly from pause
   - gameplay music and key interaction sounds are balanced on device
 
 ## Android device testing
@@ -147,6 +153,13 @@ Godot 4.6 gatekeeper prototype with mobile controls, landscape gameplay, and dat
 1. Connect Android phone with USB debugging enabled
 2. Confirm the device is visible with `adb devices`
 3. Run from Godot to deploy to the device or export an APK when needed
+
+## Release prep notes
+
+- Generate a release keystore before exporting store builds
+- Export Google Play releases as `.aab`
+- Set Android launcher icon fields using the assets under `assets/ui/android_icons/`
+- Host the privacy policy publicly for Play Console submission
 
 ## Current gaps / next polish
 
