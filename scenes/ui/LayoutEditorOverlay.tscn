@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_layout_editor"]
+bg_color = Color(0.121569, 0.0352941, 0.0470588, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.560784, 0.298039, 0.7)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="LayoutEditorOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+visible = false
+
+[node name="TopRow" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 80.0
+offset_bottom = 152.0
+grow_horizontal = 2
+
+[node name="Panel" type="PanelContainer" parent="TopRow"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_layout_editor")
+
+[node name="Margin" type="MarginContainer" parent="TopRow/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Row" type="HBoxContainer" parent="TopRow/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Hint" type="Label" parent="TopRow/Panel/Margin/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.988235, 0.917647, 0.835294, 1)
+theme_override_font_sizes/font_size = 16
+text = "Drag controls to reposition"
+
+[node name="ResetButton" type="Button" parent="TopRow/Panel/Margin/Row"]
+self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
+custom_minimum_size = Vector2(94, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Reset"
+
+[node name="DoneButton" type="Button" parent="TopRow/Panel/Margin/Row"]
+self_modulate = Color(0.984314, 0.52549, 0.196078, 1)
+custom_minimum_size = Vector2(94, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Done"

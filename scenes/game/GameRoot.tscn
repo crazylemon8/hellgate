@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/TutorialOverlay.tscn" id="14_n7i1l"]
 [ext_resource type="Script" uid="uid://d11ceaqysacl" path="res://scripts/game/audio_manager.gd" id="15_17v1v"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PrivacyOverlay.tscn" id="16_hpw7v"]
+[ext_resource type="PackedScene" path="res://scenes/ui/LayoutEditorOverlay.tscn" id="17_oav36"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xs5i4"]
 size = Vector2(760, 28)
@@ -225,6 +226,8 @@ visible = false
 [node name="TutorialOverlay" parent="UI" unique_id=470458228 instance=ExtResource("14_n7i1l")]
 
 [node name="PrivacyOverlay" parent="UI" unique_id=122744718 instance=ExtResource("16_hpw7v")]
+
+[node name="LayoutEditorOverlay" parent="UI" instance=ExtResource("17_oav36")]
 
 [node name="FeedbackFlash" type="ColorRect" parent="UI" unique_id=915774525]
 anchors_preset = 15

@@ -66,17 +66,22 @@ enum TutorialStep {
 @onready var game_over_overlay: Control = $UI/GameOverOverlay
 @onready var tutorial_overlay: TutorialOverlayController = $UI/TutorialOverlay
 @onready var privacy_overlay: Control = $UI/PrivacyOverlay
+@onready var layout_editor_overlay: Control = $UI/LayoutEditorOverlay
 @onready var audio_manager: AudioManager = $AudioManager
 @onready var feedback_flash: ColorRect = $UI/FeedbackFlash
 @onready var start_backdrop: Control = $UI/StartOverlay/Backdrop
 @onready var start_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/StartButton
+@onready var start_edit_layout_button: Button = $UI/StartOverlay/CenterContainer/Panel/VBoxContainer/EditLayoutButton
 @onready var resume_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ActionsRow/ResumeButton
 @onready var pause_restart_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/ActionsRow/RestartButton
 @onready var pause_music_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton
 @onready var pause_sfx_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton
 @onready var pause_privacy_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/PrivacyButton
+@onready var pause_edit_layout_button: Button = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/EditLayoutButton
 @onready var pause_music_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/MusicButton/Icon
 @onready var pause_sfx_icon: TextureRect = $UI/PauseOverlay/CenterContainer/Panel/VBoxContainer/SettingsRow/SfxButton/Icon
+@onready var layout_editor_done_button: Button = $UI/LayoutEditorOverlay/TopRow/Panel/Margin/Row/DoneButton
+@onready var layout_editor_reset_button: Button = $UI/LayoutEditorOverlay/TopRow/Panel/Margin/Row/ResetButton
 @onready var game_over_summary: Label = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/MarginContainer/Content/SummaryLabel
 @onready var game_over_retry_button: Button = $UI/GameOverOverlay/CenterContainer/Panel/VBoxContainer/RetryButton
 
@@ -94,6 +99,7 @@ var _tutorial_step: TutorialStep = TutorialStep.NONE
 var _tutorial_sprint_progress: float = 0.0
 var _tutorial_finishing: bool = false
 var _high_score: int = 0
+var _layout_edit_return_state: RoundState = RoundState.BRIEFING
 
 
 func _ready() -> void:
@@ -144,6 +150,10 @@ func _ready() -> void:
 	pause_music_button.pressed.connect(_on_pause_music_toggled)
 	pause_sfx_button.pressed.connect(_on_pause_sfx_toggled)
 	pause_privacy_button.pressed.connect(_on_pause_privacy_requested)
+	start_edit_layout_button.pressed.connect(_on_start_edit_layout_requested)
+	pause_edit_layout_button.pressed.connect(_on_pause_edit_layout_requested)
+	layout_editor_done_button.pressed.connect(_on_layout_edit_done_requested)
+	layout_editor_reset_button.pressed.connect(_on_layout_edit_reset_requested)
 	game_over_retry_button.pressed.connect(func() -> void:
 		audio_manager.play_ui_click()
 		restart_round()
@@ -156,6 +166,9 @@ func _ready() -> void:
 	)
 	_sync_pause_audio_buttons()
 	_high_score = SaveState.get_high_score()
+	var controls_layout := SaveState.get_mobile_controls_layout()
+	if not controls_layout.is_empty():
+		mobile_controls.apply_layout_state(controls_layout)
 	audio_manager.play_music()
 	if SaveState.is_tutorial_completed():
 		_show_briefing()
@@ -172,6 +185,9 @@ func _notification(what: int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if mobile_controls.is_layout_edit_mode():
+		return
+
 	if _round_state == RoundState.BRIEFING and _should_begin_from_input(event):
 		begin_round()
 		get_viewport().set_input_as_handled()
@@ -201,6 +217,7 @@ func _physics_process(delta: float) -> void:
 
 
 func begin_round() -> void:
+	_end_layout_edit_mode(false)
 	for enemy in enemies.get_children():
 		enemy.queue_free()
 
@@ -230,6 +247,9 @@ func restart_round() -> void:
 
 
 func set_paused(should_pause: bool) -> void:
+	if mobile_controls.is_layout_edit_mode():
+		return
+
 	if should_pause and _round_state == RoundState.RUNNING:
 		_round_state = RoundState.PAUSED
 		pause_overlay.visible = true
@@ -341,6 +361,9 @@ func _on_player_speed_meter_changed(_current_ratio: float) -> void:
 
 
 func _on_pause_requested() -> void:
+	if mobile_controls.is_layout_edit_mode():
+		return
+
 	if _round_state == RoundState.RUNNING:
 		audio_manager.play_ui_toggle()
 		set_paused(true)
@@ -375,6 +398,69 @@ func _on_pause_privacy_requested() -> void:
 	privacy_overlay.show_overlay()
 
 
+func _on_start_edit_layout_requested() -> void:
+	audio_manager.play_ui_click()
+	_begin_layout_edit_mode(RoundState.BRIEFING)
+
+
+func _on_pause_edit_layout_requested() -> void:
+	audio_manager.play_ui_click()
+	_begin_layout_edit_mode(RoundState.PAUSED)
+
+
+func _on_layout_edit_done_requested() -> void:
+	audio_manager.play_ui_click()
+	SaveState.set_mobile_controls_layout(mobile_controls.get_layout_state())
+	_end_layout_edit_mode(true)
+
+
+func _on_layout_edit_reset_requested() -> void:
+	audio_manager.play_ui_click()
+	var default_layout := mobile_controls.reset_layout_to_default()
+	SaveState.set_mobile_controls_layout(default_layout)
+
+
+func _begin_layout_edit_mode(return_state: RoundState) -> void:
+	if mobile_controls.is_layout_edit_mode():
+		return
+
+	_layout_edit_return_state = return_state
+	mobile_controls.set_layout_edit_mode(true)
+	layout_editor_overlay.visible = true
+	privacy_overlay.hide_overlay()
+	start_overlay.visible = false
+	pause_overlay.visible = false
+	_set_gameplay_frozen(true)
+	pause_changed.emit(false)
+
+
+func _end_layout_edit_mode(restore_previous_state: bool) -> void:
+	if not mobile_controls.is_layout_edit_mode():
+		return
+
+	mobile_controls.set_layout_edit_mode(false)
+	layout_editor_overlay.visible = false
+
+	if not restore_previous_state:
+		return
+
+	match _layout_edit_return_state:
+		RoundState.BRIEFING:
+			_round_state = RoundState.BRIEFING
+			start_overlay.visible = true
+			pause_overlay.visible = false
+			privacy_overlay.hide_overlay()
+			_set_gameplay_frozen(true)
+			pause_changed.emit(false)
+		RoundState.PAUSED:
+			_round_state = RoundState.PAUSED
+			start_overlay.visible = false
+			pause_overlay.visible = true
+			privacy_overlay.hide_overlay()
+			_set_gameplay_frozen(true)
+			pause_changed.emit(true)
+
+
 func _sync_pause_audio_buttons(_unused: bool = false) -> void:
 	var enabled_button := Color(0.984314, 0.52549, 0.196078, 1.0)
 	var disabled_button := Color(0.254902, 0.101961, 0.0705882, 0.82)
@@ -400,6 +486,9 @@ func _on_player_jumped() -> void:
 
 
 func _on_start_overlay_input(event: InputEvent) -> void:
+	if mobile_controls.is_layout_edit_mode():
+		return
+
 	if _round_state != RoundState.BRIEFING:
 		return
 
@@ -412,6 +501,7 @@ func _on_start_overlay_input(event: InputEvent) -> void:
 
 
 func _show_briefing() -> void:
+	_end_layout_edit_mode(false)
 	for enemy in enemies.get_children():
 		enemy.queue_free()
 
@@ -435,6 +525,7 @@ func _show_briefing() -> void:
 
 
 func _begin_tutorial() -> void:
+	_end_layout_edit_mode(false)
 	for enemy in enemies.get_children():
 		enemy.queue_free()
 
